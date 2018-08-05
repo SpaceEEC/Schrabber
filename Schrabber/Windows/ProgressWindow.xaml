@@ -1,0 +1,58 @@
+﻿<Window x:Class="Schrabber.Windows.ProgressWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Schrabber.Windows"
+        mc:Ignorable="d"
+        Title="ProgressWindow" Height="491" Width="800"
+        SizeChanged="Window_SizeChanged">
+    <Grid>
+        <Grid
+            Name="CenterGrid"
+            Margin="10,50,10,45"
+            >
+
+            <Image
+                Name="ThumbnailImage"
+                Height="360"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Width="640"
+            />
+
+            <TextBox
+                Text="__DESCRIPTION__"
+                Margin="0,0,0,5"
+                Name="DescriptionTextBox"
+                HorizontalAlignment="Right"
+                TextWrapping="Wrap"
+                Width="127"
+            />
+        </Grid>
+
+        <Label
+            Name="ProgressLabel"
+            Height="27"
+            Margin="10,10,10,0"
+            VerticalAlignment="Top"
+            Content="__PROGRESS__"
+         />
+        <Label
+            x:Name="LabelTitle"
+            Content="__TITLE__"
+            Margin="69,414,142,0"
+            FontSize="14"
+            FontWeight="Bold"
+            Height="29"
+            VerticalAlignment="Top"
+        />
+        <Label
+            x:Name="LabelDuration"
+            Content="__DURATION__"
+            Width="Auto"
+            HorizontalAlignment="Left"
+            Margin="10,415,0,0" Height="29" VerticalAlignment="Top"
+        />
+    </Grid>
+</Window>
