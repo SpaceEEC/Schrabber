@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Schrabber.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -12,119 +14,104 @@ namespace Schrabber.Windows
 	/// <summary>
 	/// Interaction logic for ProgressWindow.xaml
 	/// </summary>
-	public partial class ProgressWindow : Window, IDisposable
+	public partial class ProgressWindow : Window, IProgressWindow
 	{
-		private Video _video;
-		private Stream _stream;
-		private List<Part> _parts;
 
-		private String _caption = "Initial";
-		private Double _progress = 0;
-
-		// Local file
-		public ProgressWindow(Stream stream, List<Part> parts)
+		private Int32 _totalMediaCount;
+		public Int32 TotalMediaCount
 		{
-			InitializeComponent();
-
-			_stream = stream;
+			get { return _totalMediaCount; }
+			set
+			{
+				_totalMediaCount = value;
+				Dispatcher.Invoke(() => MediaProgressBar.Maximum = value);
+			}
 		}
 
-		// YouTube video
-		public ProgressWindow(Video video, List<Part> parts)
+		private Double _progress = 0;
+		public double Progress
 		{
-			InitializeComponent();
-
-			_video = video;
-			_parts = parts;
-
-			BitmapImage image = new BitmapImage(new Uri(video.Thumbnails.HighResUrl));
-			image.DownloadCompleted += (s, e) =>
+			get { return _progress; }
+			set
 			{
-				ThumbnailImage.Width = image.PixelWidth;
-				DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - image.PixelWidth - 10);
-			};
-			ThumbnailImage.Source = image;
-			LabelTitle.Content = video.Title;
-			LabelDuration.Content = video.Duration.ToString();
+				_progress = value;
+				Dispatcher.Invoke(() => StepProgressBar.Value = value * 100);
+			}
+		}
 
-			DescriptionTextBox.Text = String.Join("\n", parts.Select(p =>
-				String.IsNullOrWhiteSpace(p.Author)
-					? $"{p.Timestamp.ToString()} - {p.Title}"
-					: $"{p.Timestamp.ToString()} - {p.Author} - {p.Title}"
-				)
-			);
+		private String _step = null;
+		public String Step
+		{
+			get { return _step; }
+			set
+			{
+				_step = value;
+				Dispatcher.Invoke(() =>
+				{
+					StepLabel.Content = Step;
+					if (Step != "Done") return;
+
+					PartProgressBar.Value = PartProgressBar.Maximum;
+					MediaProgressBar.Value = MediaProgressBar.Maximum;
+					MediaLabel.Content = $"Video {TotalMediaCount} / {TotalMediaCount}";
+				});
+			}
+		}
+
+		private Int32 _currentPart = 0;
+		private Int32 _currentMediaNumber = -1;
+
+		private IInputMedia _currentMedia = null;
+		public IInputMedia CurrentMedia
+		{
+			get
+			{
+				return _currentMedia;
+			}
+			set
+			{
+				_currentMedia = value;
+				_currentPart = 0;
+
+				Dispatcher.Invoke(() =>
+				{
+					PartProgressBar.Value = 0;
+					PartLabel.Content = $"Part {_currentPart} / {_currentMedia.Parts.Length}";
+
+					MediaProgressBar.Value = ++_currentMediaNumber;
+					MediaLabel.Content = $"Video {MediaProgressBar.Value} / {TotalMediaCount}";
+					PartProgressBar.Maximum = value.Parts.Length;
+
+					ThumbnailImage.Source = value.CoverImage;
+					DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 30);
+
+					ThumbnailImage.Width = value.CoverImage.PixelWidth;
+
+					LabelTitle.Content = value.Title;
+					LabelDuration.Content = value.Duration.ToString();
+
+					DescriptionTextBox.Text = "Parts:\n\n";
+					DescriptionTextBox.Text += String.Join("\n", value.Parts.Select(p =>
+						String.IsNullOrWhiteSpace(p.Author)
+							? $"{p.Start.ToString() ?? "00:00:00"} - {p.Title}"
+							: $"{p.Start.ToString() ?? "00:00:00"} - {p.Author} - {p.Title}"
+					));
+				});
+			}
+		}
+
+		public ProgressWindow() => InitializeComponent();
+
+		public void NextPart()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				PartProgressBar.Value = _currentPart++;
+				PartLabel.Content = $"Part {_currentPart} / {_currentMedia.Parts.Length}";
+			});
 		}
 
 		private void Window_SizeChanged(object sender, RoutedEventArgs e)
-			=> DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 10);
-
-		public async Task Run()
-		{
-			Splitter splitter = new Splitter(_video, _parts)
-			{
-				UpdateCurrentAction = Update,
-				UpdateCurrentProgress = Update
-			};
-
-			await splitter.Run();
-		}
-
-		private void Update()
-		{
-			if (!Dispatcher.CheckAccess())
-			{
-				Dispatcher.Invoke(Update);
-
-				return;
-			}
-
-			String progress;
-			if (_progress <= 1)
-			{
-				progress = $"{_caption} - {Math.Round(_progress * 100, 4)}%";
-			}
-			else
-			{
-				TimeSpan ts = TimeSpan.FromSeconds(_progress);
-				String timeString = ts.Hours == 0 ? ts.ToString(@"mm\:ss") : ts.ToString(@"HH\:mm\:ss");
-				progress = $"{_caption} - {timeString} processed";
-			}
-
-			ProgressLabel.Content = progress;
-		}
-
-		private void Update(String caption)
-		{
-			_caption = caption;
-			Update();
-		}
-
-		private void Update(Double progress)
-		{
-			_progress = progress;
-			Update();
-		}
-
-		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls
-
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					_stream.Dispose();
-				}
-
-				_video = null;
-				_parts = null;
-
-				disposedValue = true;
-			}
-		}
-
-		public void Dispose() => Dispose(true);
-		#endregion
+			=> DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 30);
 	}
 }

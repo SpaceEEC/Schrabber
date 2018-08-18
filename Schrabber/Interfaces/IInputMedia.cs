@@ -1,0 +1,55 @@
+﻿using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+
+namespace Schrabber.Interfaces
+{
+	/// <summary>
+	/// Interface for media input.
+	/// 
+	/// Note:
+	///   Classes implementing this interface should cache the stream once fetched
+	///   and dispose of it with the IDisposable implementation.
+	/// </summary>
+	public interface IInputMedia : IDisposable
+	{
+		/// <summary>
+		/// BitmapImage of the CoverImage of this IInputMedia.
+		/// </summary>
+		BitmapImage CoverImage { get; set; }
+
+		/// <summary>
+		/// Initial title of this IInputMedia.
+		/// </summary>
+		String Title { get; set; }
+
+		/// <summary>
+		/// Initial author of this IInputMedia.
+		/// </summary>
+		String Author { get; set; }
+
+		/// <summary>
+		/// Full duration of this IInputMedia.
+		/// </summary>
+		TimeSpan Duration { get; set; }
+
+		/// <summary>
+		/// Description or other additional data of this IInputMedia.
+		/// </summary>
+		String Description { get; set; }
+
+
+		/// <summary>
+		/// An array of IParts this IInputMedia should be splitted into.
+		/// </summary>
+		IPart[] Parts { get; set; }
+
+		/// <summary>
+		/// Gets the MemoryStream this IInputMedia represents.
+		/// </summary>
+		/// <returns>Task with a result of MemoryStream</returns>
+		Task<MemoryStream> GetMemoryStreamAsync(IProgress<Double> progress = null, CancellationToken token = default(CancellationToken));
+	}
+}

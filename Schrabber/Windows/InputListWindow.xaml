@@ -1,0 +1,75 @@
+﻿<Window x:Class="Schrabber.Windows.InputListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="InputListWindow"
+        Height="450"
+        Width="800">
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0">
+            <StackPanel
+                Name="InputElementStackPanel"
+                Margin="10,10,10,10"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ScrollViewer.CanContentScroll="True"
+            />
+        </ScrollViewer>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Name="PlaylistButton"
+                Click="PlaylistButton_Click"
+                Content="Add Youtube Playlist"
+                Margin="10,10,5,10"
+            />
+
+            <Button
+                Grid.Column="1"
+                Name="VideoButton"
+                Click="VideoButton_Click"
+                Content="Add Youtube Video"
+                Margin="5,10,5,10"
+            />
+
+            <Button
+                Grid.Column="2"
+                Name="FileButton"
+                Click="FileButton_Click"
+                Content="Add Local Files"
+                Margin="5,10,5,10"
+            />
+
+            <Button
+                Grid.Column="4"
+                Content="Start"
+                Name="StartButton"
+                Click="StartButton_Click"
+                Margin="5,10,10,10"
+                IsEnabled="False"
+            />
+            
+            <Button
+                Grid.Column="3"
+                Content="Button"
+                Margin="5,10,5,10"
+                Click="Button_Click"
+            />
+        </Grid>
+    </Grid>
+</Window>

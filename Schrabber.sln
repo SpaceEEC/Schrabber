@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schrabber", "Schrabber\Schrabber.csproj", "{9A58F446-ACAD-47E2-91D4-4814407FAD4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "language", "language\language.csproj", "{03A39E8A-458A-4C25-8748-80071E2FE69B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9A58F446-ACAD-47E2-91D4-4814407FAD4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A58F446-ACAD-47E2-91D4-4814407FAD4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A58F446-ACAD-47E2-91D4-4814407FAD4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A39E8A-458A-4C25-8748-80071E2FE69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A39E8A-458A-4C25-8748-80071E2FE69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A39E8A-458A-4C25-8748-80071E2FE69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A39E8A-458A-4C25-8748-80071E2FE69B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

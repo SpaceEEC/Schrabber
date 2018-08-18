@@ -4,7 +4,7 @@ using static TagLib.File;
 
 namespace Schrabber
 {
-	class FileStreamAbstraction : IFileAbstraction
+	internal class FileStreamAbstraction : IFileAbstraction
 	{
 		public String Name { get; }
 		public Stream ReadStream { get; }

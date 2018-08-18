@@ -13,6 +13,21 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,42 +85,67 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\InputElementControl.xaml.cs">
+      <DependentUpon>InputElementControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\YouTubePlaylistElementControl.xaml.cs">
+      <DependentUpon>YouTubePlaylistElementControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Ffmpeg.cs" />
-    <Compile Include="FileStreamAbstraction.cs" />
-    <Compile Include="Splitter.cs" />
-    <Compile Include="Part.cs" />
+    <Compile Include="Interfaces\IInputMedia.cs" />
+    <Compile Include="Interfaces\IPart.cs" />
+    <Compile Include="Interfaces\IProgressWindow.cs" />
+    <Compile Include="Interfaces\IRemoveChildElement.cs" />
+    <Compile Include="Models\Ffmpeg.cs" />
+    <Compile Include="Models\FileStreamAbstraction.cs" />
+    <Compile Include="Models\InputMedia.cs" />
+    <Compile Include="Models\Splitter.cs" />
+    <Compile Include="Models\Part.cs" />
+    <Compile Include="Windows\InputListWindow.xaml.cs">
+      <DependentUpon>InputListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\SplitVideoWindow.xaml.cs">
-      <DependentUpon>SplitVideoWindow.xaml</DependentUpon>
+    <Compile Include="Windows\SplitWindow.xaml.cs">
+      <DependentUpon>SplitWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\YouTubeVideo.xaml.cs">
-      <DependentUpon>YouTubeVideo.xaml</DependentUpon>
+    <Compile Include="Windows\YouTubePlaylistWindow.xaml.cs">
+      <DependentUpon>YouTubePlaylistWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="YouTubeClient.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Compile Include="Windows\YouTubeVideoWindow.xaml.cs">
+      <DependentUpon>YouTubeVideoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YouTubeClient.cs" />
+    <Page Include="Controls\InputElementControl.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\YouTubePlaylistElementControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\InputListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\SplitVideoWindow.xaml">
+    <Page Include="Windows\SplitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\YouTubeVideo.xaml">
+    <Page Include="Windows\YouTubePlaylistWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\YouTubeVideoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,6 +168,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="resources\no_cover.jpg" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -135,6 +177,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
