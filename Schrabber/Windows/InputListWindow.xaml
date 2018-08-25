@@ -29,6 +29,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Button
@@ -57,6 +58,14 @@
 
             <Button
                 Grid.Column="4"
+                Content="Set Destination Folder"
+                Name="SetFolderButton"
+                Click="SetFolderButton_Click"
+                Margin="5,10,5,10"
+            />
+
+            <Button
+                Grid.Column="5"
                 Content="Start"
                 Name="StartButton"
                 Click="StartButton_Click"

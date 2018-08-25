@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 using Schrabber.Controls;
 using Schrabber.Interfaces;
 using Schrabber.Models;
@@ -14,6 +15,8 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class InputListWindow : Window, IRemoveChildElement
 	{
+		private String _folderPath = null;
+
 		public InputListWindow() => InitializeComponent();
 
 		private void PlaylistButton_Click(object sender, RoutedEventArgs e)
@@ -95,7 +98,10 @@ namespace Schrabber.Windows
 			ProgressWindow window = new ProgressWindow();
 			window.Show();
 
-			Splitter splitter = new Splitter(media, window);
+			Splitter splitter = new Splitter(media, window)
+			{
+				FolderPath = _folderPath,
+			};
 			try
 			{
 				await splitter.Run();
@@ -111,9 +117,19 @@ namespace Schrabber.Windows
 			}
 		}
 
+		private void SetFolderButton_Click(object sender, RoutedEventArgs e)
+		{
+			VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+			if (dialog.ShowDialog() != true) return;
+
+			_folderPath = dialog.SelectedPath;
+		}
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			new ProgressWindow().Show();
 		}
+
+
 	}
 }
