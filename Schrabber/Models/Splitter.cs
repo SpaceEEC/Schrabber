@@ -1,4 +1,4 @@
-﻿using Schrabber.Interfaces;
+using Schrabber.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,7 +48,7 @@ namespace Schrabber.Models
 					{
 						_window.NextPart();
 						_window.Step = "Writing Audio";
-						_writeTags(ms, media.Parts[0]);
+					_writeTags(ms, media.Parts[0], media);
 						await _writeFile(
 							ms,
 							Path.Combine(
@@ -68,7 +68,7 @@ namespace Schrabber.Models
 						_window.Step = "Splitting";
 						using (MemoryStream partMs = await Ffmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
 						{
-							_writeTags(partMs, part);
+						_writeTags(partMs, part, media);
 							_window.Step = "Writing Audio";
 							await _writeFile(
 								partMs,
@@ -88,12 +88,28 @@ namespace Schrabber.Models
 
 		}
 
-		private void _writeTags(MemoryStream ms, IPart part)
+		private void _writeTags(MemoryStream ms, IPart part, IInputMedia media)
 		{
 			TagLib.File file = TagLib.File.Create(new FileStreamAbstraction("file.mp3", ms));
 			file.Tag.Title = part.Title;
 			file.Tag.Performers = new[] { part.Author };
 			file.Tag.Album = part.Album;
+			if (media.CoverImage != null)
+			{
+				JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+				encoder.Frames.Add(BitmapFrame.Create(media.CoverImage));
+				using (MemoryStream imageMs = new MemoryStream())
+				{
+					encoder.Save(imageMs);
+					file.Tag.Pictures = new TagLib.IPicture[1]
+					{
+						new TagLib.Picture(
+							new TagLib.ByteVector(imageMs.ToArray())
+						)
+					};
+				}
+
+			}
 			file.Save();
 
 			ms.Position = 0;
