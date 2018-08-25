@@ -1,4 +1,4 @@
-using Schrabber.Interfaces;
+﻿using Schrabber.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YoutubeExplode.Models;
 using Schrabber.Extensions;
+using System.Windows.Media.Imaging;
 
 namespace Schrabber.Models
 {
@@ -42,43 +43,41 @@ namespace Schrabber.Models
 
 				_window.CurrentMedia = media;
 				_window.Step = "Fetching Video";
-				using (MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false))
+				MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false);
+				if (media.Parts.Length == 1)
 				{
-					if (media.Parts.Length == 1)
-					{
-						_window.NextPart();
-						_window.Step = "Writing Audio";
+					_window.NextPart();
+					_window.Step = "Writing Audio";
 					_writeTags(ms, media.Parts[0], media);
+					await _writeFile(
+						ms,
+						Path.Combine(
+							folderPath,
+							_getFileName(media.Parts[0])
+						),
+						token
+					).ConfigureAwait(false);
+
+					continue;
+				}
+
+
+				foreach (IPart part in media.Parts)
+				{
+					_window.NextPart();
+					_window.Step = "Splitting";
+					using (MemoryStream partMs = await Ffmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
+					{
+						_writeTags(partMs, part, media);
+						_window.Step = "Writing Audio";
 						await _writeFile(
-							ms,
+							partMs,
 							Path.Combine(
 								folderPath,
-								_getFileName(media.Parts[0])
+								_getFileName(part)
 							),
 							token
 						).ConfigureAwait(false);
-
-						continue;
-					}
-
-
-					foreach (IPart part in media.Parts)
-					{
-						_window.NextPart();
-						_window.Step = "Splitting";
-						using (MemoryStream partMs = await Ffmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
-						{
-						_writeTags(partMs, part, media);
-							_window.Step = "Writing Audio";
-							await _writeFile(
-								partMs,
-								Path.Combine(
-									folderPath,
-									_getFileName(part)
-								),
-								token
-							).ConfigureAwait(false);
-						}
 					}
 				}
 			}

@@ -37,7 +37,7 @@ namespace Schrabber.Controls
 		}
 
 		private void _updateButton() => SplitButton.Content = $"Split\n\nParts: {Media.Parts.Length}";
-		
+
 		private void SplitButton_Click(object sender, RoutedEventArgs e)
 		{
 			SplitWindow window = new SplitWindow(Media);
@@ -59,6 +59,10 @@ namespace Schrabber.Controls
 			_updateButton();
 		}
 
-		private void DeleteButton_Click(object sender, RoutedEventArgs e) => _parent.RemoveChildElement(this);
+		private void DeleteButton_Click(object sender, RoutedEventArgs e)
+		{
+			_parent.RemoveChildElement(this);
+			Media?.Dispose();
+		}
 	}
 }
