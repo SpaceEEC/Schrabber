@@ -124,10 +124,5 @@ namespace Schrabber.Windows
 
 			_folderPath = dialog.SelectedPath;
 		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			new ProgressWindow().Show();
-		}
 	}
 }

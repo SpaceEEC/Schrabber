@@ -8,12 +8,12 @@
         Height="450"
         Width="800">
     <Grid Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
 
-        <ScrollViewer Grid.Row="0">
+        <ScrollViewer Grid.Column="0">
             <StackPanel
                 Name="InputElementStackPanel"
                 Margin="10,10,10,10"
@@ -22,62 +22,55 @@
             />
         </ScrollViewer>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
 
             <Button
-                Grid.Column="0"
+                Grid.Row="0"
                 Name="PlaylistButton"
                 Click="PlaylistButton_Click"
                 Content="Add Youtube Playlist"
-                Margin="10,10,5,10"
+                Margin="10,5,10,5"
             />
 
             <Button
-                Grid.Column="1"
+                Grid.Row="1"
                 Name="VideoButton"
                 Click="VideoButton_Click"
                 Content="Add Youtube Video"
-                Margin="5,10,5,10"
+                Margin="10,5,10,5"
             />
 
             <Button
-                Grid.Column="2"
+                Grid.Row="2"
                 Name="FileButton"
                 Click="FileButton_Click"
                 Content="Add Local Files"
-                Margin="5,10,5,10"
+                Margin="10,5,10,5"
             />
 
             <Button
-                Grid.Column="4"
+                Grid.Row="4"
                 Content="Set Destination Folder"
                 Name="SetFolderButton"
                 Click="SetFolderButton_Click"
-                Margin="5,10,5,10"
+                Margin="10,5,10,5"
             />
 
             <Button
-                Grid.Column="5"
+                Grid.Row="5"
                 Content="Start"
                 Name="StartButton"
                 Click="StartButton_Click"
-                Margin="5,10,10,10"
+                Margin="10,5,10,5"
                 IsEnabled="False"
-            />
-            
-            <Button
-                Grid.Column="3"
-                Content="Button"
-                Margin="5,10,5,10"
-                Click="Button_Click"
             />
         </Grid>
     </Grid>
