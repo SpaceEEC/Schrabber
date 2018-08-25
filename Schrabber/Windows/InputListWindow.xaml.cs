@@ -3,20 +3,9 @@ using Schrabber.Controls;
 using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Reflection;
 
 namespace Schrabber.Windows
 {
@@ -85,7 +74,6 @@ namespace Schrabber.Windows
 		{
 			InputElementStackPanel.Children.Remove(children);
 			StartButton.IsEnabled = InputElementStackPanel.Children.Count != 0;
-
 		}
 
 		private void AddChildElement(UIElement children)
@@ -114,6 +102,7 @@ namespace Schrabber.Windows
 			}
 			catch(Exception ex)
 			{
+				MessageBox.Show(ex.ToString());
 				System.Diagnostics.Debug.WriteLine(ex);
 			}
 			finally

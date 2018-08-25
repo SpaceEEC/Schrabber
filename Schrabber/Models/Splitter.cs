@@ -1,11 +1,10 @@
-﻿using Schrabber.Interfaces;
+﻿using Schrabber.Extensions;
+using Schrabber.Helpers;
+using Schrabber.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using YoutubeExplode.Models;
-using Schrabber.Extensions;
 using System.Windows.Media.Imaging;
 
 namespace Schrabber.Models
@@ -23,7 +22,6 @@ namespace Schrabber.Models
 				if (_folderPath != null) return _folderPath;
 				String folderPath = Path.Combine(
 					AppDomain.CurrentDomain.BaseDirectory,
-					// TODO: Folder name
 					DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
 				);
 				Directory.CreateDirectory(folderPath);

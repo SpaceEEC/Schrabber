@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
-using Schrabber.Extensions;
 using YoutubeExplode;
 using YoutubeExplode.Models;
 using YoutubeExplode.Models.MediaStreams;
-using System.Linq;
-using System.Threading;
 
-namespace Schrabber
+namespace Schrabber.Helpers
 {
 	internal class YouTubeClient
 	{

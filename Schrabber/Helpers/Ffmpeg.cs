@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Schrabber.Extensions;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Schrabber.Extensions;
 
-namespace Schrabber
+namespace Schrabber.Helpers
 {
 	internal static class Ffmpeg
 	{

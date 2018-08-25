@@ -1,8 +1,7 @@
-﻿using Schrabber.Interfaces;
+﻿using Schrabber.Helpers;
+using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using YoutubeExplode;

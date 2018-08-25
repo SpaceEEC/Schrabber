@@ -1,4 +1,6 @@
-﻿using Schrabber.Interfaces;
+﻿using Schrabber.Extensions;
+using Schrabber.Helpers;
+using Schrabber.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
@@ -6,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using YoutubeExplode.Models;
-using Schrabber.Extensions;
 
 namespace Schrabber.Models
 {
