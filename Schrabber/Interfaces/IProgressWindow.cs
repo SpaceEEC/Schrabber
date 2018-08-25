@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Schrabber.Models;
+using System;
 
 namespace Schrabber.Interfaces
 {
@@ -30,6 +27,11 @@ namespace Schrabber.Interfaces
 		/// The currently processed media.
 		/// </summary>
 		IInputMedia CurrentMedia { get;  set; }
+
+		/// <summary>
+		/// The splitter of the IProgressWindow.
+		/// </summary>
+		Splitter Splitter { get; set; }
 
 		/// <summary>
 		/// Skips to the next part.

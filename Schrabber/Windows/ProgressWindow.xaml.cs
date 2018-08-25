@@ -1,13 +1,9 @@
 ﻿using Schrabber.Interfaces;
+using Schrabber.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using YoutubeExplode.Models;
 
 namespace Schrabber.Windows
 {
@@ -16,6 +12,7 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class ProgressWindow : Window, IProgressWindow
 	{
+		public Splitter Splitter { get; set; }
 
 		private Int32 _totalMediaCount;
 		public Int32 TotalMediaCount
@@ -113,5 +110,7 @@ namespace Schrabber.Windows
 
 		private void Window_SizeChanged(object sender, RoutedEventArgs e)
 			=> DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 30);
+
+		private void OpenFolderButton_Click(object sender, RoutedEventArgs e) => Process.Start(Splitter.FolderPath);
 	}
 }

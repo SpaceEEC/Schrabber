@@ -14,11 +14,35 @@ namespace Schrabber.Models
 	{
 		private readonly IProgressWindow _window;
 		private readonly IInputMedia[] _media;
+		private Boolean _started = false;
+		private String _folderPath;
+		public String FolderPath
+		{
+			get
+			{
+				if (_folderPath != null) return _folderPath;
+				String folderPath = Path.Combine(
+					AppDomain.CurrentDomain.BaseDirectory,
+					// TODO: Folder name
+					DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
+				);
+				Directory.CreateDirectory(folderPath);
+
+				return _folderPath = folderPath;
+			}
+			set
+			{
+				if (_started) throw new InvalidOperationException($"Can not set \"FolderPath\" after starting.");
+				_folderPath = value;
+			}
+		}
+
 		public Splitter(IInputMedia[] media, IProgressWindow window)
 		{
 			_media = media;
 			_window = window;
 
+			_window.Splitter = this;
 			_window.TotalMediaCount = _media.Length;
 			_window.Progress = 0;
 			_window.Step = "Initialized";
@@ -26,12 +50,7 @@ namespace Schrabber.Models
 
 		public async Task Run(CancellationToken token = default(CancellationToken))
 		{
-			String folderPath = Path.Combine(
-				AppDomain.CurrentDomain.BaseDirectory,
-				// TODO: Folder name
-				DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
-			);
-			Directory.CreateDirectory(folderPath);
+			_started = true;
 
 			foreach (IInputMedia media in _media)
 			{
@@ -52,7 +71,7 @@ namespace Schrabber.Models
 					await _writeFile(
 						ms,
 						Path.Combine(
-							folderPath,
+							FolderPath,
 							_getFileName(media.Parts[0])
 						),
 						token
@@ -73,7 +92,7 @@ namespace Schrabber.Models
 						await _writeFile(
 							partMs,
 							Path.Combine(
-								folderPath,
+								FolderPath,
 								_getFileName(part)
 							),
 							token
