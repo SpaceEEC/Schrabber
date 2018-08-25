@@ -36,7 +36,14 @@ namespace Schrabber.Controls
 			_updateButton();
 		}
 
-		private void _updateButton() => SplitButton.Content = $"Split\n\nParts: {Media.Parts.Length}";
+		private void _updateButton()
+		{
+			SplitButton.Content = new TextBlock()
+			{
+				Text = $"Split\n\nParts: {Media.Parts.Length}",
+				TextAlignment = TextAlignment.Center,
+			};
+		}
 
 		private void SplitButton_Click(object sender, RoutedEventArgs e)
 		{
