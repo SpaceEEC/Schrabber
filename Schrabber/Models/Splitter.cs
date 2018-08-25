@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using YoutubeExplode.Models;
 using Schrabber.Extensions;
 
-namespace Schrabber
+namespace Schrabber.Models
 {
 	public class Splitter : IProgress<Double>
 	{

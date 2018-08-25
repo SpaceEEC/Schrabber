@@ -1,4 +1,5 @@
 ﻿using Schrabber.Interfaces;
+using Schrabber.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,10 +28,12 @@ namespace Schrabber.Windows
 		}
 
 		private readonly IInputMedia _input;
-		private readonly ObservableCollection<IPart> _gridItems = new ObservableCollection<IPart>();
+		private readonly ObservableCollection<IPart> _gridItems;
 
 		public SplitWindow(IInputMedia input)
 		{
+			_gridItems = new ObservableCollection<IPart>(input.Parts);
+
 			InitializeComponent();
 
 			_input = input;
@@ -54,8 +57,6 @@ namespace Schrabber.Windows
 				collectionView.SortDescriptions.Add(new SortDescription((String)Parts_DataGrid.Columns[0].Header, ListSortDirection.Ascending));
 			};
 			#endregion Datagrid
-
-			_gridItems.Add(Parts.FirstOrDefault() ?? new Part() { Author = input.Author, Title = input.Title, Start = TimeSpan.FromSeconds(0) });
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)

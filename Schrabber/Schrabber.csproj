@@ -96,7 +96,7 @@
     <Compile Include="Interfaces\IPart.cs" />
     <Compile Include="Interfaces\IProgressWindow.cs" />
     <Compile Include="Interfaces\IRemoveChildElement.cs" />
-    <Compile Include="Models\Ffmpeg.cs" />
+    <Compile Include="Ffmpeg.cs" />
     <Compile Include="Models\FileStreamAbstraction.cs" />
     <Compile Include="Models\InputMedia.cs" />
     <Compile Include="Models\Splitter.cs" />
@@ -116,7 +116,7 @@
     <Compile Include="Windows\YouTubeVideoWindow.xaml.cs">
       <DependentUpon>YouTubeVideoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\YouTubeClient.cs" />
+    <Compile Include="YouTubeClient.cs" />
     <Page Include="Controls\InputElementControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,7 +1,7 @@
 ﻿using Schrabber.Interfaces;
 using System;
 
-namespace Schrabber
+namespace Schrabber.Models
 {
 	public class Part : IPart
 	{

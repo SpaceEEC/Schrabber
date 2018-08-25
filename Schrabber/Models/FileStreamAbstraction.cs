@@ -2,7 +2,7 @@
 using System.IO;
 using static TagLib.File;
 
-namespace Schrabber
+namespace Schrabber.Models
 {
 	internal class FileStreamAbstraction : IFileAbstraction
 	{
