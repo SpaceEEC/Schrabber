@@ -129,7 +129,5 @@ namespace Schrabber.Windows
 		{
 			new ProgressWindow().Show();
 		}
-
-
 	}
 }
