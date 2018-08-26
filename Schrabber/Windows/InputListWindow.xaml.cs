@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using Schrabber.Controls;
 using Schrabber.Interfaces;
@@ -75,6 +75,8 @@ namespace Schrabber.Windows
 
 		void IRemoveChildElement.RemoveChildElement(UIElement children)
 		{
+			if (children is IDisposable disposable) disposable.Dispose();
+
 			InputElementStackPanel.Children.Remove(children);
 			StartButton.IsEnabled = InputElementStackPanel.Children.Count != 0;
 		}

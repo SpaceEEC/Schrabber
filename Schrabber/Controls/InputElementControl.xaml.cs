@@ -1,4 +1,4 @@
-﻿using Schrabber.Interfaces;
+using Schrabber.Interfaces;
 using Schrabber.Windows;
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Schrabber.Controls
 	/// <summary>
 	/// Interaction logic for InputElementControl.xaml
 	/// </summary>
-	public partial class InputElementControl : UserControl
+	public partial class InputElementControl : UserControl, IDisposable
 	{
 		/// <summary>
 		/// The IInputMedia this InputElementControl was instantiated with.
@@ -18,6 +18,7 @@ namespace Schrabber.Controls
 		public IInputMedia Media { get; }
 
 		private IRemoveChildElement _parent;
+		private Boolean _disposed = false;
 
 		/// <summary>
 		/// 
@@ -66,10 +67,13 @@ namespace Schrabber.Controls
 			_updateButton();
 		}
 
-		private void DeleteButton_Click(object sender, RoutedEventArgs e)
+		private void DeleteButton_Click(object sender, RoutedEventArgs e) => _parent.RemoveChildElement(this);
+
+		public void Dispose()
 		{
-			_parent.RemoveChildElement(this);
-			Media?.Dispose();
+			if (_disposed) return;
+			Media.Dispose();
+			_disposed = true;
 		}
 	}
 }
