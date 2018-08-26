@@ -25,7 +25,7 @@ namespace Schrabber.Models
 			get => this._parts;
 			set
 			{
-				if (value == null || value.Length==0)
+				if (value == null || value.Length == 0)
 					this._parts = new IPart[] { this._getDefault() };
 				else
 					this._parts = value;
