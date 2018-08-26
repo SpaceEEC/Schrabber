@@ -19,18 +19,20 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Label
-                Grid.Column="0"
                 Content="YouTube Url or Id:"
-                Margin="10,10,5,10"
+                HorizontalAlignment="Left"
+                VerticalContentAlignment="Center"
+                Margin="10,10,5,5"
             />
 
             <TextBox
                 Grid.Column="1"
                 Name="InputTextBox"
-                Margin="5,10,5,10"
+                Margin="5,10,5,5"
                 TextWrapping="Wrap"
                 TextAlignment="Left"
                 VerticalContentAlignment="Center"
@@ -40,10 +42,21 @@
                 Grid.Column="2"
                 Name="LoadButton"
                 Content="Load"
-                Margin="5,10,10,10"
+                Margin="5,10,5,5"
+                MinWidth="75"
                 Click="LoadButton_Click"
-                MinWidth="50"
             />
+
+            <Button
+                Grid.Column="3"
+                Name="DefaultButton"
+                IsDefault="True"
+                Content="Import"
+                Margin="5,10,10,5"
+                MinWidth="75"
+                Click="DefaultButton_Click"
+            />
+
         </Grid>
 
         <Grid Grid.Row="1"
@@ -74,7 +87,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Label
@@ -91,17 +103,6 @@
                 Name="LabelDuration"
                 Content="__DURATION__"
                 Margin="10,10,10,10"
-            />
-
-            <Button
-                Grid.Column="2"
-                Name="DefaultButton"
-                Content="Import"
-                Margin="10,10,10,10"
-                Click="DefaultButton_Click"
-                MinWidth="125"
-                IsDefault="True"
-                IsEnabled="False"
             />
         </Grid>
     </Grid>

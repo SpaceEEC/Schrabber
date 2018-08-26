@@ -5,16 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Schrabber.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="148"
+             d:DesignHeight="94"
              d:DesignWidth="800"
-             MaxHeight="148"
-             Height="148">
-    <Grid>
+             Height="94"
+>
+    <Grid Margin="0,5,0,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
         <Image
+            Grid.Column="0"
             Name="ThumbnailImage"
             HorizontalAlignment="Left"
-            Width="128"
-            Margin="10,10,0,10"
+            Width="84"
             Source="/Schrabber;component/resources/no_cover.jpg"
         >
             <Image.ContextMenu>
@@ -32,26 +38,36 @@
             </Image.ContextMenu>
         </Image>
 
-        <Button
-            Name="SplitButton"
-            Content="Split"
-            HorizontalAlignment="Right"
-            Margin="0,10,10,74"
-            Width="128"
-            Click="SplitButton_Click"
-        />
-
         <TextBlock
+            Grid.Column="1"
             Name="InformationTextBlock"
-            Margin="143,10"
+            Margin="10"
         />
 
-        <Button
-            Content="Delete"
-            Margin="0,79,10,10"
-            Click="DeleteButton_Click"
-            HorizontalAlignment="Right"
-            Width="128"
-        />
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button
+                Grid.Row="0"
+                Name="SplitButton"
+                Content="Split"
+                HorizontalAlignment="Right"
+                Margin="10,10,10,5"
+                Width="128"
+                Click="SplitButton_Click"
+            />
+
+            <Button
+                Grid.Row="1"
+                Content="Delete"
+                Margin="10,5,10,10"
+                Click="DeleteButton_Click"
+                HorizontalAlignment="Right"
+                Width="128"
+            />
+        </Grid>
     </Grid>
 </UserControl>

@@ -17,7 +17,7 @@
             <StackPanel
                 Name="InputElementStackPanel"
                 Margin="10,10,10,10"
-                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.CanContentScroll="True"
             />
         </ScrollViewer>

@@ -45,7 +45,7 @@ namespace Schrabber.Controls
 		{
 			this.SplitButton.Content = new TextBlock()
 			{
-				Text = $"Split\n\nParts: {this.Media.Parts.Length}",
+				Text = $"Split -- Parts: {this.Media.Parts.Length}",
 				TextAlignment = TextAlignment.Center,
 			};
 		}
