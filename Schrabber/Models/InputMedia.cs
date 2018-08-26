@@ -22,13 +22,13 @@ namespace Schrabber.Models
 		private IPart[] _parts = null;
 		public IPart[] Parts
 		{
-			get => _parts;
+			get => this._parts;
 			set
 			{
 				if (value == null || value.Length==0)
-					_parts = new IPart[] { _getDefault() };
+					this._parts = new IPart[] { this._getDefault() };
 				else
-					_parts = value;
+					this._parts = value;
 			}
 		}
 
@@ -40,77 +40,77 @@ namespace Schrabber.Models
 
 		public InputMedia(String path, TagLib.File file)
 		{
-			_filePath = path;
-			Author = file.Tag.Performers.FirstOrDefault();
-			Title = String.IsNullOrWhiteSpace(file.Tag.Title) ? Path.GetFileNameWithoutExtension(file.Name) : file.Tag.Title;
+			this._filePath = path;
+			this.Author = file.Tag.Performers.FirstOrDefault();
+			this.Title = String.IsNullOrWhiteSpace(file.Tag.Title) ? Path.GetFileNameWithoutExtension(file.Name) : file.Tag.Title;
 
 			byte[] bytes = (
 				file.Tag.Pictures.FirstOrDefault(p => p.Type == TagLib.PictureType.FrontCover)
 					?? file.Tag.Pictures.FirstOrDefault()
 			)?.Data.Data;
-			Duration = file.Properties.Duration;
-			Description = file.Tag.Comment;
+			this.Duration = file.Properties.Duration;
+			this.Description = file.Tag.Comment;
 
-			_parts = new IPart[] { _getDefault() };
+			this._parts = new IPart[] { this._getDefault() };
 
 			if (bytes == null || bytes.Length == 0) return;
 			using (MemoryStream ms = new MemoryStream(bytes))
-				SetImage(ms);
+				this.SetImage(ms);
 		}
 
 		public InputMedia(Video video)
 		{
-			_videoId = video.Id;
+			this._videoId = video.Id;
 
-			Author = video.Author;
-			Title = video.Title;
-			Duration = video.Duration;
-			Description = video.Description;
+			this.Author = video.Author;
+			this.Title = video.Title;
+			this.Duration = video.Duration;
+			this.Description = video.Description;
 
-			_parts = new IPart[] { _getDefault() };
+			this._parts = new IPart[] { this._getDefault() };
 
-			SetImage(new Uri(video.Thumbnails.HighResUrl));
+			this.SetImage(new Uri(video.Thumbnails.HighResUrl));
 		}
 
-		public void SetImage(Stream stream) => _setImage(stream: stream);
-		public void SetImage(Uri uri) => _setImage(uri: uri);
+		public void SetImage(Stream stream) => this._setImage(stream: stream);
+		public void SetImage(Uri uri) => this._setImage(uri: uri);
 
 		private void _setImage(Stream stream = null, Uri uri = null)
 		{
-			CoverImage = new BitmapImage();
-			CoverImage.BeginInit();
-			CoverImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-			CoverImage.CacheOption = BitmapCacheOption.OnLoad;
-			CoverImage.StreamSource = stream;
-			CoverImage.UriSource = uri;
-			CoverImage.EndInit();
-			if (CoverImage.CanFreeze) CoverImage.Freeze();
+			this.CoverImage = new BitmapImage();
+			this.CoverImage.BeginInit();
+			this.CoverImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+			this.CoverImage.CacheOption = BitmapCacheOption.OnLoad;
+			this.CoverImage.StreamSource = stream;
+			this.CoverImage.UriSource = uri;
+			this.CoverImage.EndInit();
+			if (this.CoverImage.CanFreeze) this.CoverImage.Freeze();
 		}
 
 		public void Dispose()
 		{
-			if (_disposed) return;
-			_ms?.Dispose();
-			_disposed = true;
+			if (this._disposed) return;
+			this._ms?.Dispose();
+			this._disposed = true;
 		}
 
 		public async Task<MemoryStream> GetMemoryStreamAsync(IProgress<Double> progress = null, CancellationToken token = default(CancellationToken))
 		{
-			if (_disposed) throw new InvalidOperationException("This IInputMedia was already disposed.");
+			if (this._disposed) throw new InvalidOperationException("This IInputMedia was already disposed.");
 
-			if (_ms != null) return _ms;
+			if (this._ms != null) return this._ms;
 
-			if (_filePath != null)
+			if (this._filePath != null)
 			{
-				_ms = new MemoryStream();
-				await new FileStream(_filePath, FileMode.Open).CopyToAsync(_ms, token: token);
-				return _ms;
+				this._ms = new MemoryStream();
+				await new FileStream(this._filePath, FileMode.Open).CopyToAsync(this._ms, token: token);
+				return this._ms;
 			}
 
-			if (_videoId != null)
+			if (this._videoId != null)
 			{
-				return _ms = await YouTubeClient
-					.DownloadYouTubeVideoMp3MemoryStreamAsync(_videoId, TimeSpan.FromSeconds(0), progress, token)
+				return this._ms = await YouTubeClient
+					.DownloadYouTubeVideoMp3MemoryStreamAsync(this._videoId, TimeSpan.FromSeconds(0), progress, token)
 					.ConfigureAwait(false);
 			}
 

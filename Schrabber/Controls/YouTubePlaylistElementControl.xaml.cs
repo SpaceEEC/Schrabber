@@ -27,19 +27,19 @@ namespace Schrabber.Controls
 		/// <param name="media">The IInputMedia to associate this InputElementControl with.</param>
 		public YouTubePlaylistElementControl(IInputMedia media)
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 
-			Media = media;
+			this.Media = media;
 
-			if (media.CoverImage != null) ThumbnailImage.Source = media.CoverImage;
-			InformationTextBlock.Text = String.IsNullOrWhiteSpace(media.Author) ? $"{media.Author} - " : "";
-			InformationTextBlock.Text += $"{media.Title}\n\n{media.Description}";
+			if (media.CoverImage != null) this.ThumbnailImage.Source = media.CoverImage;
+			this.InformationTextBlock.Text = String.IsNullOrWhiteSpace(media.Author) ? $"{media.Author} - " : "";
+			this.InformationTextBlock.Text += $"{media.Title}\n\n{media.Description}";
 		}
 
 		private void ToggleKeepButton_Click(object sender, RoutedEventArgs e)
 		{
-			Keep = !Keep;
-			ToggleKeepButton.Content = $"        {(Keep ? "Keep" : "Ignore")}\n\n(Click to toggle)";
+			this.Keep = !this.Keep;
+			this.ToggleKeepButton.Content = $"        {(this.Keep ? "Keep" : "Ignore")}\n\n(Click to toggle)";
 		}
 	}
 }

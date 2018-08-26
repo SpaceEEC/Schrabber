@@ -17,40 +17,40 @@ namespace Schrabber.Windows
 		private Int32 _totalMediaCount;
 		public Int32 TotalMediaCount
 		{
-			get { return _totalMediaCount; }
+			get { return this._totalMediaCount; }
 			set
 			{
-				_totalMediaCount = value;
-				Dispatcher.Invoke(() => MediaProgressBar.Maximum = value);
+				this._totalMediaCount = value;
+				this.Dispatcher.Invoke(() => this.MediaProgressBar.Maximum = value);
 			}
 		}
 
 		private Double _progress = 0;
 		public double Progress
 		{
-			get { return _progress; }
+			get { return this._progress; }
 			set
 			{
-				_progress = value;
-				Dispatcher.Invoke(() => StepProgressBar.Value = value * 100);
+				this._progress = value;
+				this.Dispatcher.Invoke(() => this.StepProgressBar.Value = value * 100);
 			}
 		}
 
 		private String _step = null;
 		public String Step
 		{
-			get { return _step; }
+			get { return this._step; }
 			set
 			{
-				_step = value;
-				Dispatcher.Invoke(() =>
+				this._step = value;
+				this.Dispatcher.Invoke(() =>
 				{
-					StepLabel.Content = Step;
-					if (Step != "Done") return;
+					this.StepLabel.Content = this.Step;
+					if (this.Step != "Done") return;
 
-					PartProgressBar.Value = PartProgressBar.Maximum;
-					MediaProgressBar.Value = MediaProgressBar.Maximum;
-					MediaLabel.Content = $"Video {TotalMediaCount} / {TotalMediaCount}";
+					this.PartProgressBar.Value = this.PartProgressBar.Maximum;
+					this.MediaProgressBar.Value = this.MediaProgressBar.Maximum;
+					this.MediaLabel.Content = $"Video {this.TotalMediaCount} / {this.TotalMediaCount}";
 				});
 			}
 		}
@@ -63,32 +63,32 @@ namespace Schrabber.Windows
 		{
 			get
 			{
-				return _currentMedia;
+				return this._currentMedia;
 			}
 			set
 			{
-				_currentMedia = value;
-				_currentPart = 0;
+				this._currentMedia = value;
+				this._currentPart = 0;
 
-				Dispatcher.Invoke(() =>
+				this.Dispatcher.Invoke(() =>
 				{
-					PartProgressBar.Value = 0;
-					PartLabel.Content = $"Part {_currentPart} / {_currentMedia.Parts.Length}";
+					this.PartProgressBar.Value = 0;
+					this.PartLabel.Content = $"Part {this._currentPart} / {this._currentMedia.Parts.Length}";
 
-					MediaProgressBar.Value = ++_currentMediaNumber;
-					MediaLabel.Content = $"Video {MediaProgressBar.Value} / {TotalMediaCount}";
-					PartProgressBar.Maximum = value.Parts.Length;
+					this.MediaProgressBar.Value = ++this._currentMediaNumber;
+					this.MediaLabel.Content = $"Video {this.MediaProgressBar.Value} / {this.TotalMediaCount}";
+					this.PartProgressBar.Maximum = value.Parts.Length;
 
-					ThumbnailImage.Source = value.CoverImage;
-					DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 30);
+					this.ThumbnailImage.Source = value.CoverImage;
+					this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
 
-					ThumbnailImage.Width = value.CoverImage.PixelWidth;
+					this.ThumbnailImage.Width = value.CoverImage.PixelWidth;
 
-					LabelTitle.Content = value.Title;
-					LabelDuration.Content = value.Duration.ToString();
+					this.LabelTitle.Content = value.Title;
+					this.LabelDuration.Content = value.Duration.ToString();
 
-					DescriptionTextBox.Text = "Parts:\n\n";
-					DescriptionTextBox.Text += String.Join("\n", value.Parts.Select(p =>
+					this.DescriptionTextBox.Text = "Parts:\n\n";
+					this.DescriptionTextBox.Text += String.Join("\n", value.Parts.Select(p =>
 						String.IsNullOrWhiteSpace(p.Author)
 							? $"{p.Start.ToString() ?? "00:00:00"} - {p.Title}"
 							: $"{p.Start.ToString() ?? "00:00:00"} - {p.Author} - {p.Title}"
@@ -97,20 +97,20 @@ namespace Schrabber.Windows
 			}
 		}
 
-		public ProgressWindow() => InitializeComponent();
+		public ProgressWindow() => this.InitializeComponent();
 
 		public void NextPart()
 		{
-			Dispatcher.Invoke(() =>
+			this.Dispatcher.Invoke(() =>
 			{
-				PartProgressBar.Value = _currentPart++;
-				PartLabel.Content = $"Part {_currentPart} / {_currentMedia.Parts.Length}";
+				this.PartProgressBar.Value = this._currentPart++;
+				this.PartLabel.Content = $"Part {this._currentPart} / {this._currentMedia.Parts.Length}";
 			});
 		}
 
 		private void Window_SizeChanged(object sender, RoutedEventArgs e)
-			=> DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 30);
+			=> this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
 
-		private void OpenFolderButton_Click(object sender, RoutedEventArgs e) => Process.Start(Splitter.FolderPath);
+		private void OpenFolderButton_Click(object sender, RoutedEventArgs e) => Process.Start(this.Splitter.FolderPath);
 	}
 }

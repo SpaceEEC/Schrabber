@@ -22,42 +22,42 @@ namespace Schrabber.Windows
 
 		public YouTubeVideoWindow()
 		{
-			InitializeComponent();
-			DescriptionTextBox.Text = String.Empty;
-			LabelDuration.Content = String.Empty;
-			LabelTitle.Content = String.Empty;
+			this.InitializeComponent();
+			this.DescriptionTextBox.Text = String.Empty;
+			this.LabelDuration.Content = String.Empty;
+			this.LabelTitle.Content = String.Empty;
 		}
 
 		private void Image_DownloadCompleted(object sender, EventArgs e)
 		{
 			BitmapImage image = (BitmapImage)sender;
-			image.DownloadCompleted -= Image_DownloadCompleted;
-			ThumbnailImage.Width = image.PixelWidth;
+			image.DownloadCompleted -= this.Image_DownloadCompleted;
+			this.ThumbnailImage.Width = image.PixelWidth;
 
-			DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - image.PixelWidth - 30);
+			this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - image.PixelWidth - 30);
 		}
 
 		private void Window_SizeChanged(object sender, RoutedEventArgs e)
-			=> DescriptionTextBox.Width = Math.Max(10, CenterGrid.ActualWidth - ThumbnailImage.ActualWidth - 30);
+			=> this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
 
 		private void DefaultButton_Click(object sender, RoutedEventArgs e)
 		{
-				DialogResult = true;
-				Close();
+			this.DialogResult = true;
+			this.Close();
 		}
 
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)
 		{
-			Media = null;
-			LoadButton.IsEnabled = false;
-			DefaultButton.IsEnabled = false;
+			this.Media = null;
+			this.LoadButton.IsEnabled = false;
+			this.DefaultButton.IsEnabled = false;
 
-			String videoUrl = InputTextBox.Text;
+			String videoUrl = this.InputTextBox.Text;
 
 			if (!YoutubeClient.ValidateVideoId(videoUrl) && !YoutubeClient.TryParseVideoId(videoUrl, out videoUrl))
 			{
 				MessageBox.Show("The supplied video url or id is syntactically incorrect!");
-				LoadButton.IsEnabled = false;
+				this.LoadButton.IsEnabled = false;
 
 				return;
 			}
@@ -66,16 +66,16 @@ namespace Schrabber.Windows
 			{
 				Video video = await YouTubeClient.GetVideoAsync(videoUrl);
 
-				Media = new InputMedia(video);
-				Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
-				ThumbnailImage.Source = Media.CoverImage;
+				this.Media = new InputMedia(video);
+				this.Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
+				this.ThumbnailImage.Source = this.Media.CoverImage;
 
-				LabelTitle.Content = video.Title;
-				LabelDuration.Content = video.Duration.ToString();
-				DescriptionTextBox.Text = video.Description;
-				InputTextBox.Text = video.GetUrl();
+				this.LabelTitle.Content = video.Title;
+				this.LabelDuration.Content = video.Duration.ToString();
+				this.DescriptionTextBox.Text = video.Description;
+				this.InputTextBox.Text = video.GetUrl();
 
-				DefaultButton.IsEnabled = true;
+				this.DefaultButton.IsEnabled = true;
 			}
 			catch (VideoUnavailableException ex)
 			{
@@ -91,7 +91,7 @@ namespace Schrabber.Windows
 			}
 			finally
 			{
-				LoadButton.IsEnabled = false;
+				this.LoadButton.IsEnabled = false;
 			}
 		}
 	}

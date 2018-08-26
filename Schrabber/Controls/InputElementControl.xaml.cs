@@ -31,28 +31,28 @@ namespace Schrabber.Controls
 		/// <param name="media">The IInputMedia to associate this InputElementControl with.</param>
 		public InputElementControl(IInputMedia media, IRemoveChildElement parent)
 		{
-			InitializeComponent();
-			_parent = parent;
-			Media = media;
+			this.InitializeComponent();
+			this._parent = parent;
+			this.Media = media;
 
-			if (media.CoverImage != null) ThumbnailImage.Source = media.CoverImage;
-			InformationTextBlock.Text = String.IsNullOrWhiteSpace(media.Author) ? $"{media.Author} - " : "";
-			InformationTextBlock.Text += $"{media.Title}\n\n{media.Description}";
-			_updateButton();
+			if (media.CoverImage != null) this.ThumbnailImage.Source = media.CoverImage;
+			this.InformationTextBlock.Text = String.IsNullOrWhiteSpace(media.Author) ? $"{media.Author} - " : "";
+			this.InformationTextBlock.Text += $"{media.Title}\n\n{media.Description}";
+			this._updateButton();
 		}
 
 		private void _updateButton()
 		{
-			SplitButton.Content = new TextBlock()
+			this.SplitButton.Content = new TextBlock()
 			{
-				Text = $"Split\n\nParts: {Media.Parts.Length}",
+				Text = $"Split\n\nParts: {this.Media.Parts.Length}",
 				TextAlignment = TextAlignment.Center,
 			};
 		}
 
 		private void SplitButton_Click(object sender, RoutedEventArgs e)
 		{
-			SplitWindow window = new SplitWindow(Media);
+			SplitWindow window = new SplitWindow(this.Media);
 			if (window.ShowDialog() != true) return;
 			IPart[] parts = window.Parts.ToArray();
 			for (Int32 i = 0; i > parts.Length; ++i)
@@ -66,18 +66,18 @@ namespace Schrabber.Controls
 				parts[i].Stop = parts[i + 1].Start;
 			}
 
-			Media.Parts = parts;
+			this.Media.Parts = parts;
 
-			_updateButton();
+			this._updateButton();
 		}
 
-		private void DeleteButton_Click(object sender, RoutedEventArgs e) => _parent.RemoveChildElement(this);
+		private void DeleteButton_Click(object sender, RoutedEventArgs e) => this._parent.RemoveChildElement(this);
 
 		public void Dispose()
 		{
-			if (_disposed) return;
-			Media.Dispose();
-			_disposed = true;
+			if (this._disposed) return;
+			this.Media.Dispose();
+			this._disposed = true;
 		}
 
 		private void SetCover_Click(object sender, RoutedEventArgs e)
@@ -88,15 +88,15 @@ namespace Schrabber.Controls
 			if (ofd.ShowDialog() != true) return;
 
 			using (FileStream fs = new FileInfo(ofd.FileName).OpenRead())
-				Media.SetImage(fs);
+				this.Media.SetImage(fs);
 
-			ThumbnailImage.Source = Media.CoverImage;
+			this.ThumbnailImage.Source = this.Media.CoverImage;
 		}
 
 		private void RemoveCover_Click(object sender, RoutedEventArgs e)
 		{
-			Media.CoverImage = null;
-			ThumbnailImage.Source = new BitmapImage(new Uri("/Schrabber;component/resources/no_cover.jpg", UriKind.Relative));
+			this.Media.CoverImage = null;
+			this.ThumbnailImage.Source = new BitmapImage(new Uri("/Schrabber;component/resources/no_cover.jpg", UriKind.Relative));
 		}
 	}
 }

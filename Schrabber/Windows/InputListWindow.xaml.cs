@@ -18,7 +18,7 @@ namespace Schrabber.Windows
 	{
 		private String _folderPath = null;
 
-		public InputListWindow() => InitializeComponent();
+		public InputListWindow() => this.InitializeComponent();
 
 		private void PlaylistButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -27,7 +27,7 @@ namespace Schrabber.Windows
 
 
 			foreach (IInputMedia media in window.SelectedMedias)
-				AddChildElement(new InputElementControl(media, this));
+				this.AddChildElement(new InputElementControl(media, this));
 		}
 
 		private void VideoButton_Click(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace Schrabber.Windows
 			if (window.ShowDialog() != true) return;
 
 
-			AddChildElement(new InputElementControl(window.Media, this));
+			this.AddChildElement(new InputElementControl(window.Media, this));
 		}
 
 		private void FileButton_Click(object sender, RoutedEventArgs e)
@@ -61,10 +61,10 @@ namespace Schrabber.Windows
 				).ToArray(),
 
 				medias =>
-					Dispatcher.Invoke(() =>
+					this.Dispatcher.Invoke(() =>
 					{
 						foreach (Task<IInputMedia> media in medias)
-							AddChildElement(new InputElementControl(media.Result, this));
+							this.AddChildElement(new InputElementControl(media.Result, this));
 					})
 			);
 		}
@@ -73,22 +73,22 @@ namespace Schrabber.Windows
 		{
 			if (children is IDisposable disposable) disposable.Dispose();
 
-			InputElementStackPanel.Children.Remove(children);
-			StartButton.IsEnabled = ResetButton.IsEnabled = InputElementStackPanel.Children.Count != 0;
+			this.InputElementStackPanel.Children.Remove(children);
+			this.StartButton.IsEnabled = this.ResetButton.IsEnabled = this.InputElementStackPanel.Children.Count != 0;
 		}
 
 		private void AddChildElement(UIElement children)
 		{
-			InputElementStackPanel.Children.Add(children);
-			StartButton.IsEnabled = true;
-			ResetButton.IsEnabled = true;
+			this.InputElementStackPanel.Children.Add(children);
+			this.StartButton.IsEnabled = true;
+			this.ResetButton.IsEnabled = true;
 		}
 
 		private async void StartButton_Click(object sender, RoutedEventArgs e)
 		{
-			MainGrid.IsEnabled = false;
+			this.MainGrid.IsEnabled = false;
 
-			IInputMedia[] media = InputElementStackPanel
+			IInputMedia[] media = this.InputElementStackPanel
 				.Children
 				.OfType<InputElementControl>()
 				.Select(c => c.Media)
@@ -112,7 +112,7 @@ namespace Schrabber.Windows
 			}
 			finally
 			{
-				MainGrid.IsEnabled = true;
+				this.MainGrid.IsEnabled = true;
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace Schrabber.Windows
 			VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
 			if (dialog.ShowDialog() != true) return;
 
-			_folderPath = dialog.SelectedPath;
+			this._folderPath = dialog.SelectedPath;
 		}
 
 		private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -134,12 +134,12 @@ namespace Schrabber.Windows
 				) != MessageBoxResult.Yes
 			) return;
 
-			foreach (IDisposable disposable in InputElementStackPanel.Children.OfType<IDisposable>())
+			foreach (IDisposable disposable in this.InputElementStackPanel.Children.OfType<IDisposable>())
 				disposable.Dispose();
 
-			InputElementStackPanel.Children.Clear();
-			StartButton.IsEnabled = false;
-			ResetButton.IsEnabled = false;
+			this.InputElementStackPanel.Children.Clear();
+			this.StartButton.IsEnabled = false;
+			this.ResetButton.IsEnabled = false;
 		}
 	}
 }

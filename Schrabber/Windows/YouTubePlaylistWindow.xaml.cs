@@ -24,26 +24,26 @@ namespace Schrabber.Windows
 		public IEnumerable<IInputMedia> SelectedMedias
 		{
 			get =>
-				PlaylistElementStackPanel
+				this.PlaylistElementStackPanel
 					.Children
 					.OfType<YouTubePlaylistElementControl>()
 					.Where(c => c.Keep)
 					.Select(c => c.Media);
 		}
-		public YouTubePlaylistWindow() => InitializeComponent();
+		public YouTubePlaylistWindow() => this.InitializeComponent();
 
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)
 		{
-			PlaylistElementStackPanel.Children.Clear();
-			LoadButton.IsEnabled = false;
-			DefaultButton.IsEnabled = false;
+			this.PlaylistElementStackPanel.Children.Clear();
+			this.LoadButton.IsEnabled = false;
+			this.DefaultButton.IsEnabled = false;
 
-			String playlistUrl = InputTextBox.Text;
+			String playlistUrl = this.InputTextBox.Text;
 
 			if (!YoutubeClient.ValidatePlaylistId(playlistUrl) && !YoutubeClient.TryParsePlaylistId(playlistUrl, out playlistUrl))
 			{
 				MessageBox.Show("The supplied playlist url or id is syntactically incorrect!");
-				LoadButton.IsEnabled = true;
+				this.LoadButton.IsEnabled = true;
 
 				return;
 			}
@@ -53,7 +53,7 @@ namespace Schrabber.Windows
 				Playlist playlist = await YouTubeClient.GetPlaylistAsync(playlistUrl);
 
 				foreach (Video video in playlist.Videos)
-					PlaylistElementStackPanel.Children.Add(new YouTubePlaylistElementControl(new InputMedia(video)));
+					this.PlaylistElementStackPanel.Children.Add(new YouTubePlaylistElementControl(new InputMedia(video)));
 
 			}
 			catch (VideoUnavailableException ex)
@@ -70,15 +70,15 @@ namespace Schrabber.Windows
 			}
 			finally
 			{
-				LoadButton.IsEnabled = false;
-				DefaultButton.IsEnabled = true;
+				this.LoadButton.IsEnabled = false;
+				this.DefaultButton.IsEnabled = true;
 			}
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)
 		{
-			DialogResult = true;
-			Close();
+			this.DialogResult = true;
+			this.Close();
 		}
 	}
 }

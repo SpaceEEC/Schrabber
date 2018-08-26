@@ -12,9 +12,9 @@ namespace Schrabber.Models
 
 		public FileStreamAbstraction(String name, Stream stream)
 		{
-			Name = name;
-			ReadStream = stream;
-			WriteStream = stream;
+			this.Name = name;
+			this.ReadStream = stream;
+			this.WriteStream = stream;
 		}
 
 		public void CloseStream(Stream stream)

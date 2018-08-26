@@ -19,58 +19,58 @@ namespace Schrabber.Models
 		{
 			get
 			{
-				if (_folderPath != null) return _folderPath;
+				if (this._folderPath != null) return this._folderPath;
 				String folderPath = Path.Combine(
 					AppDomain.CurrentDomain.BaseDirectory,
 					DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
 				);
 				Directory.CreateDirectory(folderPath);
 
-				return _folderPath = folderPath;
+				return this._folderPath = folderPath;
 			}
 			set
 			{
-				if (_started) throw new InvalidOperationException($"Can not set \"FolderPath\" after starting.");
-				_folderPath = value;
+				if (this._started) throw new InvalidOperationException($"Can not set \"FolderPath\" after starting.");
+				this._folderPath = value;
 			}
 		}
 
 		public Splitter(IInputMedia[] media, IProgressWindow window)
 		{
-			_media = media;
-			_window = window;
+			this._media = media;
+			this._window = window;
 
-			_window.Splitter = this;
-			_window.TotalMediaCount = _media.Length;
-			_window.Progress = 0;
-			_window.Step = "Initialized";
+			this._window.Splitter = this;
+			this._window.TotalMediaCount = this._media.Length;
+			this._window.Progress = 0;
+			this._window.Step = "Initialized";
 		}
 
 		public async Task Run(CancellationToken token = default(CancellationToken))
 		{
-			_started = true;
+			this._started = true;
 
-			foreach (IInputMedia media in _media)
+			foreach (IInputMedia media in this._media)
 			{
 				if (token.IsCancellationRequested)
 				{
-					_cancelled();
+					this._cancelled();
 					return;
 				}
 
-				_window.CurrentMedia = media;
-				_window.Step = "Fetching Video";
+				this._window.CurrentMedia = media;
+				this._window.Step = "Fetching Video";
 				MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false);
 				if (media.Parts.Length == 1)
 				{
-					_window.NextPart();
-					_window.Step = "Writing Audio";
-					_writeTags(ms, media.Parts[0], media);
-					await _writeFile(
+					this._window.NextPart();
+					this._window.Step = "Writing Audio";
+					this._writeTags(ms, media.Parts[0], media);
+					await this._writeFile(
 						ms,
 						Path.Combine(
-							FolderPath,
-							_getFileName(media.Parts[0])
+							this.FolderPath,
+							this._getFileName(media.Parts[0])
 						),
 						token
 					).ConfigureAwait(false);
@@ -81,17 +81,17 @@ namespace Schrabber.Models
 
 				foreach (IPart part in media.Parts)
 				{
-					_window.NextPart();
-					_window.Step = "Splitting";
+					this._window.NextPart();
+					this._window.Step = "Splitting";
 					using (MemoryStream partMs = await Ffmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
 					{
-						_writeTags(partMs, part, media);
-						_window.Step = "Writing Audio";
-						await _writeFile(
+						this._writeTags(partMs, part, media);
+						this._window.Step = "Writing Audio";
+						await this._writeFile(
 							partMs,
 							Path.Combine(
-								FolderPath,
-								_getFileName(part)
+								this.FolderPath,
+								this._getFileName(part)
 							),
 							token
 						).ConfigureAwait(false);
@@ -99,8 +99,8 @@ namespace Schrabber.Models
 				}
 			}
 
-			_window.Step = "Done";
-			_window.Progress = 1;
+			this._window.Step = "Done";
+			this._window.Progress = 1;
 
 		}
 
@@ -146,11 +146,11 @@ namespace Schrabber.Models
 
 		private void _cancelled()
 		{
-			_window.Step = "Cancelled";
-			_window.Progress = 1;
+			this._window.Step = "Cancelled";
+			this._window.Progress = 1;
 		}
 
 		public void Report(double value) =>
-			_window.Progress = value;
+			this._window.Progress = value;
 	}
 }
