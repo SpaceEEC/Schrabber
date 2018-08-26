@@ -53,6 +53,7 @@
                 Margin="5,10,10,5"
                 MinWidth="75"
                 Click="ConfirmButton_Click"
+                IsEnabled="False"
             />
 
         </Grid>

@@ -57,7 +57,7 @@ namespace Schrabber.Windows
 			if (!YoutubeClient.ValidateVideoId(videoUrl) && !YoutubeClient.TryParseVideoId(videoUrl, out videoUrl))
 			{
 				MessageBox.Show("The supplied video url or id is syntactically incorrect!");
-				this.LoadButton.IsEnabled = false;
+				this.LoadButton.IsEnabled = true;
 
 				return;
 			}
