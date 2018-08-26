@@ -1,9 +1,13 @@
-﻿using Schrabber.Interfaces;
+﻿using Microsoft.Win32;
+using Schrabber.Helpers;
+using Schrabber.Interfaces;
 using Schrabber.Windows;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace Schrabber.Controls
 {
@@ -74,6 +78,25 @@ namespace Schrabber.Controls
 			if (_disposed) return;
 			Media.Dispose();
 			_disposed = true;
+		}
+
+		private void SetCover_Click(object sender, RoutedEventArgs e)
+		{
+			Microsoft.Win32.OpenFileDialog ofd = OpenFileDialogFactory.GetImageFileDialog();
+			ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+			if (ofd.ShowDialog() != true) return;
+
+			using (FileStream fs = new FileInfo(ofd.FileName).OpenRead())
+				Media.SetImage(fs);
+
+			ThumbnailImage.Source = Media.CoverImage;
+		}
+
+		private void RemoveCover_Click(object sender, RoutedEventArgs e)
+		{
+			Media.CoverImage = null;
+			ThumbnailImage.Source = new BitmapImage(new Uri("/Schrabber;component/resources/no_cover.jpg", UriKind.Relative));
 		}
 	}
 }

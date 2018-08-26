@@ -47,6 +47,19 @@ namespace Schrabber.Interfaces
 		IPart[] Parts { get; set; }
 
 		/// <summary>
+		/// Sets a new image from a stream.
+		/// </summary>
+		/// <param name="stream">Stream to read from</param>
+		void SetImage(Stream stream);
+
+
+		/// <summary>
+		/// Sets a new image from an uri
+		/// </summary>
+		/// <param name="uri">Uri source</param>
+		void SetImage(Uri uri);
+
+		/// <summary>
 		/// Gets the MemoryStream this IInputMedia represents.
 		/// </summary>
 		/// <returns>Task with a result of MemoryStream</returns>

@@ -55,10 +55,7 @@ namespace Schrabber.Models
 
 			if (bytes == null || bytes.Length == 0) return;
 			using (MemoryStream ms = new MemoryStream(bytes))
-			{
-				CoverImage = new BitmapImage();
-				_setImage(stream: ms);
-			}
+				SetImage(ms);
 		}
 
 		public InputMedia(Video video)
@@ -72,12 +69,15 @@ namespace Schrabber.Models
 
 			_parts = new IPart[] { _getDefault() };
 
-			CoverImage = new BitmapImage();
-			_setImage(uri: new Uri(video.Thumbnails.HighResUrl));
+			SetImage(new Uri(video.Thumbnails.HighResUrl));
 		}
+
+		public void SetImage(Stream stream) => _setImage(stream: stream);
+		public void SetImage(Uri uri) => _setImage(uri: uri);
 
 		private void _setImage(Stream stream = null, Uri uri = null)
 		{
+			CoverImage = new BitmapImage();
 			CoverImage.BeginInit();
 			CoverImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
 			CoverImage.CacheOption = BitmapCacheOption.OnLoad;

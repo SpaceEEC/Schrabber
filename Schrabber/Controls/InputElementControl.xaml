@@ -16,7 +16,21 @@
             Width="128"
             Margin="10,10,0,10"
             Source="/Schrabber;component/resources/no_cover.jpg"
-        />
+        >
+            <Image.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="Set Cover"
+                        Click="SetCover_Click"
+                    />
+                    
+                    <MenuItem
+                        Header="Remove Cover"
+                        Click="RemoveCover_Click"
+                    />
+                </ContextMenu>
+            </Image.ContextMenu>
+        </Image>
 
         <Button
             Name="SplitButton"
@@ -35,6 +49,9 @@
         <Button
             Content="Delete"
             Margin="0,79,10,10"
-            Click="DeleteButton_Click" HorizontalAlignment="Right" Width="128"/>
+            Click="DeleteButton_Click"
+            HorizontalAlignment="Right"
+            Width="128"
+        />
     </Grid>
 </UserControl>
