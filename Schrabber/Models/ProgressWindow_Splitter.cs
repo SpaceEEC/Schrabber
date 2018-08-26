@@ -1,18 +1,18 @@
 ﻿using Schrabber.Extensions;
 using Schrabber.Helpers;
 using Schrabber.Interfaces;
+using Schrabber.Models;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace Schrabber.Models
+namespace Schrabber.Windows
 {
-	public class Splitter : IProgress<Double>
+	public partial class ProgressWindow
 	{
-		private readonly IProgressWindow _window;
-		private readonly IInputMedia[] _media;
+		#region FolderPath
 		private Boolean _started = false;
 		private String _folderPath;
 		public String FolderPath
@@ -34,17 +34,9 @@ namespace Schrabber.Models
 				this._folderPath = value;
 			}
 		}
+		#endregion FolderPath
 
-		public Splitter(IInputMedia[] media, IProgressWindow window)
-		{
-			this._media = media;
-			this._window = window;
-
-			this._window.Splitter = this;
-			this._window.TotalMediaCount = this._media.Length;
-			this._window.Progress = 0;
-			this._window.Step = "Initialized";
-		}
+		private readonly IInputMedia[] _media;
 
 		public async Task Run(CancellationToken token = default(CancellationToken))
 		{
@@ -54,18 +46,19 @@ namespace Schrabber.Models
 			{
 				if (token.IsCancellationRequested)
 				{
-					this._cancelled();
+					this.SetStep("Cancelled");
+					(this as IProgress<Double>).Report(1);
 					return;
 				}
 
-				this._window.CurrentMedia = media;
-				this._window.Step = "Fetching Video";
+				this.CurrentMedia = media;
+				this.SetStep("Fetching Video");
 				MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false);
 				if (media.Parts.Length == 1)
 				{
-					this._window.NextPart();
-					this._window.Step = "Writing Audio";
-					this._writeTags(ms, media.Parts[0], media);
+					this.NextPart();
+					this.SetStep("Writing Audio");
+					this._writeTags(ms, media.Parts[0]);
 					await this._writeFile(
 						ms,
 						Path.Combine(
@@ -81,12 +74,12 @@ namespace Schrabber.Models
 
 				foreach (IPart part in media.Parts)
 				{
-					this._window.NextPart();
-					this._window.Step = "Splitting";
+					this.NextPart();
+					this.SetStep("Splitting");
 					using (MemoryStream partMs = await Ffmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
 					{
-						this._writeTags(partMs, part, media);
-						this._window.Step = "Writing Audio";
+						this._writeTags(partMs, part);
+						this.SetStep("Writing Audio");
 						await this._writeFile(
 							partMs,
 							Path.Combine(
@@ -99,21 +92,20 @@ namespace Schrabber.Models
 				}
 			}
 
-			this._window.Step = "Done";
-			this._window.Progress = 1;
-
+			this.SetStep("Done");
+			(this as IProgress<Double>).Report(1);
 		}
 
-		private void _writeTags(MemoryStream ms, IPart part, IInputMedia media)
+		private void _writeTags(MemoryStream ms, IPart part)
 		{
 			TagLib.File file = TagLib.File.Create(new FileStreamAbstraction("file.mp3", ms));
 			file.Tag.Title = part.Title;
 			file.Tag.Performers = new[] { part.Author };
 			file.Tag.Album = part.Album;
-			if (media.CoverImage != null)
+			if (CurrentMedia.CoverImage != null)
 			{
 				JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-				encoder.Frames.Add(BitmapFrame.Create(media.CoverImage));
+				encoder.Frames.Add(BitmapFrame.Create(CurrentMedia.CoverImage));
 				using (MemoryStream imageMs = new MemoryStream())
 				{
 					encoder.Save(imageMs);
@@ -142,15 +134,5 @@ namespace Schrabber.Models
 
 			return String.Join("_", fileName.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.') + ".mp3";
 		}
-
-
-		private void _cancelled()
-		{
-			this._window.Step = "Cancelled";
-			this._window.Progress = 1;
-		}
-
-		public void Report(double value) =>
-			this._window.Progress = value;
 	}
 }

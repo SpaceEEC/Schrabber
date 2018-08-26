@@ -1,5 +1,4 @@
 ﻿using Schrabber.Interfaces;
-using Schrabber.Models;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -10,51 +9,8 @@ namespace Schrabber.Windows
 	/// <summary>
 	/// Interaction logic for ProgressWindow.xaml
 	/// </summary>
-	public partial class ProgressWindow : Window, IProgressWindow
+	public partial class ProgressWindow : Window, IProgress<Double>
 	{
-		public Splitter Splitter { get; set; }
-
-		private Int32 _totalMediaCount;
-		public Int32 TotalMediaCount
-		{
-			get { return this._totalMediaCount; }
-			set
-			{
-				this._totalMediaCount = value;
-				this.Dispatcher.Invoke(() => this.MediaProgressBar.Maximum = value);
-			}
-		}
-
-		private Double _progress = 0;
-		public double Progress
-		{
-			get { return this._progress; }
-			set
-			{
-				this._progress = value;
-				this.Dispatcher.Invoke(() => this.StepProgressBar.Value = value * 100);
-			}
-		}
-
-		private String _step = null;
-		public String Step
-		{
-			get { return this._step; }
-			set
-			{
-				this._step = value;
-				this.Dispatcher.Invoke(() =>
-				{
-					this.StepLabel.Content = this.Step;
-					if (this.Step != "Done") return;
-
-					this.PartProgressBar.Value = this.PartProgressBar.Maximum;
-					this.MediaProgressBar.Value = this.MediaProgressBar.Maximum;
-					this.MediaLabel.Content = $"Video {this.TotalMediaCount} / {this.TotalMediaCount}";
-				});
-			}
-		}
-
 		private Int32 _currentPart = 0;
 		private Int32 _currentMediaNumber = -1;
 
@@ -73,10 +29,10 @@ namespace Schrabber.Windows
 				this.Dispatcher.Invoke(() =>
 				{
 					this.PartProgressBar.Value = 0;
-					this.PartLabel.Content = $"Part {this._currentPart} / {this._currentMedia.Parts.Length}";
+					this.PartLabel.Content = $"Part {this._currentPart} / {this.CurrentMedia.Parts.Length}";
 
 					this.MediaProgressBar.Value = ++this._currentMediaNumber;
-					this.MediaLabel.Content = $"Video {this.MediaProgressBar.Value} / {this.TotalMediaCount}";
+					this.MediaLabel.Content = $"Video {this.MediaProgressBar.Value} / {this._media.Length}";
 					this.PartProgressBar.Maximum = value.Parts.Length;
 
 					this.ThumbnailImage.Source = value.CoverImage;
@@ -97,20 +53,42 @@ namespace Schrabber.Windows
 			}
 		}
 
-		public ProgressWindow() => this.InitializeComponent();
+		public ProgressWindow(IInputMedia[] media)
+		{
+			this.InitializeComponent();
+
+			_media = media;
+
+			this.MediaProgressBar.Maximum = _media.Length;
+		}
+
+		public void SetStep(String step)
+		{
+			this.Dispatcher.Invoke(() =>
+			{
+				this.StepLabel.Content = step;
+				if (step != "Done") return;
+
+				this.PartProgressBar.Value = this.PartProgressBar.Maximum;
+				this.MediaProgressBar.Value = this.MediaProgressBar.Maximum;
+				this.MediaLabel.Content = $"Video {this._media.Length} / {this._media.Length}";
+			});
+		}
 
 		public void NextPart()
 		{
 			this.Dispatcher.Invoke(() =>
 			{
 				this.PartProgressBar.Value = this._currentPart++;
-				this.PartLabel.Content = $"Part {this._currentPart} / {this._currentMedia.Parts.Length}";
+				this.PartLabel.Content = $"Part {this._currentPart} / {this.CurrentMedia.Parts.Length}";
 			});
 		}
 
 		private void Window_SizeChanged(object sender, RoutedEventArgs e)
 			=> this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
 
-		private void OpenFolderButton_Click(object sender, RoutedEventArgs e) => Process.Start(this.Splitter.FolderPath);
+		private void OpenFolderButton_Click(object sender, RoutedEventArgs e) => Process.Start(this.FolderPath);
+
+		void IProgress<Double>.Report(Double value) => Dispatcher.Invoke(() => this.StepProgressBar.Value = value * 100);
 	}
 }

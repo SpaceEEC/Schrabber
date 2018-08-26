@@ -94,16 +94,15 @@ namespace Schrabber.Windows
 				.Select(c => c.Media)
 				.ToArray();
 
-			ProgressWindow window = new ProgressWindow();
-			window.Show();
-
-			Splitter splitter = new Splitter(media, window)
+			ProgressWindow window = new ProgressWindow(media)
 			{
 				FolderPath = _folderPath,
 			};
+			window.Show();
+
 			try
 			{
-				await splitter.Run();
+				await window.Run();
 			}
 			catch(Exception ex)
 			{
