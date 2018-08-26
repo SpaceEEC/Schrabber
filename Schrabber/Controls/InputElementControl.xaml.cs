@@ -82,7 +82,7 @@ namespace Schrabber.Controls
 
 		private void SetCover_Click(object sender, RoutedEventArgs e)
 		{
-			Microsoft.Win32.OpenFileDialog ofd = OpenFileDialogFactory.GetImageFileDialog();
+			OpenFileDialog ofd = OpenFileDialogFactory.GetImageFileDialog();
 			ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
 			if (ofd.ShowDialog() != true) return;
