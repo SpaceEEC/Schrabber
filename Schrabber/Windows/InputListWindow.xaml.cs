@@ -1,4 +1,4 @@
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using Schrabber.Controls;
 using Schrabber.Interfaces;
@@ -78,13 +78,14 @@ namespace Schrabber.Windows
 			if (children is IDisposable disposable) disposable.Dispose();
 
 			InputElementStackPanel.Children.Remove(children);
-			StartButton.IsEnabled = InputElementStackPanel.Children.Count != 0;
+			StartButton.IsEnabled = ResetButton.IsEnabled = InputElementStackPanel.Children.Count != 0;
 		}
 
 		private void AddChildElement(UIElement children)
 		{
 			InputElementStackPanel.Children.Add(children);
 			StartButton.IsEnabled = true;
+			ResetButton.IsEnabled = true;
 		}
 
 		private async void StartButton_Click(object sender, RoutedEventArgs e)
@@ -125,6 +126,24 @@ namespace Schrabber.Windows
 			if (dialog.ShowDialog() != true) return;
 
 			_folderPath = dialog.SelectedPath;
+		}
+
+		private void ResetButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (
+				MessageBox.Show(
+					"Are you sure you want to remove all elements?", "Confirmation",
+					MessageBoxButton.YesNo, MessageBoxImage.Question,
+					MessageBoxResult.No
+				) != MessageBoxResult.Yes
+			) return;
+
+			foreach (IDisposable disposable in InputElementStackPanel.Children.OfType<IDisposable>())
+				disposable.Dispose();
+
+			InputElementStackPanel.Children.Clear();
+			StartButton.IsEnabled = false;
+			ResetButton.IsEnabled = false;
 		}
 	}
 }

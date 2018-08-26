@@ -1,4 +1,4 @@
-using Schrabber.Interfaces;
+﻿using Schrabber.Interfaces;
 using Schrabber.Windows;
 using System;
 using System.Linq;

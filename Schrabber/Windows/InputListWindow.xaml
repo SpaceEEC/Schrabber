@@ -30,6 +30,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Button
@@ -58,6 +59,15 @@
 
             <Button
                 Grid.Row="4"
+                Content="Remove All Elements"
+                Name="ResetButton"
+                Click="ResetButton_Click"
+                Margin="10,5,10,5"
+                IsEnabled="False"
+            />
+
+            <Button
+                Grid.Row="5"
                 Content="Set Destination Folder"
                 Name="SetFolderButton"
                 Click="SetFolderButton_Click"
@@ -65,7 +75,7 @@
             />
 
             <Button
-                Grid.Row="5"
+                Grid.Row="6"
                 Content="Start"
                 Name="StartButton"
                 Click="StartButton_Click"
