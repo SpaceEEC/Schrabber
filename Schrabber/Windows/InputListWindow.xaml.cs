@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using Schrabber.Controls;
+using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;
@@ -40,14 +41,9 @@ namespace Schrabber.Windows
 
 		private void FileButton_Click(object sender, RoutedEventArgs e)
 		{
-			String fileEndings = "*.webm;*.mpg;*.mp2;*.mpeg;*.mpe;*.mpv;*.ogg;*.mp4;*.m4p;*.m4v;*.mp3;*.m4a;*.aac;*.oga";
-			OpenFileDialog ofd = new OpenFileDialog()
-			{
-				Filter = $"Video and Audio files ({fileEndings})|{fileEndings}|All files (*.*)|*.*;",
-				InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
-				Multiselect = true,
-			};
-
+			OpenFileDialog ofd = OpenFileDialogFactory.GetVideoAndMusicFileDialog();
+			ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+			ofd.Multiselect = true;
 			if (ofd.ShowDialog() != true) return;
 
 			Task.Factory.ContinueWhenAll(
