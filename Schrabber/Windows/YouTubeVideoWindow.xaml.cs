@@ -53,18 +53,20 @@ namespace Schrabber.Windows
 			this.DefaultButton.IsEnabled = false;
 
 			String videoUrl = this.InputTextBox.Text;
-
-			if (!YoutubeClient.ValidateVideoId(videoUrl) && !YoutubeClient.TryParseVideoId(videoUrl, out videoUrl))
-			{
-				MessageBox.Show("The supplied video url or id is syntactically incorrect!");
-				this.LoadButton.IsEnabled = true;
-
-				return;
-			}
-
 			try
 			{
+				if (!YoutubeClient.ValidateVideoId(videoUrl) && !YoutubeClient.TryParseVideoId(videoUrl, out videoUrl))
+				{
+					MessageBox.Show("The supplied video url or id is syntactically incorrect!");
+					return;
+				}
+
 				Video video = await YouTubeClient.GetVideoAsync(videoUrl);
+				if (video.Duration.Seconds == 0)
+				{
+					MessageBox.Show("Livestreams are not supported.");
+					return;
+				}
 
 				this.Media = new InputMedia(video);
 				this.Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
@@ -91,7 +93,7 @@ namespace Schrabber.Windows
 			}
 			finally
 			{
-				this.LoadButton.IsEnabled = false;
+				this.LoadButton.IsEnabled = true;
 			}
 		}
 	}
