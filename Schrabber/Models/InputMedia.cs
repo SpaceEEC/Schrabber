@@ -14,10 +14,11 @@ namespace Schrabber.Models
 	internal class InputMedia : IInputMedia
 	{
 		public BitmapImage CoverImage { get; set; } = null;
-		public string Title { get; set; } = "";
-		public string Author { get; set; } = "";
+		public String Album { get; set; } = "";
+		public String Title { get; set; } = "";
+		public String Author { get; set; } = "";
 		public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(0);
-		public string Description { get; set; } = "";
+		public String Description { get; set; } = "";
 
 		private IPart[] _parts = null;
 		public IPart[] Parts
@@ -26,7 +27,7 @@ namespace Schrabber.Models
 			set
 			{
 				if (value == null || value.Length == 0)
-					this._parts = new IPart[] { this._getDefault() };
+					this._parts = new IPart[] { new Part(this) };
 				else
 					this._parts = value;
 			}
@@ -50,8 +51,9 @@ namespace Schrabber.Models
 			)?.Data.Data;
 			this.Duration = file.Properties.Duration;
 			this.Description = file.Tag.Comment;
+			this.Album = file.Tag.Album;
 
-			this._parts = new IPart[] { this._getDefault() };
+			this._parts = new IPart[] { new Part(this) };
 
 			if (bytes == null || bytes.Length == 0) return;
 			using (MemoryStream ms = new MemoryStream(bytes))
@@ -67,7 +69,7 @@ namespace Schrabber.Models
 			this.Duration = video.Duration;
 			this.Description = video.Description;
 
-			this._parts = new IPart[] { this._getDefault() };
+			this._parts = new IPart[] { new Part(this) };
 
 			this.SetImage(new Uri(video.Thumbnails.HighResUrl));
 		}
@@ -96,7 +98,7 @@ namespace Schrabber.Models
 
 		public async Task<MemoryStream> GetMemoryStreamAsync(IProgress<Double> progress = null, CancellationToken token = default(CancellationToken))
 		{
-			if (this._disposed) throw new InvalidOperationException("This IInputMedia was already disposed.");
+			if (this._disposed) throw new InvalidOperationException("This InputMedia was already disposed.");
 
 			if (this._ms != null) return this._ms;
 
@@ -114,17 +116,7 @@ namespace Schrabber.Models
 					.ConfigureAwait(false);
 			}
 
-			throw new InvalidOperationException("This IInputMedia has neither a file nor video to get.");
-		}
-
-		private IPart _getDefault()
-		{
-			return new Part()
-			{
-				Author = Author,
-				Start = TimeSpan.FromSeconds(0),
-				Title = Title,
-			};
+			throw new InvalidOperationException("This InputMedia has neither a file nor video to get.");
 		}
 	}
 }

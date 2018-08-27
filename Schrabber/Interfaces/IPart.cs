@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace Schrabber.Interfaces
 {
@@ -8,17 +9,24 @@ namespace Schrabber.Interfaces
 	public interface IPart
 	{
 		/// <summary>
+		/// The parent of this IPart.
+		/// </summary>
+		IInputMedia Parent { get; set; }
+
+		/// <summary>
+		/// The cover of this part, if null defaults to the associated IInputMedia's image.
+		/// </summary>
+		BitmapImage CoverImage { get; set; }
+		
+		/// <summary>
 		/// The absolute position where this IPart starts.
 		/// </summary>
 		TimeSpan Start { get; set; }
 
 		/// <summary>
 		/// The absolute position where this IPart stops.
-		/// 
-		/// Note:
-		///   Can be null if to the end.
 		/// </summary>
-		TimeSpan? Stop { get; set; }
+		TimeSpan Stop { get; set; }
 
 		/// <summary>
 		/// The title of this IPart.

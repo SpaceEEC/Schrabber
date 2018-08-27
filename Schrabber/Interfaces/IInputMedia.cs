@@ -21,6 +21,11 @@ namespace Schrabber.Interfaces
 		BitmapImage CoverImage { get; set; }
 
 		/// <summary>
+		/// Initial album of this IInputMedia.
+		/// </summary>
+		String Album { get; set; }
+
+		/// <summary>
 		/// Initial title of this IInputMedia.
 		/// </summary>
 		String Title { get; set; }
