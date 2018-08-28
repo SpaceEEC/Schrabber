@@ -105,7 +105,7 @@
     <Compile Include="Helpers\Ffmpeg.cs" />
     <Compile Include="Models\FileStreamAbstraction.cs" />
     <Compile Include="Models\InputMedia.cs" />
-    <Compile Include="Models\ProgressWindow_Splitter.cs" />
+    <Compile Include="Windows\ProgressWindow_Splitter.cs" />
     <Compile Include="Models\Part.cs" />
     <Compile Include="Rules\StartStopInRangeRule.cs" />
     <Compile Include="Windows\InputListWindow.xaml.cs">
