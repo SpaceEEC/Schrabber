@@ -37,7 +37,7 @@ namespace Schrabber.Windows
 			CollectionViewSource
 				.GetDefaultView(this._listItems)
 				.SortDescriptions
-				.Add(new SortDescription("stop", ListSortDirection.Ascending));
+				.Add(new SortDescription("Start", ListSortDirection.Ascending));
 			
 		}
 
