@@ -9,9 +9,28 @@
         xmlns:rules="clr-namespace:Schrabber.Rules"
         mc:Ignorable="d"
         Title="PartWindow"
-        Height="208"
-        Width="800"
+        Height="220"
+        Width="900"
 >
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <AdornedElementPlaceholder x:Name="textBox"/>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -91,6 +110,7 @@
                     HorizontalContentAlignment="Center"
                     Margin="5"
                 />
+
                 <TextBox Grid.Column="1"
                     VerticalContentAlignment="Center"
                     Margin="5"
@@ -200,8 +220,8 @@
                     </TextBox.Text>
                 </TextBox>
             </Grid>
-            
-            <!-- Confirm -->
+
+            <!-- Confirm  | Cancel -->
             <Grid Grid.Column="2" Grid.Row="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
