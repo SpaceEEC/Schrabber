@@ -74,20 +74,10 @@ namespace Schrabber.Models
 			this.SetImage(new Uri(video.Thumbnails.HighResUrl));
 		}
 
-		public void SetImage(Stream stream) => this._setImage(stream: stream);
-		public void SetImage(Uri uri) => this._setImage(uri: uri);
+		public void SetImage(Stream stream) => this.CoverImage = ImageHelpers.ResolveBitmapImage(stream: stream);
+		public void SetImage(Uri uri) => this.CoverImage = ImageHelpers.ResolveBitmapImage(uri: uri);
 
-		private void _setImage(Stream stream = null, Uri uri = null)
-		{
-			this.CoverImage = new BitmapImage();
-			this.CoverImage.BeginInit();
-			this.CoverImage.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-			this.CoverImage.CacheOption = BitmapCacheOption.OnLoad;
-			this.CoverImage.StreamSource = stream;
-			this.CoverImage.UriSource = uri;
-			this.CoverImage.EndInit();
-			if (this.CoverImage.CanFreeze) this.CoverImage.Freeze();
-		}
+
 
 		public void Dispose()
 		{

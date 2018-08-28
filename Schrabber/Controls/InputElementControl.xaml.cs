@@ -59,7 +59,7 @@ namespace Schrabber.Controls
 			{
 				if (i + 1 == parts.Length)
 				{
-					parts[i].Stop = null;
+					parts[i].Stop = Media.Duration;
 					break;
 				}
 

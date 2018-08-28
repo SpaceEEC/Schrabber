@@ -94,7 +94,10 @@
     <Compile Include="Controls\YouTubePlaylistElementControl.xaml.cs">
       <DependentUpon>YouTubePlaylistElementControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\EmptyStringToBooleanConverter.cs" />
+    <Compile Include="Converters\IndexToBooleanConverter.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Helpers\ImageHelpers.cs" />
     <Compile Include="Helpers\OpenFileDialogFactory.cs" />
     <Compile Include="Interfaces\IInputMedia.cs" />
     <Compile Include="Interfaces\IPart.cs" />
@@ -106,6 +109,9 @@
     <Compile Include="Models\Part.cs" />
     <Compile Include="Windows\InputListWindow.xaml.cs">
       <DependentUpon>InputListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PartWindow.xaml.cs">
+      <DependentUpon>PartWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
@@ -136,6 +142,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\PartWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\ProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
