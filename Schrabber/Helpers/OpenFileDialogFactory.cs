@@ -27,12 +27,13 @@ namespace Schrabber.Helpers
 		public const String Ogg = "OGG (*.ogg *.ogv *.oga *.ogx *.ogm *.spx *.opus)|" +
 			"*.ogg; *.ogv; *.oga; *.ogx; *.ogm; *.spx; *.opus";
 		public const String Aac = "AAC (*.aac)|*.aac";
-		public const String Flv = "FLV Flash video format (*.flv)|*.flv";
-		public const String Avi = "AVI AVI format (*.avi)|*.avi";
+		public const String Flv = "FLV Flash Video Format (*.flv)|*.flv";
+		public const String Avi = "AVI AVI Format (*.avi)|*.avi";
+		public const String Flac = "FLAC FlAC Format (*.flac)|*.flac";
 		public const String AllVideoMusic = "Video and Music Files|" +
 			"*.webm; *.mpg; *.mpeg; *.mpg1; *.mp2; *.mp3; *.m1v; *.m1a; *m2a; *.mpa; *.mpv; *.mp4; *.m4a; *.m4p; *.m4b; *.m4r; *.m4v; " +
 			"*.mpg; *.mpeg; *.mpg1; *.mp2; *.mp3; *.m1v; *.m1a; *m2a; *.mpa; *.mpv; *.mp4; *.m4a; *.m4p; *.m4b; *.m4r; *.m4v; " +
-			"*.ogg; *.ogv; *.oga; *.ogx; *.ogm; *.spx; *.opus; *.acc; *.flv; *.avi";
+			"*.ogg; *.ogv; *.oga; *.ogx; *.ogm; *.spx; *.opus; *.acc; *.flv; *.avi; *.flac";
 		#endregion videos/music
 
 		/// <summary>
