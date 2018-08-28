@@ -14,9 +14,14 @@ namespace Schrabber.Interfaces
 		IInputMedia Parent { get; set; }
 
 		/// <summary>
-		/// The cover of this part, if null defaults to the associated IInputMedia's image.
+		/// The cover of this IPart, if not set defaults to the associated IInputMedia's image.
 		/// </summary>
 		BitmapImage CoverImage { get; set; }
+
+		/// <summary>
+		/// Whether this IPart has a custom CoverImage set.
+		/// </summary>
+		Boolean HasCoverImage { get; }
 		
 		/// <summary>
 		/// The absolute position where this IPart starts.
@@ -42,5 +47,11 @@ namespace Schrabber.Interfaces
 		/// The album this IPart is part of.
 		/// </summary>
 		String Album { get; set; }
+
+		/// <summary>
+		/// Gets an exact copy of this IPart.
+		/// </summary>
+		/// <returns></returns>
+		IPart GetCopy();
 	}
 }
