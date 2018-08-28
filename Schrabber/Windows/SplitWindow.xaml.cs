@@ -38,7 +38,6 @@ namespace Schrabber.Windows
 				.GetDefaultView(this._listItems)
 				.SortDescriptions
 				.Add(new SortDescription("Start", ListSortDirection.Ascending));
-			
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)

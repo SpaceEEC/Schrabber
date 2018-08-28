@@ -45,7 +45,6 @@ namespace Schrabber.Interfaces
 		/// </summary>
 		String Description { get; set; }
 
-
 		/// <summary>
 		/// An array of IParts this IInputMedia should be splitted into.
 		/// </summary>
