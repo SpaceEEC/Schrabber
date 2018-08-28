@@ -94,7 +94,7 @@
     <Compile Include="Controls\YouTubePlaylistElementControl.xaml.cs">
       <DependentUpon>YouTubePlaylistElementControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\EmptyStringToBooleanConverter.cs" />
+    <Compile Include="Rules\NotEmptyStringRule.cs" />
     <Compile Include="Converters\IndexToBooleanConverter.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Helpers\ImageHelpers.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Models\InputMedia.cs" />
     <Compile Include="Models\ProgressWindow_Splitter.cs" />
     <Compile Include="Models\Part.cs" />
+    <Compile Include="Rules\StartStopInRangeRule.cs" />
     <Compile Include="Windows\InputListWindow.xaml.cs">
       <DependentUpon>InputListWindow.xaml</DependentUpon>
     </Compile>

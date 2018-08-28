@@ -6,14 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schrabber.Windows"
         xmlns:converters="clr-namespace:Schrabber.Converters"
+        xmlns:rules="clr-namespace:Schrabber.Rules"
         mc:Ignorable="d"
         Title="PartWindow"
         Height="208"
         Width="800"
 >
-    <Window.Resources>
-        <converters:EmptyStringToBooleanConverter x:Key="EmptyStringToBooleanConverter"/>
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -44,6 +42,13 @@
         </Image>
 
         <Grid Grid.Column="1">
+            <Grid.CommandBindings>
+                <CommandBinding
+                    Command="New"
+                    CanExecute="CanConfirm"
+                    Executed="ExecuteConfirm"
+                />
+            </Grid.CommandBindings>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -87,11 +92,26 @@
                     Margin="5"
                 />
                 <TextBox Grid.Column="1"
-                    Text="{Binding ElementName=Window, Path=Part.Title, Mode=TwoWay}"
                     VerticalContentAlignment="Center"
                     Margin="5"
                     x:Name="Title_TextBox"
-                />
+                    Validation.Error="ValidationError"
+                >
+                    <TextBox.Text>
+                        <Binding
+                            ElementName="Window"
+                            Path="Part.Title"
+                            Mode="TwoWay"
+                            ValidatesOnDataErrors="True"
+                            NotifyOnValidationError="True"
+                        >
+                            <Binding.ValidationRules>
+                                <rules:NotEmptyStringRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                    
+                </TextBox>
             </Grid>
 
             <!-- Album -->
@@ -125,11 +145,26 @@
                     Margin="5"
                 />
                 <TextBox Grid.Column="1"
-                    Text="{Binding ElementName=Window, Path=Part.Start, Mode=TwoWay, StringFormat=hh\\:mm\\:ss}"
                     VerticalContentAlignment="Center"
                     Margin="5"
                     Name="StartTextBox"
-                />
+                    Validation.Error="ValidationError"
+                >
+                    <TextBox.Text>
+                        <Binding 
+                            ElementName="Window"
+                            Path="Part.Start"
+                            Mode="TwoWay"
+                            StringFormat="hh\:mm\:ss"
+                            ValidatesOnDataErrors="True"
+                            NotifyOnValidationError="True"
+                        >
+                            <Binding.ValidationRules>
+                                <rules:StartStopInRangeRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
 
             <!-- Stop -->
@@ -144,11 +179,26 @@
                     Margin="5"
                 />
                 <TextBox Grid.Column="1"
-                    Text="{Binding ElementName=Window, Path=Part.Stop, Mode=TwoWay, StringFormat=hh\\:mm\\:ss}"
                     VerticalContentAlignment="Center"
                     Margin="5"
                     Name="StopTextBox"
-                />
+                    Validation.Error="ValidationError"
+                >
+                    <TextBox.Text>
+                        <Binding 
+                            ElementName="Window"
+                            Path="Part.Stop"
+                            Mode="TwoWay"
+                            StringFormat="hh\:mm\:ss"
+                            ValidatesOnDataErrors="True"
+                            NotifyOnValidationError="True"
+                        >
+                            <Binding.ValidationRules>
+                                <rules:StartStopInRangeRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             
             <!-- Confirm -->
@@ -161,8 +211,7 @@
                     Content="Confirm"
                     Margin="5"
                     IsDefault="True"
-                    IsEnabled="{Binding ElementName=Title_TextBox, Path=Text, Converter={StaticResource EmptyStringToBooleanConverter}}"
-                    Click="DefaultButton_Click"
+                    Command="New"
                 />
 
                 <Button Grid.Column="1"

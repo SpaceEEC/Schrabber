@@ -2,9 +2,11 @@
 using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Schrabber.Windows
 {
@@ -13,6 +15,8 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class PartWindow : Window
 	{
+		private Int32 _errors = 0;
+
 		public IPart Part { get; }
 		public PartWindow(IPart part)
 		{
@@ -22,39 +26,25 @@ namespace Schrabber.Windows
 			this.RemoveCover_MenuItem.IsEnabled = part.HasCoverImage;
 		}
 
-		private void DefaultButton_Click(object sender, RoutedEventArgs e)
+		private void ValidationError(object sender, ValidationErrorEventArgs e)
 		{
-			if (TimeSpan.TryParse(StartTextBox.Text, out TimeSpan start))
-			{ 
-				if (start < TimeSpan.FromSeconds(0))
-				{
-					MessageBox.Show("\"Start\" may not be negative.");
-
-					return;
-				}
-
-			}
+			if (e.Action == ValidationErrorEventAction.Added)
+				++this._errors;
 			else
-			{
-				MessageBox.Show("Parsing of \"Start\" failed, make sure it's a valid time.");
-
-				return;
-			}
-			if (TimeSpan.TryParse(StopTextBox.Text, out TimeSpan stop))
-			{
-				if (this.Part.Parent.Duration < stop)
-				{
-					MessageBox.Show("\"Stop\" may not be greater than the original duration of the media.");
-					return;
-				}
-
-				DialogResult = true;
-			}
-			else
-			{
-				MessageBox.Show("Parsing of \"Stop\" failed, make sure it's a valid time.");
-			}
+				--this._errors;
 		}
+		private void CanConfirm(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = this._errors == 0;
+			e.Handled = true;
+		}
+
+		private void ExecuteConfirm(object sender, ExecutedRoutedEventArgs e)
+		{
+			DialogResult = true;
+			e.Handled = true;
+		}
+
 		private void SetCover_Click(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog ofd = OpenFileDialogFactory.GetImageFileDialog();
