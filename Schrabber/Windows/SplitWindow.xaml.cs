@@ -33,9 +33,12 @@ namespace Schrabber.Windows
 			this.InitializeComponent();
 
 			this._media = input;
-			this._listItems = new ObservableCollection<IPart>(input.Parts);
-
-			this.PartsListBox.ItemsSource = this._listItems;
+			this.PartsListBox.ItemsSource = this._listItems = new ObservableCollection<IPart>(input.Parts);
+			CollectionViewSource
+				.GetDefaultView(this._listItems)
+				.SortDescriptions
+				.Add(new SortDescription("stop", ListSortDirection.Ascending));
+			
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)

@@ -9,12 +9,6 @@
         Title="Split" Height="450" Width="800">
     <Window.Resources>
         <local:IndexToBooleanConverter x:Key="IndexToBooleanConverter"/>
-
-        <CollectionViewSource x:Key="cvs">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Start" Direction="Ascending"/>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,7 +19,6 @@
         <ListBox Grid.Column="0"
             Name="PartsListBox"
             Margin="10,10,10,10"
-            ItemsSource="{Binding Source={StaticResource cvs}}"
             MouseDoubleClick="PartsListBox_MouseDoubleClick"
         >
             <ListBox.ItemTemplate>
