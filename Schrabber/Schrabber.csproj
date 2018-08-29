@@ -91,9 +91,7 @@
     <Compile Include="Controls\InputElementControl.xaml.cs">
       <DependentUpon>InputElementControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\YouTubePlaylistElementControl.xaml.cs">
-      <DependentUpon>YouTubePlaylistElementControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Converters\IInputMediaToStringConverter.cs" />
     <Compile Include="Rules\NotEmptyStringRule.cs" />
     <Compile Include="Converters\IndexToBooleanConverter.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -128,10 +126,6 @@
     </Compile>
     <Compile Include="Helpers\YouTubeClient.cs" />
     <Page Include="Controls\InputElementControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\YouTubePlaylistElementControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

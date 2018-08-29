@@ -26,7 +26,7 @@ namespace Schrabber.Windows
 			if (window.ShowDialog() != true) return;
 
 
-			foreach (IInputMedia media in window.SelectedMedias)
+			foreach (IInputMedia media in window.Medias)
 				this.AddChildElement(new InputElementControl(media, this));
 		}
 

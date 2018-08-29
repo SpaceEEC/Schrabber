@@ -4,8 +4,11 @@ using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using YoutubeExplode;
 using YoutubeExplode.Exceptions;
 using YoutubeExplode.Models;
@@ -19,22 +22,21 @@ namespace Schrabber.Windows
 	{
 
 		/// <summary>
-		/// IEnumerable of, from the user, selected IInputMedias.
+		/// IEnumerable of to be imported IInputMedias.
 		/// </summary>
-		public IEnumerable<IInputMedia> SelectedMedias
+		public IEnumerable<IInputMedia> Medias => this._listItems.AsEnumerable();
+
+		private ObservableCollection<IInputMedia> _listItems = new ObservableCollection<IInputMedia>();
+
+		public YouTubePlaylistWindow()
 		{
-			get =>
-				this.PlaylistElementStackPanel
-					.Children
-					.OfType<YouTubePlaylistElementControl>()
-					.Where(c => c.Keep)
-					.Select(c => c.Media);
+			this.InitializeComponent();
+			this.VideosListBox.ItemsSource = _listItems;
 		}
-		public YouTubePlaylistWindow() => this.InitializeComponent();
 
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)
 		{
-			this.PlaylistElementStackPanel.Children.Clear();
+			this._listItems.Clear();
 			this.LoadButton.IsEnabled = false;
 			this.DefaultButton.IsEnabled = false;
 
@@ -53,8 +55,7 @@ namespace Schrabber.Windows
 				Playlist playlist = await YouTubeClient.GetPlaylistAsync(playlistUrl);
 
 				foreach (Video video in playlist.Videos)
-					this.PlaylistElementStackPanel.Children.Add(new YouTubePlaylistElementControl(new InputMedia(video)));
-
+					this._listItems.Add(new InputMedia(video));
 			}
 			catch (VideoUnavailableException ex)
 			{
@@ -75,10 +76,14 @@ namespace Schrabber.Windows
 			}
 		}
 
-		private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+		private void ConfirmButton_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
+
+		private void VideosListBox_MouseDoubleClick(Object sender, MouseButtonEventArgs e)
 		{
-			this.DialogResult = true;
-			this.Close();
+			if (!(((ListBox)sender).SelectedItem is IInputMedia media)) return;
+			new YouTubeVideoWindow(media).ShowDialog();
 		}
+
+		private void VideoRemoveButton_Click(Object sender, EventArgs e) => this._listItems.Remove((IInputMedia)((Button)sender).DataContext);
 	}
 }
