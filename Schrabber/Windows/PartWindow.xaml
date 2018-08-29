@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="PartWindow"
         Height="220"
-        Width="900"
+        Width="800"
 >
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -18,8 +18,8 @@
                 <Setter.Value>
                     <ControlTemplate>
                         <StackPanel>
+                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" Padding="0,0,0,5" />
                             <AdornedElementPlaceholder x:Name="textBox"/>
-                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
