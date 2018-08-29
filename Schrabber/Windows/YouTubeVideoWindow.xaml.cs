@@ -20,6 +20,13 @@ namespace Schrabber.Windows
 		/// </summary>
 		public IInputMedia Media { get; private set; }
 
+		public YouTubeVideoWindow(IInputMedia media)
+		{
+			this.InitializeComponent();
+			this.Media = media;
+			this._setValues();
+			this.TitleBarGrid.IsEnabled = false;
+		}
 		public YouTubeVideoWindow()
 		{
 			this.InitializeComponent();
@@ -40,11 +47,7 @@ namespace Schrabber.Windows
 		private void Window_SizeChanged(object sender, RoutedEventArgs e)
 			=> this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
 
-		private void DefaultButton_Click(object sender, RoutedEventArgs e)
-		{
-			this.DialogResult = true;
-			this.Close();
-		}
+		private void DefaultButton_Click(object sender, RoutedEventArgs e) => this.DialogResult = true;
 
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -70,11 +73,8 @@ namespace Schrabber.Windows
 
 				this.Media = new InputMedia(video);
 				this.Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
-				this.ThumbnailImage.Source = this.Media.CoverImage;
 
-				this.LabelTitle.Content = video.Title;
-				this.LabelDuration.Content = video.Duration.ToString();
-				this.DescriptionTextBox.Text = video.Description;
+				this._setValues();
 				this.InputTextBox.Text = video.GetUrl();
 
 				this.DefaultButton.IsEnabled = true;
@@ -95,6 +95,13 @@ namespace Schrabber.Windows
 			{
 				this.LoadButton.IsEnabled = true;
 			}
+		}
+		private void _setValues()
+		{
+			this.ThumbnailImage.Source = this.Media.CoverImage;
+			this.LabelTitle.Content = this.Media.Title;
+			this.LabelDuration.Content = this.Media.Duration.ToString();
+			this.DescriptionTextBox.Text = this.Media.Description;
 		}
 	}
 }
