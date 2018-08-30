@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Schrabber.Converters"
+        x:Name="window"
         x:Class="Schrabber.Windows.InputListWindow"
         mc:Ignorable="d"
         Title="InputListWindow"
@@ -12,6 +13,7 @@
     <Window.Resources>
         <converters:IInputMediaToStringConverter x:Key="IInputMediaToStringConverter"/>
         <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+        <converters:ZeroToBooleanConverter x:Key="ZeroToBooleanConverter"/>
     </Window.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -25,6 +27,7 @@
             ScrollViewer.CanContentScroll="True"
             x:Name="InputListBox"
             MouseDoubleClick="InputListBox_MouseDoubleClick"
+            ItemsSource="{Binding ListItems, ElementName=window}"
          >
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -137,7 +140,7 @@
                 x:Name="ResetButton"
                 Click="ResetButton_Click"
                 Margin="10,5,10,5"
-                IsEnabled="False"
+                IsEnabled="{Binding ListItems.Count, ElementName=window, Converter={StaticResource ZeroToBooleanConverter}}"
             />
 
             <Button
@@ -154,7 +157,7 @@
                 x:Name="StartButton"
                 Click="StartButton_Click"
                 Margin="10,5,10,5"
-                IsEnabled="False"
+                IsEnabled="{Binding ListItems.Count, ElementName=window, Converter={StaticResource ZeroToBooleanConverter}}"
             />
         </Grid>
     </Grid>

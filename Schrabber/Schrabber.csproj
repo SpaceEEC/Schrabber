@@ -90,6 +90,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\IInputMediaToStringConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\ZeroToBooleanConverter.cs" />
     <Compile Include="Rules\NotEmptyStringRule.cs" />
     <Compile Include="Converters\IndexToBooleanConverter.cs" />
     <Compile Include="Extensions\Extensions.cs" />

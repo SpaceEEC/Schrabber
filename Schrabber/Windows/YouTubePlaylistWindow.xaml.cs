@@ -19,23 +19,29 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class YouTubePlaylistWindow : Window
 	{
+		public static DependencyProperty ListItemsProperty = DependencyProperty.Register(
+			nameof(ListItems),
+			typeof(ObservableCollection<IInputMedia>),
+			typeof(YouTubePlaylistWindow),
+			new PropertyMetadata(new ObservableCollection<IInputMedia>())
+		);
 
 		/// <summary>
 		/// IEnumerable of to be imported IInputMedias.
 		/// </summary>
-		public IEnumerable<IInputMedia> Medias => this._listItems.AsEnumerable();
+		public IEnumerable<IInputMedia> Medias => this.ListItems.AsEnumerable();
 
-		private ObservableCollection<IInputMedia> _listItems = new ObservableCollection<IInputMedia>();
-
-		public YouTubePlaylistWindow()
+		private ObservableCollection<IInputMedia> ListItems
 		{
-			this.InitializeComponent();
-			this.VideosListBox.ItemsSource = this._listItems;
+			get => (ObservableCollection<IInputMedia>)this.GetValue(ListItemsProperty);
+			set => this.SetValue(ListItemsProperty, value);
 		}
+
+		public YouTubePlaylistWindow() => this.InitializeComponent();
 
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)
 		{
-			this._listItems.Clear();
+			this.ListItems.Clear();
 			this.LoadButton.IsEnabled = false;
 			this.DefaultButton.IsEnabled = false;
 
@@ -54,7 +60,7 @@ namespace Schrabber.Windows
 				Playlist playlist = await YouTubeClient.GetPlaylistAsync(playlistUrl);
 
 				foreach (Video video in playlist.Videos)
-					this._listItems.Add(new InputMedia(video));
+					this.ListItems.Add(new InputMedia(video));
 			}
 			catch (VideoUnavailableException ex)
 			{
@@ -83,6 +89,6 @@ namespace Schrabber.Windows
 			new YouTubeVideoWindow(media).ShowDialog();
 		}
 
-		private void VideoRemoveButton_Click(Object sender, EventArgs e) => this._listItems.Remove((IInputMedia)((Button)sender).DataContext);
+		private void VideoRemoveButton_Click(Object sender, EventArgs e) => this.ListItems.Remove((IInputMedia)((Button)sender).DataContext);
 	}
 }

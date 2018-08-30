@@ -17,33 +17,42 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class SplitWindow : Window
 	{
+		public static DependencyProperty ListItemsProperty = DependencyProperty.Register(
+			nameof(ListItems),
+			typeof(ObservableCollection<IPart>),
+			typeof(SplitWindow),
+			new PropertyMetadata(new ObservableCollection<IPart>())
+		);
+
 		/// <summary>
 		/// IEnumerable of IParts the user separated the IInputmedia into.
 		/// </summary>
 		public IEnumerable<IPart> Parts
 		{
-			get => this._listItems.OrderBy(p => p.Start);
+			get => this.ListItems.OrderBy(p => p.Start);
 		}
 
 		private readonly IInputMedia _media;
-		private readonly ObservableCollection<IPart> _listItems;
+
+		private ObservableCollection<IPart> ListItems
+		{
+			get => (ObservableCollection<IPart>)this.GetValue(ListItemsProperty);
+			set => this.SetValue(ListItemsProperty, value);
+		}
 
 		public SplitWindow(IInputMedia input)
 		{
 			this.InitializeComponent();
 
 			this._media = input;
-			this.PartsListBox.ItemsSource = this._listItems = new ObservableCollection<IPart>(input.Parts);
-			CollectionViewSource
-				.GetDefaultView(this._listItems)
-				.SortDescriptions
-				.Add(new SortDescription("Start", ListSortDirection.Ascending));
+			foreach (IPart part in input.Parts)
+				ListItems.Add(part);
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)
 		{
 			IPart prev = null;
-			foreach (IPart row in this._listItems)
+			foreach (IPart row in this.ListItems)
 			{
 				if (prev != null)
 				{
@@ -75,10 +84,10 @@ namespace Schrabber.Windows
 			PartWindow window = new PartWindow(new Part(this._media));
 			if (window.ShowDialog() != true) return;
 
-			this._listItems.Add(window.Part);
+			this.ListItems.Add(window.Part);
 		}
 
-		private void RemovePartButton_Click(object sender, RoutedEventArgs e) => this._listItems.Remove((IPart)this.PartsListBox.SelectedItem);
+		private void RemovePartButton_Click(object sender, RoutedEventArgs e) => this.ListItems.Remove((IPart)this.PartsListBox.SelectedItem);
 		private void PartsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e) => this._doEdit((IPart)this.PartsListBox.SelectedItem);
 		private void EditPartButton_Click(object sender, RoutedEventArgs e) => this._doEdit((IPart)this.PartsListBox.SelectedItem);
 		private void _doEdit(IPart original)
@@ -88,8 +97,8 @@ namespace Schrabber.Windows
 			PartWindow window = new PartWindow(copy);
 			if (window.ShowDialog() != true) return;
 
-			this._listItems.Remove(original);
-			this._listItems.Add(copy);
+			this.ListItems.Remove(original);
+			this.ListItems.Add(copy);
 		}
 	}
 }

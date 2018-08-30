@@ -19,14 +19,23 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class InputListWindow : Window
 	{
-		private String _folderPath = null;
-		private ObservableCollection<IInputMedia> _listItems = new ObservableCollection<IInputMedia>();
+		public static DependencyProperty ListItemsProperty = DependencyProperty.Register(
+			nameof(ListItems),
+			typeof(ObservableCollection<IInputMedia>),
+			typeof(InputListWindow),
+			new PropertyMetadata(new ObservableCollection<IInputMedia>())
+		);
 
-		public InputListWindow()
+		private ObservableCollection<IInputMedia> ListItems
 		{
-			this.InitializeComponent();
-			this.InputListBox.ItemsSource = this._listItems;
+			get => (ObservableCollection<IInputMedia>)this.GetValue(ListItemsProperty);
+			set => this.SetValue(ListItemsProperty, value);
 		}
+
+		private String _folderPath = null;
+
+		public InputListWindow() => this.InitializeComponent();
+
 		private void PlaylistButton_Click(Object sender, RoutedEventArgs e)
 		{
 			YouTubePlaylistWindow window = new YouTubePlaylistWindow();
@@ -34,7 +43,7 @@ namespace Schrabber.Windows
 
 
 			foreach (IInputMedia media in window.Medias)
-				this.AddMedia(media);
+				this.ListItems.Add(media);
 		}
 
 		private void VideoButton_Click(Object sender, RoutedEventArgs e)
@@ -42,7 +51,7 @@ namespace Schrabber.Windows
 			YouTubeVideoWindow window = new YouTubeVideoWindow();
 			if (window.ShowDialog() != true) return;
 
-			this.AddMedia(window.Media);
+			this.ListItems.Add(window.Media);
 		}
 
 		private void FileButton_Click(Object sender, RoutedEventArgs e)
@@ -70,31 +79,17 @@ namespace Schrabber.Windows
 					this.Dispatcher.Invoke(() =>
 					{
 						foreach (Task<IInputMedia> media in medias)
-							this.AddMedia(media.Result);
+							this.ListItems.Add(media.Result);
 					})
 			);
 		}
 
 		#region SideGrid
-		private void RemoveMedia(IInputMedia media)
-		{
-			this._listItems.Remove(media);
-			media.Dispose();
-			this.StartButton.IsEnabled = this.ResetButton.IsEnabled = this._listItems.Count != 0;
-		}
-
-		private void AddMedia(IInputMedia media)
-		{
-			this._listItems.Add(media);
-			this.StartButton.IsEnabled = true;
-			this.ResetButton.IsEnabled = true;
-		}
-
 		private async void StartButton_Click(Object sender, RoutedEventArgs e)
 		{
 			this.MainGrid.IsEnabled = false;
 
-			IInputMedia[] media = this._listItems.ToArray();
+			IInputMedia[] media = this.ListItems.ToArray();
 
 			ProgressWindow window = new ProgressWindow(media)
 			{
@@ -135,32 +130,26 @@ namespace Schrabber.Windows
 				) != MessageBoxResult.Yes
 			) return;
 
-			IDisposable[] disposables = this._listItems.ToArray();
-			this._listItems.Clear();
+			IDisposable[] disposables = this.ListItems.ToArray();
+			this.ListItems.Clear();
 
 			foreach (IDisposable disposable in disposables)
 				disposable.Dispose();
 
-			this.StartButton.IsEnabled = false;
-			this.ResetButton.IsEnabled = false;
 		}
 		#endregion SideGrid
 
 		#region ElementGrid
-		private void DeleteButton_Click(Object sender, RoutedEventArgs e) => this.RemoveMedia((IInputMedia)((Button)sender).DataContext);
-
-		private void SplitButton_Click(Object sender, RoutedEventArgs e)
+		private void DeleteButton_Click(Object sender, RoutedEventArgs e)
 		{
-			Button button = (Button)sender;
-			IInputMedia media = (IInputMedia)button.DataContext;
-			this._doSplit(media);
+			IInputMedia media = (IInputMedia)((Button)sender).DataContext;
+			this.ListItems.Remove(media);
+			media.Dispose();
 		}
 
-		private void InputListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			ListBox listBox = (ListBox)sender;
-			this._doSplit((IInputMedia)listBox.SelectedItem);
-		}
+		private void SplitButton_Click(Object sender, RoutedEventArgs e) => this._doSplit((IInputMedia)((Button)sender).DataContext);
+
+		private void InputListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e) => this._doSplit((IInputMedia)((ListBox)sender).SelectedItem);
 
 		private void _doSplit(IInputMedia media)
 		{
