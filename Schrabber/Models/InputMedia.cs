@@ -2,8 +2,10 @@
 using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -13,12 +15,83 @@ namespace Schrabber.Models
 {
 	internal class InputMedia : IInputMedia
 	{
-		public BitmapImage CoverImage { get; set; } = null;
-		public String Album { get; set; } = "";
-		public String Title { get; set; } = "";
-		public String Author { get; set; } = "";
-		public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(0);
-		public String Description { get; set; } = "";
+		private BitmapImage _coverImage = null;
+		public BitmapImage CoverImage
+		{
+			get => this._coverImage;
+			set
+			{
+				if (this._coverImage == value) return;
+
+				this._coverImage = value;
+				this.NotifyPropertyChanged();
+			}
+		}
+
+		private String _album = String.Empty;
+		public String Album
+		{
+			get => this._album;
+			set
+			{
+				if (this._album == value) return;
+
+				this._album = value;
+				this.NotifyPropertyChanged();
+			}
+		}
+
+		private String _title = String.Empty;
+		public String Title
+		{
+			get => this._title;
+			set
+			{
+				if (this._title == value) return;
+
+				this._title = value;
+				this.NotifyPropertyChanged();
+			}
+		}
+
+		private String _author = String.Empty;
+		public String Author
+		{
+			get => this._author;
+			set
+			{
+				if (this._author == value) return;
+
+				this._author = value;
+				this.NotifyPropertyChanged();
+			}
+		}
+
+		private TimeSpan _duration = TimeSpan.Zero;
+		public TimeSpan Duration
+		{
+			get => this._duration;
+			set
+			{
+				if (this._duration == value) return;
+
+				this._duration = value;
+				this.NotifyPropertyChanged();
+			}
+		}
+
+		private String _description = String.Empty;
+		public String Description
+		{
+			get => this._description;
+			set
+			{
+				if (this._description == value) return;
+
+				this._description = value;
+				this.NotifyPropertyChanged();
+			}
+		}
 
 		private IPart[] _parts = null;
 		public IPart[] Parts
@@ -26,10 +99,13 @@ namespace Schrabber.Models
 			get => this._parts;
 			set
 			{
+				if (this._parts == value) return;
+
 				if (value == null || value.Length == 0)
 					this._parts = new IPart[] { new Part(this) };
 				else
 					this._parts = value;
+				this.NotifyPropertyChanged();
 			}
 		}
 
@@ -38,6 +114,7 @@ namespace Schrabber.Models
 
 		private readonly String _filePath;
 		private readonly String _videoId;
+
 
 		public InputMedia(String path, TagLib.File file)
 		{
@@ -77,15 +154,6 @@ namespace Schrabber.Models
 		public void SetImage(Stream stream) => this.CoverImage = ImageHelpers.ResolveBitmapImage(stream: stream);
 		public void SetImage(Uri uri) => this.CoverImage = ImageHelpers.ResolveBitmapImage(uri: uri);
 
-
-
-		public void Dispose()
-		{
-			if (this._disposed) return;
-			this._ms?.Dispose();
-			this._disposed = true;
-		}
-
 		public async Task<MemoryStream> GetMemoryStreamAsync(IProgress<Double> progress = null, CancellationToken token = default(CancellationToken))
 		{
 			if (this._disposed) throw new InvalidOperationException("This InputMedia was already disposed.");
@@ -108,5 +176,23 @@ namespace Schrabber.Models
 
 			throw new InvalidOperationException("This InputMedia has neither a file nor video to get.");
 		}
+
+		#region IDisposable
+		public void Dispose()
+		{
+			if (this._disposed) return;
+			this._ms?.Dispose();
+			this._disposed = true;
+		}
+		#endregion IDisposable
+
+		#region INotifyPropertyChanged
+		public event PropertyChangedEventHandler PropertyChanged;
+		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		{
+			if (this.PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+		#endregion INotifyPropertyChanged
 	}
 }

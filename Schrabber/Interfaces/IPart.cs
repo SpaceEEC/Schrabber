@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Media.Imaging;
 
 namespace Schrabber.Interfaces
@@ -6,7 +7,7 @@ namespace Schrabber.Interfaces
 	/// <summary>
 	/// Interface for parts of audio tracks.
 	/// </summary>
-	public interface IPart
+	public interface IPart : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// The parent of this IPart.

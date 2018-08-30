@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Schrabber.Interfaces
 	///   Classes implementing this interface should cache the stream once fetched
 	///   and dispose of it with the IDisposable implementation.
 	/// </summary>
-	public interface IInputMedia : IDisposable
+	public interface IInputMedia : IDisposable, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// BitmapImage of the CoverImage of this IInputMedia.
