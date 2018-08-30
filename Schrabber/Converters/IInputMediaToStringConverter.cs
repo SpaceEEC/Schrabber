@@ -17,18 +17,26 @@ namespace Schrabber.Converters
 			if (!String.IsNullOrWhiteSpace(media.Author))
 				sb.Append(media.Author).Append(" - ");
 
-			String desc = Regex.Replace(media.Description, @"^\s*$\n|\r", String.Empty, RegexOptions.Multiline).Trim();
+			sb.AppendLine(media.Title);
 
-			sb
-				.AppendLine(media.Title)
-				.AppendLine()
-				.Append(desc);
+			if (media.Description != null)
+			{
+				sb
+					.AppendLine()
+					.Append(
+						Regex.Replace(
+							media.Description,
+							@"^\s*$\n|\r",
+							String.Empty,
+							RegexOptions.Multiline
+						).Trim()
+					);
+			}
 
 			if (sb.Length > 200) sb.Length = 200;
 
 			return sb.ToString();
 		}
-
 		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture) => throw new NotSupportedException();
 	}
 }
