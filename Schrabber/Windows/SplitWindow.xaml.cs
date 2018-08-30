@@ -1,13 +1,9 @@
 ﻿using Schrabber.Interfaces;
 using Schrabber.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Schrabber.Windows
@@ -46,7 +42,7 @@ namespace Schrabber.Windows
 
 			this._media = input;
 			foreach (IPart part in input.Parts)
-				ListItems.Add(part);
+				this.ListItems.Add(part);
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)

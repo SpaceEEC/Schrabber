@@ -2,7 +2,6 @@
 using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;

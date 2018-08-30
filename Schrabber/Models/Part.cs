@@ -37,7 +37,7 @@ namespace Schrabber.Models
 					this.NotifyPropertyChanged(nameof(this.HasCoverImage));
 			}
 		}
-		public Boolean HasCoverImage { get => this._coverImage != null;  }
+		public Boolean HasCoverImage { get => this._coverImage != null; }
 
 		private String _album = null;
 		public String Album
@@ -48,7 +48,7 @@ namespace Schrabber.Models
 				if (this._album == value) return;
 
 				this._album = value;
-				NotifyPropertyChanged();
+				this.NotifyPropertyChanged();
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace Schrabber.Models
 				if (this._author == value) return;
 
 				this._author = value;
-				NotifyPropertyChanged();
+				this.NotifyPropertyChanged();
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace Schrabber.Models
 				if (this._start == value) return;
 
 				this._start = value;
-				NotifyPropertyChanged();
+				this.NotifyPropertyChanged();
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace Schrabber.Models
 				if (this._stop == value) return;
 
 				this._stop = value;
-				NotifyPropertyChanged();
+				this.NotifyPropertyChanged();
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace Schrabber.Models
 				if (this._title == value) return;
 
 				this._title = value;
-				NotifyPropertyChanged();
+				this.NotifyPropertyChanged();
 			}
 		}
 

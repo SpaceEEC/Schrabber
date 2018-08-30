@@ -101,7 +101,7 @@ namespace Schrabber.Windows
 			{
 				await window.Run();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				MessageBox.Show(ex.ToString());
 				System.Diagnostics.Debug.WriteLine(ex);
@@ -135,7 +135,6 @@ namespace Schrabber.Windows
 
 			foreach (IDisposable disposable in disposables)
 				disposable.Dispose();
-
 		}
 		#endregion SideGrid
 

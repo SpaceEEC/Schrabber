@@ -23,7 +23,7 @@ namespace Schrabber.Helpers
 		)
 		{
 			MediaStreamInfoSet info = await _youTubeClient.GetVideoMediaStreamInfosAsync(videoId).ConfigureAwait(false);
-			AudioStreamInfo audioStreamInfo = info.Audio.WithHighestBitrate() 
+			AudioStreamInfo audioStreamInfo = info.Audio.WithHighestBitrate()
 				?? throw new Exception($"No audio stream found for {videoId}");
 
 			if (audioStreamInfo.Container.GetFileExtension() == "mp3" && start == TimeSpan.FromSeconds(0))

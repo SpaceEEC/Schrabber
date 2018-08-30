@@ -23,7 +23,7 @@ namespace Schrabber.Interfaces
 		/// Whether this IPart has a custom CoverImage set.
 		/// </summary>
 		Boolean HasCoverImage { get; }
-		
+
 		/// <summary>
 		/// The absolute position where this IPart starts.
 		/// </summary>
