@@ -1,4 +1,4 @@
-﻿using Schrabber.Helpers;
+using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;
@@ -23,7 +23,7 @@ namespace Schrabber.Windows
 			nameof(ListItems),
 			typeof(ObservableCollection<IInputMedia>),
 			typeof(YouTubePlaylistWindow),
-			new PropertyMetadata(new ObservableCollection<IInputMedia>())
+			new PropertyMetadata(null)
 		);
 
 		/// <summary>
@@ -37,8 +37,11 @@ namespace Schrabber.Windows
 			set => this.SetValue(ListItemsProperty, value);
 		}
 
-		public YouTubePlaylistWindow() => this.InitializeComponent();
-
+		public YouTubePlaylistWindow()
+		{
+			this.InitializeComponent();
+			this.ListItems = new ObservableCollection<IInputMedia>();
+		}
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)
 		{
 			this.ListItems.Clear();

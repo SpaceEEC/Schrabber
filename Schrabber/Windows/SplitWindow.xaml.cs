@@ -1,4 +1,4 @@
-﻿using Schrabber.Interfaces;
+using Schrabber.Interfaces;
 using Schrabber.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ namespace Schrabber.Windows
 			nameof(ListItems),
 			typeof(ObservableCollection<IPart>),
 			typeof(SplitWindow),
-			new PropertyMetadata(new ObservableCollection<IPart>())
+			new PropertyMetadata(null)
 		);
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Schrabber.Windows
 			this.InitializeComponent();
 
 			this._media = input;
-			foreach (IPart part in input.Parts)
+			this.ListItems = new ObservableCollection<IPart>(input.Parts);
 				this.ListItems.Add(part);
 		}
 

@@ -23,7 +23,7 @@ namespace Schrabber.Windows
 			nameof(ListItems),
 			typeof(ObservableCollection<IInputMedia>),
 			typeof(InputListWindow),
-			new PropertyMetadata(new ObservableCollection<IInputMedia>())
+			new PropertyMetadata(null)
 		);
 
 		private ObservableCollection<IInputMedia> ListItems
@@ -34,8 +34,11 @@ namespace Schrabber.Windows
 
 		private String _folderPath = null;
 
-		public InputListWindow() => this.InitializeComponent();
-
+		public InputListWindow()
+		{
+			this.InitializeComponent();
+			this.ListItems = new ObservableCollection<IInputMedia>();
+		}
 		private void PlaylistButton_Click(Object sender, RoutedEventArgs e)
 		{
 			YouTubePlaylistWindow window = new YouTubePlaylistWindow();
