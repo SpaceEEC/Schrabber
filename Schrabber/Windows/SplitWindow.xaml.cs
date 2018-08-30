@@ -1,4 +1,4 @@
-using Schrabber.Interfaces;
+﻿using Schrabber.Interfaces;
 using Schrabber.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,7 +42,6 @@ namespace Schrabber.Windows
 
 			this._media = input;
 			this.ListItems = new ObservableCollection<IPart>(input.Parts);
-				this.ListItems.Add(part);
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)
@@ -77,7 +76,10 @@ namespace Schrabber.Windows
 
 		private void NewPartButton_Click(object sender, RoutedEventArgs e)
 		{
-			PartWindow window = new PartWindow(new Part(this._media));
+			PartWindow window = new PartWindow()
+			{
+				Part = new Part(this._media)
+			};
 			if (window.ShowDialog() != true) return;
 
 			this.ListItems.Add(window.Part);
@@ -90,7 +92,10 @@ namespace Schrabber.Windows
 		{
 			if (original == null) return;
 			IPart copy = original.GetCopy();
-			PartWindow window = new PartWindow(copy);
+			PartWindow window = new PartWindow()
+			{
+				Part = copy
+			};
 			if (window.ShowDialog() != true) return;
 
 			this.ListItems.Remove(original);

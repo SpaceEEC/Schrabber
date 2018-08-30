@@ -1,4 +1,4 @@
-using Schrabber.Helpers;
+﻿using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;

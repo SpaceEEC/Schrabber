@@ -41,8 +41,15 @@
                             Name="ThumbnailImage"
                             HorizontalAlignment="Left"
                             Width="84"
-                            Source="{Binding CoverImage}"
-                        />
+                        >
+                            <Image.Source>
+                                <Binding Path="CoverImage">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>/Schrabber;component/resources/no_cover.jpg</ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
 
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>

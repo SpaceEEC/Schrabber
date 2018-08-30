@@ -14,16 +14,22 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class PartWindow : Window
 	{
+		public static readonly DependencyProperty PartProperty = DependencyProperty.Register(
+			nameof(Part),
+			typeof(IPart),
+			typeof(PartWindow),
+			new PropertyMetadata(null)
+		);
+
 		private Int32 _errors = 0;
 
-		public IPart Part { get; }
-		public PartWindow(IPart part)
+		public IPart Part
 		{
-			this.Part = part;
-			this.InitializeComponent();
-
-			this.RemoveCover_MenuItem.IsEnabled = part.HasCoverImage;
+			get => (IPart)this.GetValue(PartProperty);
+			set => this.SetValue(PartProperty, value);
 		}
+
+		public PartWindow() => this.InitializeComponent();
 
 		private void ValidationError(object sender, ValidationErrorEventArgs e)
 		{
@@ -53,16 +59,8 @@ namespace Schrabber.Windows
 
 			using (FileStream fs = new FileInfo(ofd.FileName).OpenRead())
 				this.Part.CoverImage = ImageHelpers.ResolveBitmapImage(stream: fs);
-
-			this.RemoveCover_MenuItem.IsEnabled = true;
-			this.CoverImage.Source = this.Part.CoverImage;
 		}
 
-		private void RemoveCover_Click(object sender, RoutedEventArgs e)
-		{
-			this.RemoveCover_MenuItem.IsEnabled = false;
-			this.Part.CoverImage = null;
-			this.CoverImage.Source = this.Part.Parent.CoverImage;
-		}
+		private void RemoveCover_Click(object sender, RoutedEventArgs e) => this.Part.CoverImage = null;
 	}
 }
