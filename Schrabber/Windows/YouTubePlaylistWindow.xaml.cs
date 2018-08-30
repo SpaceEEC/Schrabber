@@ -1,4 +1,4 @@
-using Schrabber.Helpers;
+﻿using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using Schrabber.Models;
 using System;
@@ -30,7 +30,7 @@ namespace Schrabber.Windows
 		public YouTubePlaylistWindow()
 		{
 			this.InitializeComponent();
-			this.VideosListBox.ItemsSource = _listItems;
+			this.VideosListBox.ItemsSource = this._listItems;
 		}
 
 		private async void LoadButton_Click(object sender, RoutedEventArgs e)

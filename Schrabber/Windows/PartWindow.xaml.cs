@@ -20,8 +20,8 @@ namespace Schrabber.Windows
 		public IPart Part { get; }
 		public PartWindow(IPart part)
 		{
-			Part = part;
-			InitializeComponent();
+			this.Part = part;
+			this.InitializeComponent();
 
 			this.RemoveCover_MenuItem.IsEnabled = part.HasCoverImage;
 		}
@@ -41,7 +41,7 @@ namespace Schrabber.Windows
 
 		private void ExecuteConfirm(object sender, ExecutedRoutedEventArgs e)
 		{
-			DialogResult = true;
+			this.DialogResult = true;
 			e.Handled = true;
 		}
 

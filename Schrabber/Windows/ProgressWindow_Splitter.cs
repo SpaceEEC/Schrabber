@@ -102,10 +102,10 @@ namespace Schrabber.Windows
 			file.Tag.Title = part.Title;
 			file.Tag.Performers = new[] { part.Author };
 			file.Tag.Album = part.Album;
-			if (CurrentMedia.CoverImage != null)
+			if (this.CurrentMedia.CoverImage != null)
 			{
 				JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-				encoder.Frames.Add(BitmapFrame.Create(CurrentMedia.CoverImage));
+				encoder.Frames.Add(BitmapFrame.Create(this.CurrentMedia.CoverImage));
 				using (MemoryStream imageMs = new MemoryStream())
 				{
 					encoder.Save(imageMs);

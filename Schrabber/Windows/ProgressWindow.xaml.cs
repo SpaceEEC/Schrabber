@@ -57,9 +57,9 @@ namespace Schrabber.Windows
 		{
 			this.InitializeComponent();
 
-			_media = media;
+			this._media = media;
 
-			this.MediaProgressBar.Maximum = _media.Length;
+			this.MediaProgressBar.Maximum = this._media.Length;
 		}
 
 		public void SetStep(String step)
@@ -89,6 +89,6 @@ namespace Schrabber.Windows
 
 		private void OpenFolderButton_Click(object sender, RoutedEventArgs e) => Process.Start(this.FolderPath);
 
-		void IProgress<Double>.Report(Double value) => Dispatcher.Invoke(() => this.StepProgressBar.Value = value * 100);
+		void IProgress<Double>.Report(Double value) => this.Dispatcher.Invoke(() => this.StepProgressBar.Value = value * 100);
 	}
 }
