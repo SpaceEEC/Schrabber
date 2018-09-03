@@ -83,18 +83,18 @@ namespace Schrabber.Models
 			this.Author = file.Tag.Performers.FirstOrDefault();
 			this.Title = String.IsNullOrWhiteSpace(file.Tag.Title) ? Path.GetFileNameWithoutExtension(file.Name) : file.Tag.Title;
 
-			byte[] bytes = (
-				file.Tag.Pictures.FirstOrDefault(p => p.Type == TagLib.PictureType.FrontCover)
-					?? file.Tag.Pictures.FirstOrDefault()
-			)?.Data.Data;
 			this.Duration = file.Properties.Duration;
 			this.Description = file.Tag.Comment;
 			this.Album = file.Tag.Album;
+			byte[] coverBytes = (
+				file.Tag.Pictures.FirstOrDefault(p => p.Type == TagLib.PictureType.FrontCover)
+					?? file.Tag.Pictures.FirstOrDefault()
+			)?.Data.Data;
 
 			this._parts = new IPart[] { new PartViewModel(this) };
 
-			if (bytes == null || bytes.Length == 0) return;
-			using (MemoryStream ms = new MemoryStream(bytes))
+			if (coverBytes == null || coverBytes.Length == 0) return;
+			using (MemoryStream ms = new MemoryStream(coverBytes))
 				this.SetImage(ms);
 		}
 
@@ -117,7 +117,7 @@ namespace Schrabber.Models
 
 		public async Task<MemoryStream> GetMemoryStreamAsync(IProgress<Double> progress = null, CancellationToken token = default(CancellationToken))
 		{
-			if (this._disposed) throw new InvalidOperationException("This InputMedia was already disposed.");
+			if (this._disposed) throw new InvalidOperationException($"This {nameof(ViewModelBase)} was already disposed.");
 
 			if (this._ms != null) return this._ms;
 
@@ -135,7 +135,7 @@ namespace Schrabber.Models
 					.ConfigureAwait(false);
 			}
 
-			throw new InvalidOperationException("This InputMedia has neither a file nor video to get.");
+			throw new InvalidOperationException($"This {nameof(ViewModelBase)} has neither a file nor video to get.");
 		}
 
 		#region IDisposable
