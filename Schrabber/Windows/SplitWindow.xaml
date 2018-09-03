@@ -5,11 +5,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        xmlns:local="clr-namespace:Schrabber.Converters"
+        xmlns:converters="clr-namespace:Schrabber.Converters"
+        xmlns:controls="clr-namespace:Schrabber.Controls"
         mc:Ignorable="d"
         Title="Split" Height="450" Width="800">
     <Window.Resources>
-        <local:IndexToBooleanConverter x:Key="IndexToBooleanConverter"/>
+        <converters:IndexToBooleanConverter x:Key="IndexToBooleanConverter"/>
         <CollectionViewSource x:Key="cvsListItems" Source="{Binding ListItems, ElementName=window}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Start" Direction="Ascending"/>
@@ -30,77 +31,7 @@
         >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Image
-                            Grid.Row="0"
-                            Name="ThumbnailImage"
-                            HorizontalAlignment="Left"
-                            Width="84"
-                        >
-                            <Image.Source>
-                                <Binding Path="CoverImage">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>/Schrabber;component/resources/no_cover.jpg</ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Grid.Row="1"
-                                Margin="10"
-                                Text="{Binding Author, StringFormat=Author: {0}}"
-                            />
-
-                            <TextBlock
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Margin="10"
-                                Text="{Binding Title, StringFormat=Title: {0}}"
-                            />
-
-                            <TextBlock
-                                Grid.Column="2"
-                                Grid.Row="1"
-                                Margin="10"
-                                Text="{Binding Album, StringFormat=Album: {0}}"
-                            />
-
-                            <TextBlock
-                                Grid.Column="0"
-                                Grid.Row="3"
-                                Margin="10"
-                                Text="{Binding Start, StringFormat=Start: {0:hh\\:mm\\:ss}}"
-                            />
-
-                            <TextBlock
-                                Grid.Column="1"
-                                Grid.Row="3"
-                                Margin="10"
-                                Text="{Binding Stop, StringFormat=Time: {0:hh\\:mm\\:ss}}"
-                            />
-                        </Grid>
-                    </Grid>
+                    <controls:PartViewModelControl/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\PartViewModelControl.xaml.cs">
+      <DependentUpon>PartViewModelControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\IInputMediaToStringConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\ZeroToBooleanConverter.cs" />
@@ -124,6 +128,10 @@
       <DependentUpon>YouTubeVideoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\YouTubeClient.cs" />
+    <Page Include="Controls\PartViewModelControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\InputListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
