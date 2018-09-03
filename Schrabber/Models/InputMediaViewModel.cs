@@ -2,10 +2,8 @@
 using Schrabber.Helpers;
 using Schrabber.Interfaces;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -13,84 +11,48 @@ using YoutubeExplode.Models;
 
 namespace Schrabber.Models
 {
-	internal class InputMedia : IInputMedia
+	internal class InputMediaViewModel : ViewModelBase, IInputMedia
 	{
 		private BitmapImage _coverImage = null;
 		public BitmapImage CoverImage
 		{
 			get => this._coverImage;
-			set
-			{
-				if (this._coverImage == value) return;
-
-				this._coverImage = value;
-				this.NotifyPropertyChanged();
-			}
+			set => this.SetProperty(ref this._coverImage, value);
 		}
 
 		private String _album = String.Empty;
 		public String Album
 		{
 			get => this._album;
-			set
-			{
-				if (this._album == value) return;
-
-				this._album = value;
-				this.NotifyPropertyChanged();
-			}
+			set => this.SetProperty(ref this._album, value);
 		}
 
 		private String _title = String.Empty;
 		public String Title
 		{
 			get => this._title;
-			set
-			{
-				if (this._title == value) return;
-
-				this._title = value;
-				this.NotifyPropertyChanged();
-			}
+			set => this.SetProperty(ref this._title, value);
 		}
 
 		private String _author = String.Empty;
 		public String Author
 		{
 			get => this._author;
-			set
-			{
-				if (this._author == value) return;
-
-				this._author = value;
-				this.NotifyPropertyChanged();
-			}
+			set => this.SetProperty(ref this._author, value);
 		}
 
 		private TimeSpan _duration = TimeSpan.Zero;
 		public TimeSpan Duration
 		{
 			get => this._duration;
-			set
-			{
-				if (this._duration == value) return;
-
-				this._duration = value;
-				this.NotifyPropertyChanged();
-			}
+			set => this.SetProperty(ref this._duration, value);
 		}
 
 		private String _description = String.Empty;
 		public String Description
 		{
 			get => this._description;
-			set
-			{
-				if (this._description == value) return;
-
-				this._description = value;
-				this.NotifyPropertyChanged();
-			}
+			set => this.SetProperty(ref this._description, value);
 		}
 
 		private IPart[] _parts = null;
@@ -102,10 +64,10 @@ namespace Schrabber.Models
 				if (this._parts == value) return;
 
 				if (value == null || value.Length == 0)
-					this._parts = new IPart[] { new Part(this) };
+					this._parts = new IPart[] { new PartViewModel(this) };
 				else
 					this._parts = value;
-				this.NotifyPropertyChanged();
+				this.OnPropertyChanged();
 			}
 		}
 
@@ -115,8 +77,7 @@ namespace Schrabber.Models
 		private readonly String _filePath;
 		private readonly String _videoId;
 
-
-		public InputMedia(String path, TagLib.File file)
+		public InputMediaViewModel(String path, TagLib.File file)
 		{
 			this._filePath = path;
 			this.Author = file.Tag.Performers.FirstOrDefault();
@@ -130,14 +91,14 @@ namespace Schrabber.Models
 			this.Description = file.Tag.Comment;
 			this.Album = file.Tag.Album;
 
-			this._parts = new IPart[] { new Part(this) };
+			this._parts = new IPart[] { new PartViewModel(this) };
 
 			if (bytes == null || bytes.Length == 0) return;
 			using (MemoryStream ms = new MemoryStream(bytes))
 				this.SetImage(ms);
 		}
 
-		public InputMedia(Video video)
+		public InputMediaViewModel(Video video)
 		{
 			this._videoId = video.Id;
 
@@ -146,7 +107,7 @@ namespace Schrabber.Models
 			this.Duration = video.Duration;
 			this.Description = video.Description;
 
-			this._parts = new IPart[] { new Part(this) };
+			this._parts = new IPart[] { new PartViewModel(this) };
 
 			this.SetImage(new Uri(video.Thumbnails.HighResUrl));
 		}
@@ -185,14 +146,5 @@ namespace Schrabber.Models
 			this._disposed = true;
 		}
 		#endregion IDisposable
-
-		#region INotifyPropertyChanged
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-		{
-			if (this.PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-		#endregion INotifyPropertyChanged
 	}
 }

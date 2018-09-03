@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -91,6 +91,7 @@
     <Compile Include="Converters\IInputMediaToStringConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\ZeroToBooleanConverter.cs" />
+    <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Rules\NotEmptyStringRule.cs" />
     <Compile Include="Converters\IndexToBooleanConverter.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -100,9 +101,9 @@
     <Compile Include="Interfaces\IPart.cs" />
     <Compile Include="Helpers\Ffmpeg.cs" />
     <Compile Include="Models\FileStreamAbstraction.cs" />
-    <Compile Include="Models\InputMedia.cs" />
+    <Compile Include="Models\InputMediaViewModel.cs" />
     <Compile Include="Windows\ProgressWindow_Splitter.cs" />
-    <Compile Include="Models\Part.cs" />
+    <Compile Include="Models\PartViewModel.cs" />
     <Compile Include="Rules\StartStopInRangeRule.cs" />
     <Compile Include="Windows\InputListWindow.xaml.cs">
       <DependentUpon>InputListWindow.xaml</DependentUpon>

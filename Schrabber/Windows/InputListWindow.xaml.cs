@@ -69,10 +69,10 @@ namespace Schrabber.Windows
 				ofd.FileNames.Select(fileName =>
 						Task.Run(() =>
 						{
-							InputMedia media;
+							InputMediaViewModel media;
 							// TODO: Catch exception
 							using (TagLib.File file = TagLib.File.Create(fileName))
-								media = new InputMedia(fileName, file);
+								media = new InputMediaViewModel(fileName, file);
 
 							return (IInputMedia)media;
 						})

@@ -1,4 +1,4 @@
-﻿using Schrabber.Interfaces;
+using Schrabber.Interfaces;
 using Schrabber.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -78,7 +78,7 @@ namespace Schrabber.Windows
 		{
 			PartWindow window = new PartWindow()
 			{
-				Part = new Part(this._media)
+				Part = new PartViewModel(this._media)
 			};
 			if (window.ShowDialog() != true) return;
 

@@ -63,7 +63,7 @@ namespace Schrabber.Windows
 				Playlist playlist = await YouTubeClient.GetPlaylistAsync(playlistUrl);
 
 				foreach (Video video in playlist.Videos)
-					this.ListItems.Add(new InputMedia(video));
+					this.ListItems.Add(new InputMediaViewModel(video));
 			}
 			catch (VideoUnavailableException ex)
 			{

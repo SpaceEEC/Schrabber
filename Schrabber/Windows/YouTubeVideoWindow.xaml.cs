@@ -71,7 +71,7 @@ namespace Schrabber.Windows
 					return;
 				}
 
-				this.Media = new InputMedia(video);
+				this.Media = new InputMediaViewModel(video);
 				this.Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
 
 				this._setValues();
