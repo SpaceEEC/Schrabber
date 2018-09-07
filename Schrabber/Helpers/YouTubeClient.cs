@@ -40,7 +40,7 @@ namespace Schrabber.Helpers
 
 			if (start != TimeSpan.FromSeconds(0)) arguments = $"-ss {start.ToString()} {arguments}";
 
-			return await Ffmpeg.RunDuplex(
+			return await FFmpeg.RunDuplex(
 				arguments,
 				await _youTubeClient.GetMediaStreamAsync(audioStreamInfo).ConfigureAwait(false),
 				progress,

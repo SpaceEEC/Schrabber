@@ -76,7 +76,7 @@ namespace Schrabber.Windows
 				{
 					this.NextPart();
 					this.SetStep("Splitting");
-					using (MemoryStream partMs = await Ffmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
+					using (MemoryStream partMs = await FFmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
 					{
 						this._writeTags(partMs, part);
 						this.SetStep("Writing Audio");
