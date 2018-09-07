@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Schrabber.Helpers
 {
-	internal static class Ffmpeg
+	internal static class FFmpeg
 	{
 		internal static Process GetProcess(String arguments, Boolean stdin = false, Boolean stdout = false)
 		{
@@ -34,8 +34,8 @@ namespace Schrabber.Helpers
 		)
 		{
 			MemoryStream output = new MemoryStream();
-			String arguments = "-i - -acodec copy ";
-			if (start != null) arguments += $"-ss {start.Value.TotalSeconds} ";
+			String arguments = "-i - ";
+			if (start != null && start.Value.TotalSeconds != 0) arguments += $"-ss {start.Value.TotalSeconds} ";
 			if (stop != null) arguments += $"-to {stop.Value.TotalSeconds} ";
 			arguments += "-f mp3 -";
 
@@ -57,6 +57,8 @@ namespace Schrabber.Helpers
 
 		private static async Task _run(String args, Stream input, Stream output, IProgress<Double> progress, CancellationToken token)
 		{
+			Debug.WriteLine($"Running FFmpeg with {args}");
+
 			using (Process ffmpeg = GetProcess(args, input != null, output != null))
 			{
 				ffmpeg.Start();
@@ -72,7 +74,7 @@ namespace Schrabber.Helpers
 					try { await input.CopyToAsync(ffmpegIn, progress, token); }
 					catch (IOException)
 					{
-						// ffmpeg seems to close the pipe as soon it finished seeking
+						// FFmpeg seems to close the pipe as soon it finished seeking
 						// no clue how to avoid the exception here
 						if (!args.Contains("-to")) throw;
 					}
