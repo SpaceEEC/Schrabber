@@ -35,10 +35,13 @@ namespace Schrabber.Windows
 					this.MediaLabel.Content = $"Video {this.MediaProgressBar.Value} / {this._media.Length}";
 					this.PartProgressBar.Maximum = value.Parts.Length;
 
-					this.ThumbnailImage.Source = value.CoverImage;
-					this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
+					if (value.CoverImage != null)
+					{
+						this.ThumbnailImage.Source = value.CoverImage;
+						this.DescriptionTextBox.Width = Math.Max(10, this.CenterGrid.ActualWidth - this.ThumbnailImage.ActualWidth - 30);
 
-					this.ThumbnailImage.Width = value.CoverImage.PixelWidth;
+						this.ThumbnailImage.Width = value.CoverImage.PixelWidth;
+					}
 
 					this.LabelTitle.Content = value.Title;
 					this.LabelDuration.Content = value.Duration.ToString();
