@@ -74,7 +74,7 @@
                 Grid.Column="1"
                 Grid.Row="3"
                 Margin="10"
-                Text="{Binding Stop, StringFormat=Time: {0:hh\\:mm\\:ss}}"
+                Text="{Binding Stop, StringFormat=Stop: {0:hh\\:mm\\:ss}}"
             />
         </Grid>
     </Grid>
