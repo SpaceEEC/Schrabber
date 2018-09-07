@@ -54,6 +54,7 @@ namespace Schrabber.Windows
 				this.CurrentMedia = media;
 				this.SetStep("Fetching Video");
 				MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false);
+				ms.Position = 0;
 				if (media.Parts.Length == 1)
 				{
 					this.NextPart();
