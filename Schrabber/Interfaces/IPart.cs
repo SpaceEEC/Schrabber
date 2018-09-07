@@ -32,7 +32,7 @@ namespace Schrabber.Interfaces
 		/// <summary>
 		/// The absolute position where this IPart stops.
 		/// </summary>
-		TimeSpan Stop { get; set; }
+		TimeSpan? Stop { get; set; }
 
 		/// <summary>
 		/// The title of this IPart.

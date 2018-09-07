@@ -47,9 +47,9 @@ namespace Schrabber.Models
 		}
 
 		private TimeSpan? _stop = null;
-		public TimeSpan Stop
+		public TimeSpan? Stop
 		{
-			get => this._stop ?? this.Parent.Duration;
+			get => this._stop;
 			set => this.SetProperty(ref this._stop, value);
 		}
 
