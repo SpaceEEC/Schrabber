@@ -26,7 +26,7 @@ namespace Schrabber.Windows
 		/// </summary>
 		public IEnumerable<IPart> Parts
 		{
-			get => this.ListItems.OrderBy(p => p.Start);
+			get => this.ListItems;
 		}
 
 		private readonly IInputMedia _media;
