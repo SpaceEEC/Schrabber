@@ -94,6 +94,7 @@
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\IInputMediaToStringConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
+    <Compile Include="Converters\TabSizeConverter.cs" />
     <Compile Include="Converters\ZeroToBooleanConverter.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Rules\NotEmptyStringRule.cs" />
@@ -117,6 +118,9 @@
     </Compile>
     <Compile Include="Windows\ProgressWindow.xaml.cs">
       <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SplitAssistWindow.xaml.cs">
+      <DependentUpon>SplitAssistWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SplitWindow.xaml.cs">
       <DependentUpon>SplitWindow.xaml</DependentUpon>
@@ -145,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ProgressWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SplitAssistWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

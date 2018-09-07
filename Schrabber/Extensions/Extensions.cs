@@ -28,5 +28,18 @@ namespace Schrabber.Extensions
 				progress?.Report((float)totalBytesCopied / source.Length);
 			} while (bytesCopied > 0);
 		}
+		public static String Slice(this String source, Int32 start, Int32 end)
+		{
+			if (end < 0) end = source.Length + end;
+			return source.Substring(start, end - start);
+		}
+
+		public static String Capitalize(this String source)
+		{
+			if (String.IsNullOrEmpty(source)) return source;
+			if (source.Length == 1) return source.ToUpperInvariant();
+
+			return source.Substring(0, 1).ToUpperInvariant() + source.Substring(1).ToLowerInvariant();
+		}
 	}
 }

@@ -1,5 +1,6 @@
-using Schrabber.Interfaces;
+﻿using Schrabber.Interfaces;
 using Schrabber.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace Schrabber.Windows
 			this.ListItems = new ObservableCollection<IPart>(input.Parts);
 		}
 
-		private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+		private void ConfirmButton_Click(Object sender, RoutedEventArgs e)
 		{
 			IPart prev = null;
 			foreach (IPart row in this.ListItems)
@@ -68,13 +69,16 @@ namespace Schrabber.Windows
 			this.Close();
 		}
 
-		private void ImportPartsButton_Click(object sender, RoutedEventArgs e)
+		private void ImportPartsButton_Click(Object sender, RoutedEventArgs e)
 		{
-			// TODO: :that:
-			MessageBox.Show("Not implemented yet.");
+			SplitAssistWindow window = new SplitAssistWindow(this._media);
+			if (window.ShowDialog() != true) return;
+
+			foreach (IPart part in window.Parts)
+				this.ListItems.Add(part);
 		}
 
-		private void NewPartButton_Click(object sender, RoutedEventArgs e)
+		private void NewPartButton_Click(Object sender, RoutedEventArgs e)
 		{
 			PartWindow window = new PartWindow()
 			{
@@ -85,9 +89,9 @@ namespace Schrabber.Windows
 			this.ListItems.Add(window.Part);
 		}
 
-		private void RemovePartButton_Click(object sender, RoutedEventArgs e) => this.ListItems.Remove((IPart)this.PartsListBox.SelectedItem);
-		private void PartsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e) => this._doEdit((IPart)this.PartsListBox.SelectedItem);
-		private void EditPartButton_Click(object sender, RoutedEventArgs e) => this._doEdit((IPart)this.PartsListBox.SelectedItem);
+		private void RemovePartButton_Click(Object sender, RoutedEventArgs e) => this.ListItems.Remove((IPart)this.PartsListBox.SelectedItem);
+		private void PartsListBox_MouseDoubleClick(Object sender, MouseButtonEventArgs e) => this._doEdit((IPart)this.PartsListBox.SelectedItem);
+		private void EditPartButton_Click(Object sender, RoutedEventArgs e) => this._doEdit((IPart)this.PartsListBox.SelectedItem);
 		private void _doEdit(IPart original)
 		{
 			if (original == null) return;
@@ -101,5 +105,7 @@ namespace Schrabber.Windows
 			this.ListItems.Remove(original);
 			this.ListItems.Add(copy);
 		}
+
+		private void RemoveAllPartsButton_Click(Object sender, RoutedEventArgs e) => this.ListItems.Clear();
 	}
 }

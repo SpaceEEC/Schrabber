@@ -44,6 +44,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Button
@@ -77,8 +78,13 @@
                 Margin="10,5,10,5"
             />
 
+            <Button Grid.Row="5"
+                    Content="Remove All Parts"
+                    Margin="10,5,10,5"
+                    Click="RemoveAllPartsButton_Click"
+            />
             <Button
-                Grid.Row="5"
+                Grid.Row="6"
                 Name="ConfirmButton"
                 Content="Confirm"
                 Margin="10,5,10,5"
