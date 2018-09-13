@@ -72,9 +72,18 @@ namespace Schrabber.Windows
 				}
 
 				this.Media = new InputMediaViewModel(video);
-				this.Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
-
 				this._setValues();
+
+				if (this.Media.CoverImage.IsFrozen)
+				{
+					this.ThumbnailImage.Width = this.Media.CoverImage.Width;
+					this.Window_SizeChanged(this, null);
+				}
+				else
+				{
+					this.Media.CoverImage.DownloadCompleted += this.Image_DownloadCompleted;
+				}
+
 				this.InputTextBox.Text = video.GetUrl();
 
 				this.DefaultButton.IsEnabled = true;
