@@ -35,8 +35,8 @@ namespace Schrabber.Helpers
 		{
 			MemoryStream output = new MemoryStream();
 			String arguments = "-i - ";
-			if (start != null && start.Value.TotalSeconds != 0) arguments += $"-ss {start.Value.TotalSeconds} ";
-			if (stop != null) arguments += $"-to {stop.Value.TotalSeconds} ";
+			if (start.HasValue && start.Value.TotalSeconds != 0) arguments += $"-ss {start.Value.TotalSeconds} ";
+			if (stop.HasValue) arguments += $"-to {stop.Value.TotalSeconds} ";
 			arguments += "-f mp3 -";
 
 			await _run(arguments, input, output, progress, token).ConfigureAwait(false);
