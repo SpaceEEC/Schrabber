@@ -71,9 +71,6 @@ namespace Schrabber.Models
 			}
 		}
 
-		private Boolean _disposed = false;
-		private MemoryStream _ms = null;
-
 		private readonly String _filePath;
 		private readonly String _videoId;
 
@@ -117,34 +114,21 @@ namespace Schrabber.Models
 
 		public async Task<MemoryStream> GetMemoryStreamAsync(IProgress<Double> progress = null, CancellationToken token = default(CancellationToken))
 		{
-			if (this._disposed) throw new InvalidOperationException($"This {nameof(ViewModelBase)} was already disposed.");
-
-			if (this._ms != null) return this._ms;
-
 			if (this._filePath != null)
 			{
-				this._ms = new MemoryStream();
-				await new FileStream(this._filePath, FileMode.Open).CopyToAsync(this._ms, token: token);
-				return this._ms;
+				MemoryStream ms = new MemoryStream();
+				await new FileStream(this._filePath, FileMode.Open).CopyToAsync(ms, token: token).ConfigureAwait(false);
+				return ms;
 			}
 
 			if (this._videoId != null)
 			{
-				return this._ms = await YouTubeClient
+				return await YouTubeClient
 					.DownloadYouTubeVideoMp3MemoryStreamAsync(this._videoId, TimeSpan.FromSeconds(0), progress, token)
 					.ConfigureAwait(false);
 			}
 
 			throw new InvalidOperationException($"This {nameof(ViewModelBase)} has neither a file nor video to get.");
 		}
-
-		#region IDisposable
-		public void Dispose()
-		{
-			if (this._disposed) return;
-			this._ms?.Dispose();
-			this._disposed = true;
-		}
-		#endregion IDisposable
 	}
 }

@@ -133,11 +133,7 @@ namespace Schrabber.Windows
 				) != MessageBoxResult.Yes
 			) return;
 
-			IDisposable[] disposables = this.ListItems.ToArray();
 			this.ListItems.Clear();
-
-			foreach (IDisposable disposable in disposables)
-				disposable.Dispose();
 		}
 		#endregion SideGrid
 
@@ -146,7 +142,6 @@ namespace Schrabber.Windows
 		{
 			IInputMedia media = (IInputMedia)((Button)sender).DataContext;
 			this.ListItems.Remove(media);
-			media.Dispose();
 		}
 
 		private void SplitButton_Click(Object sender, RoutedEventArgs e) => this._doSplit((IInputMedia)((Button)sender).DataContext);

@@ -53,42 +53,44 @@ namespace Schrabber.Windows
 
 				this.CurrentMedia = media;
 				this.SetStep("Fetching Video");
-				MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false);
-				ms.Position = 0;
-				if (media.Parts.Length == 1)
+				using (MemoryStream ms = await media.GetMemoryStreamAsync(this, token).ConfigureAwait(false))
 				{
-					this.NextPart();
-					this.SetStep("Writing Audio");
-					this._writeTags(ms, media.Parts[0]);
-					await this._writeFile(
-						ms,
-						Path.Combine(
-							this.FolderPath,
-							this._getFileName(media.Parts[0])
-						),
-						token
-					).ConfigureAwait(false);
-
-					continue;
-				}
-
-
-				foreach (IPart part in media.Parts)
-				{
-					this.NextPart();
-					this.SetStep("Splitting");
-					using (MemoryStream partMs = await FFmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
+					ms.Position = 0;
+					if (media.Parts.Length == 1)
 					{
-						this._writeTags(partMs, part);
+						this.NextPart();
 						this.SetStep("Writing Audio");
+						this._writeTags(ms, media.Parts[0]);
 						await this._writeFile(
-							partMs,
+							ms,
 							Path.Combine(
 								this.FolderPath,
-								this._getFileName(part)
+								this._getFileName(media.Parts[0])
 							),
 							token
 						).ConfigureAwait(false);
+
+						continue;
+					}
+
+
+					foreach (IPart part in media.Parts)
+					{
+						this.NextPart();
+						this.SetStep("Splitting");
+						using (MemoryStream partMs = await FFmpeg.SplitMp3Stream(ms, part.Start, part.Stop, this, token).ConfigureAwait(false))
+						{
+							this._writeTags(partMs, part);
+							this.SetStep("Writing Audio");
+							await this._writeFile(
+								partMs,
+								Path.Combine(
+									this.FolderPath,
+									this._getFileName(part)
+								),
+								token
+							).ConfigureAwait(false);
+						}
 					}
 				}
 			}

@@ -9,12 +9,8 @@ namespace Schrabber.Interfaces
 {
 	/// <summary>
 	/// Interface for media input.
-	/// 
-	/// Note:
-	///   Classes implementing this interface should cache the stream once fetched
-	///   and dispose of it with the IDisposable implementation.
 	/// </summary>
-	public interface IInputMedia : IDisposable, INotifyPropertyChanged
+	public interface IInputMedia : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// BitmapImage of the CoverImage of this IInputMedia.
