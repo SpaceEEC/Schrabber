@@ -91,7 +91,6 @@
     <Compile Include="Controls\PartViewModelControl.xaml.cs">
       <DependentUpon>PartViewModelControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\IInputMediaToStringConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\TabSizeConverter.cs" />
