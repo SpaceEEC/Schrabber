@@ -48,8 +48,8 @@ namespace Schrabber.Models
 			set => this.SetProperty(ref this._description, value);
 		}
 
-		private Object[] _parts = null;
-		internal Object[] Parts
+		private Part[] _parts = null;
+		internal Part[] Parts
 		{
 			get => this._parts;
 			set => this.SetProperty(ref this._parts, value);
