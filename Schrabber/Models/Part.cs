@@ -41,11 +41,11 @@ namespace Schrabber.Models
 			set => this.SetProperty(ref this._author, value);
 		}
 
-		private TimeSpan _start = TimeSpan.Zero;
+		private TimeSpan? _start = null;
 		internal TimeSpan? Start
 		{
 			get => this._start;
-			set => this.SetProperty(ref this._start, value ?? TimeSpan.Zero);
+			set => this.SetProperty(ref this._start, value);
 		}
 
 		private TimeSpan? _stop = null;

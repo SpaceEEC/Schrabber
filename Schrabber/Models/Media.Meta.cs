@@ -51,7 +51,9 @@ namespace Schrabber.Models
 		private Part[] _parts = null;
 		internal Part[] Parts
 		{
-			get => this._parts;
+			get => this._parts?.Length == 0
+				? this._parts = new[] { new Part(this) }
+				: this._parts;
 			set => this.SetProperty(ref this._parts, value);
 		}
 
