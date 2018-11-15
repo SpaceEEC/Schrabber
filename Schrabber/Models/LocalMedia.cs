@@ -7,10 +7,8 @@ namespace Schrabber.Models
 {
 	internal class LocalMedia : Media
 	{
-		internal LocalMedia(String path, TagLib.File file)
+		internal LocalMedia(String path, TagLib.File file) : base(path)
 		{
-			this._cachedLocation = path;
-
 			this.Author = file.Tag.Performers.FirstOrDefault();
 			this.Title = String.IsNullOrWhiteSpace(file.Tag.Title)
 				? Path.GetFileNameWithoutExtension(file.Name)

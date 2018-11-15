@@ -8,8 +8,6 @@ namespace Schrabber.Models
 	{
 		protected String _cachedLocation = null;
 
-		internal virtual Boolean MustFetch => this._cachedLocation == null;
-
 		internal String Location
 		{
 			get
@@ -27,9 +25,15 @@ namespace Schrabber.Models
 		protected Media() { }
 		protected Media(String location) { this._cachedLocation = location; }
 
+		#region Fetch
+		internal virtual Boolean MustFetch => this._cachedLocation == null;
+		internal virtual Task FetchTask { get; private protected set; } = Task.CompletedTask;
 		internal virtual Task FetchAsync(IProgress<Double> progress = null, CancellationToken token = default) { return Task.CompletedTask; }
+		#endregion Fetch
 
+		#region IDisposable
 		protected Boolean _disposed { get; private set; } = false;
 		public virtual void Dispose() { this._disposed = true; }
+		#endregion IDisposableB
 	}
 }
