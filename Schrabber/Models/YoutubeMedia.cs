@@ -5,6 +5,7 @@ using YoutubeExplode.Models;
 using YoutubeExplode.Converter;
 using System.Threading;
 using YoutubeExplode;
+using Schrabber.Workers;
 
 namespace Schrabber.Models
 {
