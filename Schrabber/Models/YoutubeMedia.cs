@@ -23,8 +23,8 @@ namespace Schrabber.Models
 			this.Author = video.Author;
 			this.Title = video.Title;
 			this.Duration = video.Duration;
-			this.Description = this.Description;
-			this.CoverImage = this.ResolveBitmapImage(uri: new Uri(video.Thumbnails.HighResUrl));
+			this.Description = video.Description;
+			this.SetBitmapImage(uri: new Uri(video.Thumbnails.HighResUrl));
 
 			this.FetchTask = this.Tsc.Task;
 		}

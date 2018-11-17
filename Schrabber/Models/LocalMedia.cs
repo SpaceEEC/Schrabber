@@ -22,7 +22,7 @@ namespace Schrabber.Models
 			if (cover?.Data?.Data != null)
 			{
 				using (MemoryStream ms = new MemoryStream(cover.Data.Data))
-					this.CoverImage = this.ResolveBitmapImage(stream: ms);
+					this.SetBitmapImage(stream: ms);
 			}
 		}
 	}

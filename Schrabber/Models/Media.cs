@@ -8,10 +8,8 @@ namespace Schrabber.Models
 	{
 		protected String _cachedLocation = null;
 
-		internal String Location
+		internal String GetLocation()
 		{
-			get
-			{
 				if (this._disposed)
 					throw new ObjectDisposedException(nameof(Media));
 
@@ -19,7 +17,6 @@ namespace Schrabber.Models
 						throw new InvalidOperationException($"This {nameof(Media)} has not been fetched.");
 
 				return this._cachedLocation;
-			}
 		}
 
 		protected Media() { }

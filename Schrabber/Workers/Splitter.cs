@@ -137,7 +137,7 @@ namespace Schrabber.Workers
 				// Do the actual splitting part
 				partJob.Caption = "Splitting";
 				String dest = Path.Combine(this._path, this._getFileName(part));
-				FFmpeg.Split(part.Parent.Location, dest, part.Start, part.Stop, partJob);
+				FFmpeg.Split(part.Parent.GetLocation(), dest, part.Start, part.Stop, partJob);
 
 				// Write tags
 				partJob.Caption = "Writing tags";
@@ -184,7 +184,7 @@ namespace Schrabber.Workers
 
 		private String _getFileName(Part part)
 		{
-			String fileName = String.IsNullOrWhiteSpace(part.Author) ? part.Title : $"{part.Author} - {part.Title}";
+			String fileName = part.ToString();
 
 			return String.Join(
 				"_",

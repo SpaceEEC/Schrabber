@@ -13,16 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Schrabber
+namespace Schrabber.Controls
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for PartControl.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class PartControl : UserControl
 	{
-		public MainWindow()
-		{
-			this.InitializeComponent();
-		}
+		public PartControl() => this.InitializeComponent();
 	}
 }
