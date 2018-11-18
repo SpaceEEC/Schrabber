@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using Schrabber.Models;
+using Schrabber.Windows;
+using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -11,6 +14,8 @@ namespace Schrabber.Controls
 	public partial class YoutubeVideoControl : UserControl
 	{
 		public YoutubeVideoControl() => this.InitializeComponent();
+		private void YoutubeVideoControl_MouseDoubleClick(Object sender, MouseButtonEventArgs e)
+			=> new YoutubeVideoWindow((Media)this.DataContext).ShowDialog();
 
 		#region RemoveItem(Property)
 		public static readonly DependencyProperty RemoveItemProperty =

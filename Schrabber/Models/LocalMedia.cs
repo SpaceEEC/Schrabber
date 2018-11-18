@@ -25,5 +25,20 @@ namespace Schrabber.Models
 					this.SetBitmapImage(stream: ms);
 			}
 		}
+
+		internal override Media GetCopy() => new LocalMedia(this);
+
+		private LocalMedia(LocalMedia orig) : base(orig._cachedLocation)
+		{
+			if (this._disposed) throw new ObjectDisposedException(nameof(LocalMedia));
+
+			this._album = orig._album;
+			this._author = orig._author;
+			this._coverImage = orig._coverImage;
+			this._description = orig._description;
+			this._duration = orig._duration;
+			this._parts = orig._parts?.Select(part => new Part(part)).ToArray();
+			this._title = orig._title;
+		}
 	}
 }

@@ -92,11 +92,21 @@
       <DependentUpon>YoutubeVideoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\IsNotNullConverter.cs" />
+    <Compile Include="Converters\IsNotZeroConverter.cs" />
     <Compile Include="Converters\MediaToStringConverter.cs" />
+    <Compile Include="Converters\TimeSpanConverter.cs" />
     <Compile Include="Models\Base.cs" />
-    <Compile Include="Windows\DelegatedCommand.cs" />
+    <Compile Include="Rules\NotEmtpyStringRule.cs" />
+    <Compile Include="Rules\StartStopInRangeRule.cs" />
+    <Compile Include="Commands\DelegatedCommand.cs" />
+    <Compile Include="Windows\EditAllPartsWindow.xaml.cs">
+      <DependentUpon>EditAllPartsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MediaListWindow.xaml.cs">
       <DependentUpon>MediaListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PartListWindow.xaml.cs">
+      <DependentUpon>PartListWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\YoutubePlayListWindow.xaml.cs">
       <DependentUpon>YoutubePlayListWindow.xaml</DependentUpon>
@@ -123,7 +133,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\EditAllPartsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MediaListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PartListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

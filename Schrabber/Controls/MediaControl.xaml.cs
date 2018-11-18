@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
+using Schrabber.Windows;
 
 namespace Schrabber.Controls
 {
@@ -24,11 +25,18 @@ namespace Schrabber.Controls
 	/// </summary>
 	public partial class MediaControl : UserControl
 	{
-		public MediaControl()
+		public MediaControl() => this.InitializeComponent();
+
+		private void DoSplit(Object sender, RoutedEventArgs e)
 		{
-			this.InitializeComponent();
+			Media media = (Media)((FrameworkElement)sender).DataContext;
+			PartListWindow window = new PartListWindow(media.GetCopy());
+			if (window.ShowDialog() != true) return;
+
+			media.Parts = window.ListItems.ToArray();
 		}
 
+		#region Cover
 		private void SetCover_Click(Object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog ofd = new OpenFileDialog()
@@ -45,20 +53,13 @@ namespace Schrabber.Controls
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.ToString(), "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
 		private void RemoveCover_Click(Object sender, RoutedEventArgs e)
-		{
-			((Media)((FrameworkElement)sender).DataContext).CoverImage = null;
-		}
-
-		private void DoSplit(Object sender, RoutedEventArgs e)
-		{
-			// TODO: Implment me
-			throw new NotImplementedException();
-		}
+			=> ((Media)((FrameworkElement)sender).DataContext).CoverImage = null;
+		#endregion Cover
 
 		#region RemoveItem(Property)
 		public static readonly DependencyProperty RemoveItemProperty =

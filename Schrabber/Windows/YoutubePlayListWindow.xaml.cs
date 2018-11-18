@@ -1,4 +1,5 @@
-﻿using Schrabber.Models;
+﻿using Schrabber.Commands;
+using Schrabber.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,7 +46,11 @@ namespace Schrabber.Windows
 		{
 			this.InitializeComponent();
 			this.ListItems = new ObservableCollection<Media>();
-			this.RemoveItem = new DelegatedCommand<Media>(m => this.ListItems.Remove(m));
+			this.RemoveItem = new DelegatedCommand<Media>(m =>
+			{
+				if (m is IDisposable disposable) disposable.Dispose();
+				this.ListItems.Remove(m);
+			});
 		}
 
 		private async void LoadButton_Click(Object sender, RoutedEventArgs e)
@@ -73,15 +78,15 @@ namespace Schrabber.Windows
 			}
 			catch (VideoUnavailableException ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			catch (VideoRequiresPurchaseException ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.ToString());
+				MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			finally
 			{
@@ -91,11 +96,5 @@ namespace Schrabber.Windows
 		}
 
 		private void DefaultButton_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
-
-		private void VideosListBox_MouseDoubleClick(Object sender, MouseButtonEventArgs e)
-		{
-			if (!(((ListBox)sender).SelectedItem is Media media)) return;
-			new YoutubeVideoWindow(media).Show();
-		}
 	}
 }

@@ -5,7 +5,7 @@ namespace Schrabber.Models
 {
 	internal class Part : Base
 	{
-		public readonly Media Parent;
+		public Media Parent { get; }
 
 		private BitmapImage _coverImage = null;
 		public override BitmapImage CoverImage
@@ -57,6 +57,16 @@ namespace Schrabber.Models
 		internal Part(Media parent)
 		{
 			this.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
+		}
+
+		internal Part(Part part) : this(part.Parent)
+		{
+			this._album = part._album;
+			this._author = part._author;
+			this._coverImage = part._coverImage;
+			this._start = part._start;
+			this._stop = part._stop;
+			this._title = part._title;
 		}
 	}
 }

@@ -6,6 +6,7 @@ using YoutubeExplode.Converter;
 using System.Threading;
 using YoutubeExplode;
 using Schrabber.Workers;
+using System.Linq;
 
 namespace Schrabber.Models
 {
@@ -16,7 +17,11 @@ namespace Schrabber.Models
 
 		private readonly String _videoId;
 
-		internal YoutubeMedia(Video video) : base()
+		internal YoutubeMedia() : base()
+		{
+			this.FetchTask = this.Tsc.Task;
+		}
+		internal YoutubeMedia(Video video) : this()
 		{
 			this._videoId = video.Id;
 
@@ -25,8 +30,21 @@ namespace Schrabber.Models
 			this.Duration = video.Duration;
 			this.Description = video.Description;
 			this.SetBitmapImage(uri: new Uri(video.Thumbnails.HighResUrl));
+		}
+		internal override Media GetCopy() => new YoutubeMedia(this);
 
-			this.FetchTask = this.Tsc.Task;
+		private YoutubeMedia(YoutubeMedia orig) : this()
+		{
+			if (this._disposed) throw new ObjectDisposedException(nameof(LocalMedia));
+
+			this._album = orig._album;
+			this._author = orig._author;
+			this._cachedLocation = orig._cachedLocation;
+			this._coverImage = orig._coverImage;
+			this._description = orig._description;
+			this._duration = orig._duration;
+			this._parts = orig._parts?.Select(part => new Part(part)).ToArray();
+			this._title = orig._title;
 		}
 
 		#region Fetch

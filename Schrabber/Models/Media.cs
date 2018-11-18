@@ -22,6 +22,8 @@ namespace Schrabber.Models
 		protected Media() { }
 		protected Media(String location) { this._cachedLocation = location; }
 
+		internal abstract Media GetCopy();
+
 		#region Fetch
 		internal virtual Boolean MustFetch => this._cachedLocation == null;
 		internal virtual Task FetchTask { get; private protected set; } = Task.CompletedTask;

@@ -39,10 +39,7 @@ namespace Schrabber.Windows
 			set => this.SetValue(MediaProperty, value);
 		}
 		
-		internal YoutubeVideoWindow()
-		{
-			this.InitializeComponent();
-		}
+		internal YoutubeVideoWindow() => this.InitializeComponent();
 		internal YoutubeVideoWindow(Media media) : this() => this.Media = media;
 		private void DefaultButton_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
 
@@ -57,14 +54,14 @@ namespace Schrabber.Windows
 			{
 				if (!YoutubeClient.ValidateVideoId(videoUrl) && !YoutubeClient.TryParseVideoId(videoUrl, out videoUrl))
 				{
-					MessageBox.Show("The supplied video url or id is syntactically incorrect!");
+					MessageBox.Show("The supplied video url or id is syntactically incorrect!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
 				Video video = await _client.GetVideoAsync(videoUrl);
 				if (video.Duration.Seconds == 0)
 				{
-					MessageBox.Show("Livestreams are not supported.");
+					MessageBox.Show("Livestreams are not supported.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
@@ -76,15 +73,15 @@ namespace Schrabber.Windows
 			}
 			catch (VideoUnavailableException ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			catch (VideoRequiresPurchaseException ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.ToString());
+				MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			finally
 			{

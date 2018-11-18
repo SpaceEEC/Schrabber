@@ -1,20 +1,12 @@
 ﻿using Microsoft.Win32;
+using Schrabber.Commands;
 using Schrabber.Models;
 using Schrabber.Workers;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Schrabber.Windows
 {
@@ -36,6 +28,8 @@ namespace Schrabber.Windows
 			set => this.SetValue(ListItemsProperty, value);
 		}
 
+		private String _folderPath = String.Empty;
+
 		public ICommand RemoveItem { get; }
 
 		public MediaListWindow()
@@ -43,7 +37,11 @@ namespace Schrabber.Windows
 			this.InitializeComponent();
 			this.ListItems = new ObservableCollection<Media>();
 
-			this.RemoveItem = new DelegatedCommand<Media>(m => this.ListItems.Remove(m));
+			this.RemoveItem = new DelegatedCommand<Media>(m =>
+			{
+				if (m is IDisposable disposable) disposable.Dispose();
+				this.ListItems.Remove(m);
+			});
 		}
 
 		private void VideoButton_Click(Object sender, RoutedEventArgs e)
@@ -58,13 +56,14 @@ namespace Schrabber.Windows
 		{
 			if (FFmpeg.FindExecutablePath() == null)
 			{
-				this.IsEnabled = false;
 				MessageBox.Show(
-					"Can not find the FFmpeg executable.\nFFmpeg has to be installed and in the path.",
+					"Can not find the FFmpeg executable.\nFFmpeg has to be installed and in the path for this application to work.",
 					"FFmpeg not found!",
 					MessageBoxButton.OK,
 					MessageBoxImage.Stop
 				);
+
+				this.Close();
 			}
 		}
 
@@ -87,7 +86,7 @@ namespace Schrabber.Windows
 				}
 				catch(Exception ex)
 				{
-					MessageBox.Show(ex.ToString(), "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+					MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
@@ -99,6 +98,34 @@ namespace Schrabber.Windows
 
 			foreach (Media media in window.ListItems)
 				this.ListItems.Add(media);
+		}
+
+		private void SetFolderButton_Click(Object sender, RoutedEventArgs e)
+		{
+			// https://stackoverflow.com/a/50261723/10602948
+			var dialog = new SaveFileDialog
+			{
+				InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
+				Title = "Select a Directory",
+				Filter = "Directory|*.this.directory",
+				FileName = "select"
+			};
+			if (dialog.ShowDialog() != true) return;
+
+			String path = this._folderPath = dialog.FileName
+				.Replace("\\select.this.directory", "")
+				.Replace(".this.directory", "");
+
+			if (!System.IO.Directory.Exists(path))
+				System.IO.Directory.CreateDirectory(path);
+		}
+
+		private void ResetButton_Click(Object sender, RoutedEventArgs e)
+		{
+			foreach (IDisposable disposable in this.ListItems.OfType<IDisposable>())
+				disposable.Dispose();
+
+			this.ListItems.Clear();
 		}
 	}
 }

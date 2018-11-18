@@ -8,6 +8,7 @@
              xmlns:models="clr-namespace:Schrabber.Models"
              d:DataContext="{d:DesignInstance {x:Type models:YoutubeMedia}, IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
+             MouseDoubleClick="YoutubeVideoControl_MouseDoubleClick"
              d:DesignHeight="104" d:DesignWidth="700">
     <UserControl.Resources>
         <converters:MediaToStringConverter x:Key="MediaToStringConverter"/>
@@ -16,7 +17,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="84"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition MinWidth="84" Width="84"/>
+            <ColumnDefinition MinWidth="104" Width="104"/>
         </Grid.ColumnDefinitions>
 
         <Image
@@ -45,8 +46,8 @@
         <Button
             Grid.Column="2"
             Content="Remove"
-            Height="64"
-            Width="64"
+            Height="84"
+            Width="84"
             Command="{Binding RemoveItem, ElementName=youtubeVideoControl}"
             CommandParameter="{Binding}"
         />
