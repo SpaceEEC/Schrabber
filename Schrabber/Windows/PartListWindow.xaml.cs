@@ -57,8 +57,8 @@ namespace Schrabber.Windows
 
 		private void ImportPartsButton_Click(Object sender, RoutedEventArgs e)
 		{
-			// TODO: Implement me
-			throw new NotImplementedException();
+			PartsGeneratorWindow window = new PartsGeneratorWindow(this._media);
+			window.Show();
 		}
 
 		private void EditAllButton_Click(Object sender, RoutedEventArgs eventArgs)
@@ -69,8 +69,6 @@ namespace Schrabber.Windows
 			window.Part.PropertyChanged += (_, e) => changes.Add(e.PropertyName);
 			if (window.ShowDialog() != true) return;
 
-			// typeof(Part).GetProperty(e.PropertyName).GetGetMethod()
-
 			if (changes.Count == 0) return;
 
 			foreach (Part part in this.ListItems)
@@ -80,7 +78,7 @@ namespace Schrabber.Windows
 					Object value = typeof(Part)
 						.GetProperty(change)
 						.GetGetMethod()
-						.Invoke(window.Part, new Object[] { });
+						.Invoke(window.Part, new Object[0]);
 
 					typeof(Part)
 						.GetProperty(change)
@@ -100,6 +98,8 @@ namespace Schrabber.Windows
 		#region ErrorValidation
 		// Directly being able to bind to ListBox.Validation.Errors.Count would be nice, but apparently not possible.
 		// Or an ICommand for this, but this also works:tm:
+
+		// TODO: Does deleting an erroneous child cause an issue here?
 
 		public static readonly DependencyProperty AllChildrenValidDependencyProperty = DependencyProperty.Register(
 			nameof(AllChildrenValid),

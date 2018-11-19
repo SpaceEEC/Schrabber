@@ -102,11 +102,15 @@
     <Compile Include="Windows\EditAllPartsWindow.xaml.cs">
       <DependentUpon>EditAllPartsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HighlightTextBox.cs" />
     <Compile Include="Windows\MediaListWindow.xaml.cs">
       <DependentUpon>MediaListWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PartListWindow.xaml.cs">
       <DependentUpon>PartListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PartsGeneratorWindow.xaml.cs">
+      <DependentUpon>PartsGeneratorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\YoutubePlayListWindow.xaml.cs">
       <DependentUpon>YoutubePlayListWindow.xaml</DependentUpon>
@@ -142,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PartListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PartsGeneratorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
