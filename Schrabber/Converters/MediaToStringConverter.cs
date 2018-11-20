@@ -8,7 +8,7 @@ using System.Windows.Data;
 namespace Schrabber.Converters
 {
 	[ValueConversion(typeof(Media), typeof(String))]
-	internal class MediaToStringConverter : IValueConverter
+	public class MediaToStringConverter : IValueConverter
 	{
 		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
 		{

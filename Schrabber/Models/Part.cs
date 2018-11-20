@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace Schrabber.Models
 {
-	internal class Part : Base
+	public class Part : Base
 	{
 		public Media Parent { get; }
 
@@ -17,7 +17,7 @@ namespace Schrabber.Models
 					this.OnPropertyChanged(nameof(this.HasCoverImage));
 			}
 		}
-		internal Boolean HasCoverImage => this._coverImage != null;
+		public Boolean HasCoverImage => this._coverImage != null;
 
 		private String _album = null;
 		public String Album
@@ -54,12 +54,12 @@ namespace Schrabber.Models
 			set => this.SetProperty(ref this._stop, value);
 		}
 
-		internal Part(Media parent)
+		public Part(Media parent)
 		{
 			this.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
 		}
 
-		internal Part(Part part) : this(part.Parent)
+		public Part(Part part) : this(part.Parent)
 		{
 			this._album = part._album;
 			this._author = part._author;

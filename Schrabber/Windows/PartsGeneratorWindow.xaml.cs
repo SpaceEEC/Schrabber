@@ -27,18 +27,39 @@ namespace Schrabber.Windows
 			typeof(PartsGeneratorWindow),
 			new PropertyMetadata(null)
 		);
-
-		internal Media Media
+		public Media Media
 		{
 			get => (Media)this.GetValue(MediaDependencyProperty);
 			set => this.SetValue(MediaDependencyProperty, value);
 		}
 
-		internal PartsGeneratorWindow(Media media)
+		public static readonly DependencyProperty HighlightRuleDependencyProperty = DependencyProperty.Register(
+			nameof(HighlightRule),
+			typeof(HighlightRule),
+			typeof(PartsGeneratorWindow),
+			new PropertyMetadata(null)
+		);
+
+		public HighlightRule HighlightRule
+		{
+			get => (HighlightRule)this.GetValue(HighlightRuleDependencyProperty);
+			set => this.SetValue(HighlightRuleDependencyProperty, value);
+		}
+
+		public PartsGeneratorWindow(Media media)
 		{
 			this.InitializeComponent();
-
+			
 			this.Media = media;
+			this.HighlightRule = new HighlightRule(Brushes.Green, @"\{.*?\}");
+
+			this.htb.HighlightRules.Add(this.HighlightRule);
+		}
+
+		private void TextBox_TextChanged(Object sender, TextChangedEventArgs e)
+		{
+			this.HighlightRule.MatchText = ((TextBox)sender).Text;
+			this.htb.ApplyHighlights();
 		}
 	}
 }

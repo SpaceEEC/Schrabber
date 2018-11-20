@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace Schrabber.Rules
 {
-	internal class StartStopInRangeRule : ValidationRule
+	public class StartStopInRangeRule : ValidationRule
 	{
 		public override ValidationResult Validate(Object value, CultureInfo cultureInfo) => throw new NotSupportedException();
 

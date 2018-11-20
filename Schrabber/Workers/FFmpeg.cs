@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Schrabber.Workers
 {
-	internal static class FFmpeg
+	public static class FFmpeg
 	{
-		internal static String FindExecutablePath()
+		public static String FindExecutablePath()
 		{
 			using (Process process = new Process()
 			{
@@ -32,8 +32,8 @@ namespace Schrabber.Workers
 			}
 		}
 
-		// https://github.com/Tyrrrz/YoutubeExplode.Converter/blob/master/YoutubeExplode.Converter/Internal/FfmpegCli.cs
-		internal static void Split(String source, String dest, TimeSpan? start, TimeSpan? stop, IProgress<Double> progress)
+		// https://github.com/Tyrrrz/YoutubeExplode.Converter/blob/master/YoutubeExplode.Converter/public/FfmpegCli.cs
+		public static void Split(String source, String dest, TimeSpan? start, TimeSpan? stop, IProgress<Double> progress)
 		{
 			List<String> arguments = new List<String>
 			{
@@ -93,7 +93,7 @@ namespace Schrabber.Workers
 			}
 		}
 
-		internal static Process GetProcess(String arguments)
+		public static Process GetProcess(String arguments)
 		{
 			return new Process()
 			{

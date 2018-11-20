@@ -11,11 +11,11 @@ using System.Windows.Media.Imaging;
 
 namespace Schrabber.Workers
 {
-	internal class Splitter
+	public class Splitter
 	{
 		private static readonly Int32 _maxRunning =  Environment.ProcessorCount;
 
-		internal static Dictionary<Job<Media>, Job<Part>[]> GetJobs(IEnumerable<Media> medias)
+		public static Dictionary<Job<Media>, Job<Part>[]> GetJobs(IEnumerable<Media> medias)
 		{
 			return medias.ToDictionary(
 				media => new Job<Media>(media),
@@ -44,7 +44,7 @@ namespace Schrabber.Workers
 
 		private readonly TaskCompletionSource<Object> _tsc = new TaskCompletionSource<Object>();
 
-		internal Splitter(String path, Dictionary<Job<Media>, Job<Part>[]> jobs)
+		public Splitter(String path, Dictionary<Job<Media>, Job<Part>[]> jobs)
 		{
 			if (jobs == null)
 				throw new ArgumentNullException(nameof(jobs));
@@ -65,7 +65,7 @@ namespace Schrabber.Workers
 
 		private readonly Object _lock = new Object();
 
-		internal Task Start()
+		public Task Start()
 		{
 			Debug.WriteLine($"{nameof(this.Start)} called");
 			lock (this._lock)

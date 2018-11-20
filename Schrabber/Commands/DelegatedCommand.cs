@@ -3,15 +3,15 @@ using System.Windows.Input;
 
 namespace Schrabber.Commands
 {
-	internal class DelegatedCommand<T> : ICommand
+	public class DelegatedCommand<T> : ICommand
 	{
 
 		private readonly Func<T, Boolean> _canExecute = null;
 		private readonly Action<T> _execute;
 
-		internal DelegatedCommand(Action<T> execute)
+		public DelegatedCommand(Action<T> execute)
 			=> this._execute = execute;
-		internal DelegatedCommand(Func<T, Boolean> canExecute, Action<T> execute) : this(execute)
+		public DelegatedCommand(Func<T, Boolean> canExecute, Action<T> execute) : this(execute)
 			=> this._canExecute = canExecute;
 
 		#region ICommand

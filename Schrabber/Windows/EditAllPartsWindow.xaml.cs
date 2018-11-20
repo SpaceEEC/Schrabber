@@ -11,7 +11,7 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class EditAllPartsWindow : Window
 	{
-		internal Part Part => (Part)this.PartControl.DataContext;
+		public Part Part => (Part)this.PartControl.DataContext;
 
 		public static readonly DependencyProperty ConfirmCommandDependencyProperty = DependencyProperty.Register(
 			nameof(ConfirmCommand),
@@ -26,7 +26,7 @@ namespace Schrabber.Windows
 			set => this.SetValue(ConfirmCommandDependencyProperty, value);
 		}
 
-		internal EditAllPartsWindow(Media media)
+		public EditAllPartsWindow(Media media)
 		{
 			this.InitializeComponent();
 

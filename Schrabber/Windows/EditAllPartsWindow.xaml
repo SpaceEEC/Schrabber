@@ -10,5 +10,13 @@
         Title="EditAllPartsWindow"
         Height="200"
         Width="800">
-    <Controls:PartControl ButtonName="Confirm" ButtonCommand="{Binding ConfirmCommand, ElementName=window}" x:Name="PartControl"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Every field you change at least once will be overwritten everwhere." HorizontalContentAlignment="Center" FontWeight="Bold"/>
+        <Controls:PartControl Grid.Row="1" ButtonName="Confirm" ButtonCommand="{Binding ConfirmCommand, ElementName=window}" x:Name="PartControl"/>
+    </Grid>
 </Window>

@@ -33,14 +33,14 @@ namespace Schrabber.Windows
 			new PropertyMetadata(null)
 		);
 
-		internal Media Media
+		public Media Media
 		{
 			get => (Media)this.GetValue(MediaProperty);
 			set => this.SetValue(MediaProperty, value);
 		}
 		
-		internal YoutubeVideoWindow() => this.InitializeComponent();
-		internal YoutubeVideoWindow(Media media) : this() => this.Media = media;
+		public YoutubeVideoWindow() => this.InitializeComponent();
+		public YoutubeVideoWindow(Media media) : this() => this.Media = media;
 		private void DefaultButton_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
 
 		private async void LoadButton_Click(Object sender, RoutedEventArgs e)

@@ -9,7 +9,7 @@ namespace Schrabber.Models
 	/// <summary>
 	/// ViewModelBase classed implementing essential methods and interfaces for view models.
 	/// </summary>
-	internal abstract class ViewModelBase : INotifyPropertyChanged
+	public abstract class ViewModelBase : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 

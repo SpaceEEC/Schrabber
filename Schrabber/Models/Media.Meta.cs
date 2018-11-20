@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace Schrabber.Models
 {
-	internal abstract partial class Media : Base
+	public abstract partial class Media : Base
 	{
 		protected BitmapImage _coverImage = null;
 		public override BitmapImage CoverImage

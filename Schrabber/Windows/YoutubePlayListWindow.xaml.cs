@@ -34,7 +34,7 @@ namespace Schrabber.Windows
 			new PropertyMetadata(null)
 		);
 
-		internal ObservableCollection<Media> ListItems
+		public ObservableCollection<Media> ListItems
 		{
 			get => (ObservableCollection<Media>)this.GetValue(ListItemsProperty);
 			set => this.SetValue(ListItemsProperty, value);

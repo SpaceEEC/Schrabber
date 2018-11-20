@@ -32,7 +32,7 @@ namespace Schrabber.Windows
 
 		private readonly Media _media;
 
-		internal ObservableCollection<Part> ListItems
+		public ObservableCollection<Part> ListItems
 		{
 			get => (ObservableCollection<Part>)this.GetValue(ListItemsProperty);
 			set => this.SetValue(ListItemsProperty, value);
@@ -40,7 +40,7 @@ namespace Schrabber.Windows
 
 		public ICommand RemoveItem { get; }
 
-		internal PartListWindow(Media media)
+		public PartListWindow(Media media)
 		{
 			this.InitializeComponent();
 

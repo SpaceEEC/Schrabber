@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace Schrabber.Converters
 {
 	[ValueConversion(typeof(TimeSpan?), typeof(String))]
-	internal class TimeSpanConverter : IValueConverter
+	public class TimeSpanConverter : IValueConverter
 	{
 		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
 			=> (value as TimeSpan? ?? TimeSpan.Zero).ToString(@"hh\:mm\:ss");

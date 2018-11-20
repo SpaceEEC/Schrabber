@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Schrabber.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -11,9 +13,9 @@ using System.Windows.Shapes;
 namespace Schrabber.Windows
 {
 	// https://stackoverflow.com/a/42400991/10602948
-	internal class HighlightTextBox : TextBox
+	public class HighlightTextBox : TextBox
 	{
-		internal List<HighlightRule> HighlightRules
+		public List<HighlightRule> HighlightRules
 		{
 			get => (List<HighlightRule>)this.GetValue(HighlightRulesProperty);
 			set => this.SetValue(HighlightRulesProperty, value);
@@ -21,20 +23,23 @@ namespace Schrabber.Windows
 
 		// Using a DependencyProperty as the backing store for HighlightRules.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty HighlightRulesProperty = DependencyProperty.Register(
-			nameof(HighlightRules),
-			typeof(List<HighlightRule>),
-			typeof(HighlightTextBox),
-			new FrameworkPropertyMetadata(
-				new List<HighlightRule>(),
-				new PropertyChangedCallback(HighlightRulesChanged)
+				nameof(HighlightRules),
+				typeof(List<HighlightRule>),
+				typeof(HighlightTextBox),
+				new FrameworkPropertyMetadata(
+					null,
+					new PropertyChangedCallback(HighlightRulesChanged)
 				)
-		);
+			);
 
 		private static void HighlightRulesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 			=> ((HighlightTextBox)sender).ApplyHighlights();
 
-		internal HighlightTextBox() : base()
-			=> this.Loaded += this.HighlightTextBox_Loaded;
+		public HighlightTextBox() : base()
+		{
+			this.Loaded += this.HighlightTextBox_Loaded;
+			this.HighlightRules = new List<HighlightRule>();
+		}
 
 		protected override void OnTextChanged(TextChangedEventArgs e)
 		{
@@ -45,7 +50,7 @@ namespace Schrabber.Windows
 		private void HighlightTextBox_Loaded(Object sender, RoutedEventArgs e)
 			=> this.ApplyHighlights();
 
-		internal void ApplyHighlights()
+		public void ApplyHighlights()
 		{
 			this.TryRemoveAdorner<GenericAdorner>();
 
@@ -54,7 +59,11 @@ namespace Schrabber.Windows
 
 			foreach (HighlightRule rule in this.HighlightRules.Where(rule => !String.IsNullOrEmpty(rule.MatchText)))
 			{
-				foreach (Match match in Regex.Matches(this.Text, rule.MatchText))
+				MatchCollection matches;
+				try { matches = Regex.Matches(this.Text, rule.MatchText); }
+				catch { return; }
+
+				foreach (Match match in matches)
 				{
 					Rect rect = this.GetRectFromCharacterIndex(match.Index);
 
@@ -72,26 +81,26 @@ namespace Schrabber.Windows
 		}
 	}
 
-	internal class HighlightRule
+	public class HighlightRule
 	{
-		internal SolidColorBrush Brush { get; set; }
-		internal String MatchText { get; set; }
+		public SolidColorBrush Brush { get; set; }
+		public String MatchText { get; set; }
 
-		internal HighlightRule(SolidColorBrush solidColorBrush, String matchText)
+		public HighlightRule(SolidColorBrush solidColorBrush, String matchText)
 		{
 			this.Brush = solidColorBrush;
 			this.MatchText = matchText;
 		}
-		internal HighlightRule(Color color, String matchText) : this(new SolidColorBrush(color), matchText) { }
-		internal HighlightRule() : this(Brushes.Black, null) { }
+		public HighlightRule(Color color, String matchText) : this(new SolidColorBrush(color), matchText) { }
+		public HighlightRule() : this(Brushes.Black, null) { }
 	}
 
-	internal class GenericAdorner : Adorner
+	public class GenericAdorner : Adorner
 	{
 		private readonly UIElement adorner;
 		private readonly Point point;
 
-		internal GenericAdorner(UIElement targetElement, UIElement adorner, Point point) : base(targetElement)
+		public GenericAdorner(UIElement targetElement, UIElement adorner, Point point) : base(targetElement)
 		{
 			this.adorner = adorner;
 			if (adorner != null)
@@ -120,13 +129,13 @@ namespace Schrabber.Windows
 		}
 	}
 
-	internal static class Extensions
+	public static class Extensions
 	{
-		internal static void TryRemoveAdorner<T>(this UIElement element)
+		public static void TryRemoveAdorner<T>(this UIElement element)
 			where T : Adorner
 			=> AdornerLayer.GetAdornerLayer(element)?.RemoveAdorners<T>(element);
 
-		internal static void RemoveAdorners<T>(this AdornerLayer layer, UIElement element)
+		public static void RemoveAdorners<T>(this AdornerLayer layer, UIElement element)
 			where T : Adorner
 		{
 			var adorners = layer.GetAdorners(element);
@@ -135,7 +144,7 @@ namespace Schrabber.Windows
 				layer.Remove(adorner);
 		}
 
-		internal static void TryAddAdorner<T>(this UIElement element, Adorner adorner)
+		public static void TryAddAdorner<T>(this UIElement element, Adorner adorner)
 			where T : Adorner
 		{
 			AdornerLayer layer = AdornerLayer.GetAdornerLayer(element);
@@ -144,11 +153,11 @@ namespace Schrabber.Windows
 			catch { }
 		}
 
-		internal static Boolean HasAdorner<T>(this AdornerLayer layer, UIElement element)
+		public static Boolean HasAdorner<T>(this AdornerLayer layer, UIElement element)
 			where T : Adorner
 			=> layer.GetAdorners(element)?.OfType<T>().Any() ?? false;
 
-		internal static void RemoveAdorners(this AdornerLayer layer, UIElement element)
+		public static void RemoveAdorners(this AdornerLayer layer, UIElement element)
 		{
 			foreach (Adorner remove in layer?.GetAdorners(element) ?? new Adorner[0])
 				layer.Remove(remove);

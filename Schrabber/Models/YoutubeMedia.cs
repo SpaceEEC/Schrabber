@@ -10,18 +10,18 @@ using System.Linq;
 
 namespace Schrabber.Models
 {
-	internal class YoutubeMedia : Media
+	public class YoutubeMedia : Media
 	{
 		private static readonly YoutubeClient _client = new YoutubeClient();
 		private static YoutubeConverter Converter => new YoutubeConverter(YoutubeMedia._client, FFmpeg.FindExecutablePath());
 
 		private readonly String _videoId;
 
-		internal YoutubeMedia() : base()
+		public YoutubeMedia() : base()
 		{
 			this.FetchTask = this.Tsc.Task;
 		}
-		internal YoutubeMedia(Video video) : this()
+		public YoutubeMedia(Video video) : this()
 		{
 			this._videoId = video.Id;
 
@@ -31,7 +31,7 @@ namespace Schrabber.Models
 			this.Description = video.Description;
 			this.SetBitmapImage(uri: new Uri(video.Thumbnails.HighResUrl));
 		}
-		internal override Media GetCopy() => new YoutubeMedia(this);
+		public override Media GetCopy() => new YoutubeMedia(this);
 
 		private YoutubeMedia(YoutubeMedia orig) : this()
 		{
@@ -49,7 +49,7 @@ namespace Schrabber.Models
 
 		#region Fetch
 		private readonly TaskCompletionSource<Object> Tsc = new TaskCompletionSource<Object>();
-		internal async override Task FetchAsync(
+		public async override Task FetchAsync(
 			IProgress<Double> progress = null,
 			CancellationToken token = default
 		) {

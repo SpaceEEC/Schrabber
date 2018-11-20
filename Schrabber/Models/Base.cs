@@ -8,14 +8,14 @@ using System.Windows.Media.Imaging;
 
 namespace Schrabber.Models
 {
-	internal abstract class Base : ViewModelBase
+	public abstract class Base : ViewModelBase
 	{
 		public abstract String Author { get; set; }
 		public abstract String Title { get; set; }
 		
 		public abstract BitmapImage CoverImage { get; set; }
 
-		internal void SetBitmapImage(Stream stream = null, Uri uri = null)
+		public void SetBitmapImage(Stream stream = null, Uri uri = null)
 		{
 			BitmapImage image = new BitmapImage();
 			image.BeginInit();

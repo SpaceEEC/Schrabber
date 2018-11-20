@@ -5,9 +5,9 @@ using System.IO;
 
 namespace Schrabber.Models
 {
-	internal class LocalMedia : Media
+	public class LocalMedia : Media
 	{
-		internal LocalMedia(String path, TagLib.File file) : base(path)
+		public LocalMedia(String path, TagLib.File file) : base(path)
 		{
 			this.Author = file.Tag.Performers.FirstOrDefault();
 			this.Title = String.IsNullOrWhiteSpace(file.Tag.Title)
@@ -26,7 +26,7 @@ namespace Schrabber.Models
 			}
 		}
 
-		internal override Media GetCopy() => new LocalMedia(this);
+		public override Media GetCopy() => new LocalMedia(this);
 
 		private LocalMedia(LocalMedia orig) : base(orig._cachedLocation)
 		{
