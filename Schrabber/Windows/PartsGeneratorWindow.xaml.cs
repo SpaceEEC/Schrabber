@@ -1,6 +1,7 @@
 ﻿using Schrabber.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,7 +20,7 @@ namespace Schrabber.Windows
 	/// <summary>
 	/// Interaction logic for PartsGeneratorWindow.xaml
 	/// </summary>
-	public partial class PartsGeneratorWindow : Window
+	public partial class PartsGeneratorWindow : Window, INotifyPropertyChanged
 	{
 		public static readonly DependencyProperty MediaDependencyProperty = DependencyProperty.Register(
 			nameof(Media),
@@ -27,39 +28,34 @@ namespace Schrabber.Windows
 			typeof(PartsGeneratorWindow),
 			new PropertyMetadata(null)
 		);
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		public Media Media
 		{
 			get => (Media)this.GetValue(MediaDependencyProperty);
 			set => this.SetValue(MediaDependencyProperty, value);
 		}
 
-		public static readonly DependencyProperty HighlightRuleDependencyProperty = DependencyProperty.Register(
-			nameof(HighlightRule),
-			typeof(HighlightRule),
-			typeof(PartsGeneratorWindow),
-			new PropertyMetadata(null)
-		);
-
-		public HighlightRule HighlightRule
+		public String MatchText
 		{
-			get => (HighlightRule)this.GetValue(HighlightRuleDependencyProperty);
-			set => this.SetValue(HighlightRuleDependencyProperty, value);
+			get => this.HighlightRule.MatchText;
+			set
+			{
+				this.HighlightRule.MatchText = value;
+				this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.MatchText)));
+				this.htb?.ApplyHighlights();
+			}
 		}
+		public HighlightRule HighlightRule { get; set; } = new HighlightRule(Brushes.Green, String.Empty);
 
 		public PartsGeneratorWindow(Media media)
 		{
 			this.InitializeComponent();
 			
 			this.Media = media;
-			this.HighlightRule = new HighlightRule(Brushes.Green, @"\{.*?\}");
 
 			this.htb.HighlightRules.Add(this.HighlightRule);
-		}
-
-		private void TextBox_TextChanged(Object sender, TextChangedEventArgs e)
-		{
-			this.HighlightRule.MatchText = ((TextBox)sender).Text;
-			this.htb.ApplyHighlights();
 		}
 	}
 }

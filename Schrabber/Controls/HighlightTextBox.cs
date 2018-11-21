@@ -60,7 +60,7 @@ namespace Schrabber.Windows
 			foreach (HighlightRule rule in this.HighlightRules.Where(rule => !String.IsNullOrEmpty(rule.MatchText)))
 			{
 				MatchCollection matches;
-				try { matches = Regex.Matches(this.Text, rule.MatchText); }
+				try { matches = Regex.Matches(this.Text, rule.MatchText, RegexOptions.Multiline); }
 				catch { return; }
 
 				foreach (Match match in matches)

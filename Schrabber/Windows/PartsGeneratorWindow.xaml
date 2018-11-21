@@ -5,25 +5,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schrabber.Windows"
+        xmlns:Converters="clr-namespace:Schrabber.Converters"
         mc:Ignorable="d"
         Title="PartsGeneratorWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Converters:SimpleToRegexConverter x:Key="SimpleToRegexConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0"
+                Text="{Binding MatchText, ElementName=window, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,20,0,0"
+            />
+            <TextBox Grid.Row="2"
+                Text="{Binding MatchText, ElementName=window, Mode=OneWayToSource, Converter={StaticResource SimpleToRegexConverter}, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,20,0,0"
+            />
+
+        </Grid>
+
+
         <local:HighlightTextBox
-            Grid.Column="0"
+            Grid.Column="1"
             Text="[Hello you!!] {Hello you!!} (And also hello to you!)"
             TextWrapping="Wrap"
             AcceptsReturn="True"
             x:Name="htb"
-        />
-
-        <TextBox Grid.Column="1"
-                 Text="{Binding HighlightRule.MatchText, ElementName=window, Mode=TwoWay}"
-                 Margin="0,20,0,0"
-                 TextChanged="TextBox_TextChanged"
         />
     </Grid>
 </Window>
