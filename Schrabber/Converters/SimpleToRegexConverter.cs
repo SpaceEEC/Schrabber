@@ -18,7 +18,7 @@ namespace Schrabber.Converters
 			return SimpleToRegexConverter._createGroupsRegex.Replace(
 				Regex.Escape((String)value),
 				match =>
-				$"(?<{match.Groups[1].Value}>.+)"
+				$"(?<{match.Groups[1].Value}>.+?)"
 			) + "$";
 		}
 

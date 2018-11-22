@@ -13,32 +13,51 @@ using System.Windows.Shapes;
 namespace Schrabber.Windows
 {
 	// https://stackoverflow.com/a/42400991/10602948
+	// Those changes are far from elegant
 	public class HighlightTextBox : TextBox
 	{
-		public List<HighlightRule> HighlightRules
-		{
-			get => (List<HighlightRule>)this.GetValue(HighlightRulesProperty);
-			set => this.SetValue(HighlightRulesProperty, value);
-		}
-
 		// Using a DependencyProperty as the backing store for HighlightRules.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty HighlightRulesProperty = DependencyProperty.Register(
-				nameof(HighlightRules),
-				typeof(List<HighlightRule>),
+		public static readonly DependencyProperty HighlightRuleProperty = DependencyProperty.Register(
+				nameof(HighlightRule),
+				typeof(HighlightRule),
 				typeof(HighlightTextBox),
 				new FrameworkPropertyMetadata(
-					null,
-					new PropertyChangedCallback(HighlightRulesChanged)
+					new HighlightRule(),
+					new PropertyChangedCallback(HighlightRuleChanged)
 				)
 			);
+		public HighlightRule HighlightRule
+		{
+			get => (HighlightRule)this.GetValue(HighlightRuleProperty);
+			set => this.SetValue(HighlightRuleProperty, value);
+		}
 
-		private static void HighlightRulesChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		public static readonly DependencyProperty MatchesDependencyProperty = DependencyProperty.Register(
+			nameof(Matches),
+			typeof(Int32),
+			typeof(HighlightTextBox),
+			new PropertyMetadata(0)
+		);
+
+		public Int32 Matches
+		{
+			get => (Int32)this.GetValue(MatchesDependencyProperty);
+			set => this.SetValue(MatchesDependencyProperty, value);
+		}
+
+		private static void HighlightRuleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 			=> ((HighlightTextBox)sender).ApplyHighlights();
 
 		public HighlightTextBox() : base()
 		{
 			this.Loaded += this.HighlightTextBox_Loaded;
-			this.HighlightRules = new List<HighlightRule>();
+			this.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(this.HighightTextBox_ScrollChanged));
+			this.HighlightRule = new HighlightRule();
+		}
+
+		private void HighightTextBox_ScrollChanged(Object sender, ScrollChangedEventArgs e)
+		{
+			this.ApplyHighlights();
 		}
 
 		protected override void OnTextChanged(TextChangedEventArgs e)
@@ -52,47 +71,70 @@ namespace Schrabber.Windows
 
 		public void ApplyHighlights()
 		{
+			this.Matches = 0;
 			this.TryRemoveAdorner<GenericAdorner>();
 
 			if (String.IsNullOrEmpty(this.Text)) return;
 			if (this.ActualHeight == 0 || this.ActualWidth == 0) return;
 
-			foreach (HighlightRule rule in this.HighlightRules.Where(rule => !String.IsNullOrEmpty(rule.MatchText)))
+			MatchCollection matches;
+			try { matches = Regex.Matches(this.Text, this.HighlightRule.MatchText, RegexOptions.Multiline); }
+			catch { return; }
+
+			this.Matches = matches.Count;
+
+			foreach (Group group in matches.Cast<Match>().SelectMany(match => match.Groups.Cast<Group>().Skip(1)).Where(g => g.Length != 0))
 			{
-				MatchCollection matches;
-				try { matches = Regex.Matches(this.Text, rule.MatchText, RegexOptions.Multiline); }
-				catch { return; }
+				Rect rect = this.GetRectFromCharacterIndex(group.Index);
 
-				foreach (Match match in matches)
+				Rect backRect = this.GetRectFromCharacterIndex(group.Index + group.Length - 1, true);
+
+				Brush brush;
+				switch (group.Name.Capitalize())
 				{
-					Rect rect = this.GetRectFromCharacterIndex(match.Index);
+					case nameof(Part.Album):
+					case nameof(Part.Author):
+					case nameof(Part.Title):
+						brush = Brushes.Green;
 
-					Rect backRect = this.GetRectFromCharacterIndex(match.Index + match.Length - 1, true);
+						break;
 
-					this.TryAddAdorner<GenericAdorner>(
-						new GenericAdorner(
-							this,
-							new Rectangle() { Height = rect.Height, Width = backRect.X - rect.X, Fill = rule.Brush, Opacity = 0.5 },
-							new Point(rect.X, rect.Y)
-						)
-					);
+					case nameof(Part.Start):
+					case nameof(Part.Stop):
+
+						if (Regex.IsMatch(group.Value, @"((\d?\d:)?\d)?\d:\d\d *$"))
+							brush = Brushes.Green;
+						else
+							brush = Brushes.Yellow;
+
+						break;
+
+					default:
+						brush = Brushes.Red;
+
+						break;
 				}
+
+				this.TryAddAdorner<GenericAdorner>(
+					new GenericAdorner(
+						this,
+						new Rectangle() { Height = rect.Height, Width = backRect.X - rect.X, Fill = brush, Opacity = 0.5 },
+						new Point(rect.X, rect.Y)
+					)
+				);
 			}
 		}
 	}
 
 	public class HighlightRule
 	{
-		public SolidColorBrush Brush { get; set; }
 		public String MatchText { get; set; }
 
-		public HighlightRule(SolidColorBrush solidColorBrush, String matchText)
+		public HighlightRule(String matchText)
 		{
-			this.Brush = solidColorBrush;
 			this.MatchText = matchText;
 		}
-		public HighlightRule(Color color, String matchText) : this(new SolidColorBrush(color), matchText) { }
-		public HighlightRule() : this(Brushes.Black, null) { }
+		public HighlightRule() : this(null) { }
 	}
 
 	public class GenericAdorner : Adorner
@@ -131,6 +173,9 @@ namespace Schrabber.Windows
 
 	public static class Extensions
 	{
+		public static String Capitalize(this String str)
+			=> Char.ToUpper(str[0]) + str.Substring(1).ToLower();
+
 		public static void TryRemoveAdorner<T>(this UIElement element)
 			where T : Adorner
 			=> AdornerLayer.GetAdornerLayer(element)?.RemoveAdorners<T>(element);

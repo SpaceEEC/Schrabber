@@ -58,7 +58,13 @@ namespace Schrabber.Windows
 		private void ImportPartsButton_Click(Object sender, RoutedEventArgs e)
 		{
 			PartsGeneratorWindow window = new PartsGeneratorWindow(this._media);
-			window.Show();
+			if (window.ShowDialog() != true) return;
+
+			Part[] parts = window.GetParts();
+			if (parts == null) return;
+
+			foreach (Part part in parts)
+				this.ListItems.Add(part);
 		}
 
 		private void EditAllButton_Click(Object sender, RoutedEventArgs eventArgs)
