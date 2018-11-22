@@ -144,6 +144,9 @@ namespace Schrabber.Windows
 
 		public GenericAdorner(UIElement targetElement, UIElement adorner, Point point) : base(targetElement)
 		{
+			// Let mouse click / scroll / etc go through the control beneath
+			this.IsHitTestVisible = false;
+
 			this.adorner = adorner;
 			if (adorner != null)
 				this.AddVisualChild(adorner);
@@ -162,6 +165,7 @@ namespace Schrabber.Windows
 
 			return finalSize;
 		}
+
 		protected override Visual GetVisualChild(Int32 index)
 		{
 			if (index == 0 && this.adorner != null)
