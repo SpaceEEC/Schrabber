@@ -85,11 +85,13 @@ namespace Schrabber.Windows
 								break;
 
 							case nameof(Part.Start):
-								part.Start = (TimeSpan)new Converters.TimeSpanConverter().ConvertBack(group.Value, typeof(TimeSpan), null, CultureInfo.InvariantCulture);
+								if (this._tryConvert(group.Value, out TimeSpan? start))
+									part.Start = start;
 								break;
 
 							case nameof(Part.Stop):
-								part.Stop = (TimeSpan)new Converters.TimeSpanConverter().ConvertBack(group.Value, typeof(TimeSpan), null, CultureInfo.InvariantCulture);
+								if (this._tryConvert(group.Value, out TimeSpan? stop))
+									part.Stop = stop;
 								break;
 						}
 					}
@@ -102,5 +104,19 @@ namespace Schrabber.Windows
 
 		private void DefaultButton_Click(Object sender, RoutedEventArgs e)
 			=> this.DialogResult = true;
+
+		private Boolean _tryConvert(String str, out TimeSpan? ts)
+		{
+			try
+			{
+				ts = (TimeSpan)new Converters.TimeSpanConverter().ConvertBack(str, typeof(TimeSpan), null, CultureInfo.InvariantCulture);
+
+				return true;
+			}
+			catch { }
+
+			ts = null;
+			return false;
+		}
 	}
 }
