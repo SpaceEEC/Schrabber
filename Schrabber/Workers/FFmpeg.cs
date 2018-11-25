@@ -42,7 +42,7 @@ namespace Schrabber.Workers
 
 			if (start.HasValue && start.Value.TotalSeconds != 0) arguments.Add($"-ss {start.Value.TotalSeconds}");
 
-			if (stop.HasValue) arguments.Add($"-to {stop.Value.TotalSeconds}");
+			if (stop.HasValue && stop.Value.TotalSeconds != 0) arguments.Add($"-to {stop.Value.TotalSeconds}");
 
 			arguments.Add("-c copy");
 			arguments.Add("-nostdin");
