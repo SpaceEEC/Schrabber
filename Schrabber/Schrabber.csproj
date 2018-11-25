@@ -88,6 +88,14 @@
     <Compile Include="Controls\PartControl.xaml.cs">
       <DependentUpon>PartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProgressControl.xaml.cs">
+      <DependentUpon>ProgressControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProgressList.xaml.cs">
+      <DependentUpon>ProgressList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\FormatStringConverter.cs" />
+    <Compile Include="Converters\TargetToStringConverter.cs" />
     <Compile Include="Converters\SimpleToRegexConverter.cs" />
     <Compile Include="Controls\YoutubeVideoControl.xaml.cs">
       <DependentUpon>YoutubeVideoControl.xaml</DependentUpon>
@@ -113,6 +121,9 @@
     <Compile Include="Windows\PartsGeneratorWindow.xaml.cs">
       <DependentUpon>PartsGeneratorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\YoutubePlayListWindow.xaml.cs">
       <DependentUpon>YoutubePlayListWindow.xaml</DependentUpon>
     </Compile>
@@ -134,6 +145,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Controls\ProgressControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProgressList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\YoutubeVideoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PartsGeneratorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProgressWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

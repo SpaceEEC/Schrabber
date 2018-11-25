@@ -4,6 +4,7 @@ using Schrabber.Models;
 using Schrabber.Workers;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -28,7 +29,7 @@ namespace Schrabber.Windows
 			set => this.SetValue(ListItemsProperty, value);
 		}
 
-		private String _folderPath = String.Empty;
+		private String _folderPath = null;
 
 		public ICommand RemoveItem { get; }
 
@@ -126,6 +127,22 @@ namespace Schrabber.Windows
 				disposable.Dispose();
 
 			this.ListItems.Clear();
+		}
+
+		private void StartButton_Click(Object sender, RoutedEventArgs e)
+		{
+			ProgressWindow window = new ProgressWindow(this.GetFolderPath(), this.ListItems);
+			window.ShowDialog();
+		}
+
+		private String GetFolderPath()
+		{
+			if (this._folderPath != null) return this._folderPath;
+
+			String path = Path.Combine(Path.GetTempPath(), DateTimeOffset.Now.ToUnixTimeSeconds().ToString());
+			Directory.CreateDirectory(path);
+
+			return path;
 		}
 	}
 }

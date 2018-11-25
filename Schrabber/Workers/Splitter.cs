@@ -8,34 +8,34 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using TagLib;
 
 namespace Schrabber.Workers
 {
 	public class Splitter
 	{
-		private static readonly Int32 _maxRunning =  Environment.ProcessorCount;
+		private static readonly Int32 _maxRunning = Environment.ProcessorCount;
 
-		public static Dictionary<Job<Media>, Job<Part>[]> GetJobs(IEnumerable<Media> medias)
+		public static IEnumerable<Job> GetJobs(IEnumerable<Media> medias)
 		{
-			return medias.ToDictionary(
-				media => new Job<Media>(media),
-				media => {
-					Job<Part>[] parts = new Job<Part>[media.Parts.Length];
-					Int32 i = 0;
+			return medias.SelectMany(media =>
+			{
+				Job[] jobs = new Job[media.Parts.Length + 1];
+				jobs[0] = new Job(media);
+				Int32 i = 1;
 
-					Part prev = null;
-					foreach (Part cur in media.Parts)
-					{
-						if (prev != null && cur.Start == null)
-							cur.Start = prev.Stop;
+				Part prev = null;
+				foreach (Part cur in media.Parts)
+				{
+					if (prev != null && cur.Stop == null)
+						prev.Stop = cur.Start;
 
-						prev = cur;
-						parts[i++] = new Job<Part>(cur);
-					}
-
-					return parts;
+					prev = cur;
+					jobs[i++] = new Job(cur);
 				}
-			);
+
+				return jobs;
+			});
 		}
 
 		private readonly String _path;
@@ -44,32 +44,31 @@ namespace Schrabber.Workers
 
 		private readonly TaskCompletionSource<Object> _tsc = new TaskCompletionSource<Object>();
 
-		public Splitter(String path, Dictionary<Job<Media>, Job<Part>[]> jobs)
+		public Splitter(String path, IEnumerable<Job> jobs)
 		{
 			if (jobs == null)
 				throw new ArgumentNullException(nameof(jobs));
 
 			this._path = path ?? throw new ArgumentNullException(nameof(path));
-			this._jobs = this._enumerateJobs(jobs).GetEnumerator();
-		}
-
-		private IEnumerable _enumerateJobs(Dictionary<Job<Media>, Job<Part>[]> jobs)
-		{
-			foreach (KeyValuePair<Job<Media>, Job<Part>[]> kv in jobs)
-			{
-				yield return kv.Key;
-				foreach (Job<Part> job in kv.Value)
-					yield return job;
-			}
+			this._jobs = jobs.GetEnumerator();
 		}
 
 		private readonly Object _lock = new Object();
 
-		public Task Start()
+		public Task Start(Boolean ended = false)
 		{
 			Debug.WriteLine($"{nameof(this.Start)} called");
+
 			lock (this._lock)
 			{
+				if (ended)
+				{
+					Debug.Assert(this.running > 0, "this.running is not greater than 0 ");
+
+					--this.running;
+					Debug.WriteLine($"Finished job; Still running {this.running}.");
+				}
+
 				while (this.running < Splitter._maxRunning)
 				{
 					// Are we at the end?
@@ -77,7 +76,7 @@ namespace Schrabber.Workers
 					{
 						Debug.WriteLine($"Reached end of jobs; Still running: {this.running}.");
 
-						if (this.running == 0)
+						if (this.running <= 0)
 							this._tsc.TrySetResult(null);
 
 						break;
@@ -86,100 +85,98 @@ namespace Schrabber.Workers
 					++this.running;
 					Debug.WriteLine($"Starting job; Now running {this.running}.");
 
-					ThreadPool.QueueUserWorkItem(this._run, this._jobs.Current);
+					ThreadPool.QueueUserWorkItem(this.Run, this._jobs.Current);
 				}
 			}
 
 			return this._tsc.Task;
 		}
 
-		private void _jobFinished()
+		private async void Run(Object state)
 		{
-			lock (this._lock)
+			try
 			{
-				--this.running;
-				Debug.WriteLine($"Finished job; Still running {this.running}.");
+				await this._run(state).ConfigureAwait(false);
 			}
-
-			this.Start();
+			catch
+			{
+				Debug.Fail("_run threw an error");
+				/* TODO: Do something here */
+			}
+			finally
+			{
+#pragma warning disable 4014
+				this.Start(true);
+#pragma warning restore 4014
+			}
 		}
 
-		private async void _run(Object obj)
+		private async Task _run(Object state)
 		{
-			if (obj is Job<Media> mediaJob)
+			if (!(state is Job job))
+			{
+				Debug.Fail($"Got state of type {state?.GetType()?.ToString() ?? "null"}");
+
+				return;
+			}
+
+			// Start
+			job.Started = true;
+
+			if (job.Target is Media media)
 			{
 				// Fetch if necessary
-				if (mediaJob.Target.MustFetch)
+				if (media.MustFetch)
 				{
-					mediaJob.Progress = 0D;
-					mediaJob.Caption = "Fetching";
+					job.Progress = 0D;
+					job.Caption = "Fetching";
 
-					await mediaJob.Target.FetchAsync(mediaJob);
+					await media.FetchAsync(job).ConfigureAwait(false);
 				}
-
-				// Done
-				mediaJob.Caption = "Done";
-				mediaJob.Progress = 1D;
-
-				this._jobFinished();
 			}
-			else if (obj is Job<Part> partJob)
+			else if (job.Target is Part part)
 			{
-				Part part = partJob.Target;
-
 				// Wait for parent to finish processing if necessary
 				if (!part.Parent.FetchTask.IsCompleted)
 				{
-					partJob.Caption = "Waiting for parent";
-					await part.Parent.FetchTask;
+					job.Caption = "Waiting for parent";
+					await part.Parent.FetchTask.ConfigureAwait(false);
 				}
 
 				// Do the actual splitting part
-				partJob.Caption = "Splitting";
+				job.Caption = "Splitting";
 				String dest = Path.Combine(this._path, this._getFileName(part));
-				FFmpeg.Split(part.Parent.GetLocation(), dest, part.Start, part.Stop, partJob);
+				FFmpeg.Split(part.Parent.GetLocation(), dest, part.Start, part.Stop, job);
 
 				// Write tags
-				partJob.Caption = "Writing tags";
-				partJob.Progress = 0D;
+				job.Caption = "Writing tags";
 				this._writeTags(dest, part);
-
-				// Done
-				partJob.Caption = "Done";
-				partJob.Progress = 1D;
-
-				this._jobFinished();
 			}
-			else
-			{
-				this._jobFinished();
 
-				// TODO: This can not be caught. It should not happen in the first place however.
-				throw new ArgumentException($"Expect type of {nameof(Job<Media>)} or {nameof(Job<Part>)}, but got {obj?.GetType()?.ToString() ?? "null"}.");
-			}
+			// Done
+			job.Finished = true;
 		}
 
 		private void _writeTags(String path, Part part)
 		{
-			TagLib.File file = TagLib.File.Create(path);
-			file.Tag.Title = part.Title;
-			file.Tag.Performers = new[] { part.Author };
-			file.Tag.Album = part.Album;
-			if (part.CoverImage != null)
+			using (TagLib.File file = TagLib.File.Create(path))
 			{
-				JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-				encoder.Frames.Add(BitmapFrame.Create(part.CoverImage));
-				using (MemoryStream ms = new MemoryStream())
+				file.Tag.Title = part.Title;
+				file.Tag.Performers = new[] { part.Author };
+				file.Tag.Album = part.Album;
+				if (part.CoverImage != null)
 				{
-					encoder.Save(ms);
-					file.Tag.Pictures = new TagLib.IPicture[]
+					JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+					encoder.Frames.Add(BitmapFrame.Create(part.CoverImage));
+					using (MemoryStream ms = new MemoryStream())
 					{
-						new TagLib.Picture(new TagLib.ByteVector(ms.ToArray()))
-					};
+						encoder.Save(ms);
+						file.Tag.Pictures = new IPicture[] { new Picture(new ByteVector(ms.ToArray())) };
+					}
 				}
-			}
 
-			file.Save();
+				file.Save();
+			}
 		}
 
 		private String _getFileName(Part part)

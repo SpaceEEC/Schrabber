@@ -3,15 +3,15 @@ using System;
 
 namespace Schrabber.Workers
 {
-	public class Job<T> : ViewModelBase, IProgress<Double>
+	public class Job : ViewModelBase, IProgress<Double>
 	{
-		public Job(T target)
+		public Job(Object target)
 		{
 			this._target = target;
 		}
 
-		private T _target = default;
-		public T Target
+		private Object _target = default;
+		public Object Target
 		{
 			get => this._target;
 			set => this.SetProperty(ref this._target, value);
@@ -24,11 +24,31 @@ namespace Schrabber.Workers
 			set => this.SetProperty(ref this._progress, value);
 		}
 
-		private String _caption = String.Empty;
+		private String _caption = "Waiting";
 		public String Caption
 		{
 			get => this._caption;
 			set => this.SetProperty(ref this._caption, value);
+		}
+
+		private Boolean _started = false;
+		public Boolean Started
+		{
+			get => this._started;
+			set => this.SetProperty(ref this._started, value);
+		}
+
+		private Boolean _finished = false;
+		public Boolean Finished
+		{
+			get => this._finished;
+			set
+			{
+				if (!this.Started) this.Started = true;
+				this.Caption = "Done";
+				this.Progress = 1D;
+				this.SetProperty(ref this._finished, value);
+			}
 		}
 
 		public void Report(Double value) => this.Progress = value;
