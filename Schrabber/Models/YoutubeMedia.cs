@@ -19,7 +19,7 @@ namespace Schrabber.Models
 
 		public YoutubeMedia() : base()
 		{
-			this.FetchTask = this.Tsc.Task;
+			this.FetchTask = this.Tcs.Task;
 		}
 		public YoutubeMedia(Video video) : this()
 		{
@@ -48,7 +48,7 @@ namespace Schrabber.Models
 		}
 
 		#region Fetch
-		private readonly TaskCompletionSource<Object> Tsc = new TaskCompletionSource<Object>();
+		private readonly TaskCompletionSource<Object> Tcs = new TaskCompletionSource<Object>();
 		public async override Task FetchAsync(
 			IProgress<Double> progress = null,
 			CancellationToken token = default
@@ -57,7 +57,9 @@ namespace Schrabber.Models
 			if (this._cachedLocation != null) return;
 			if (this.FetchTask.IsCompleted) return;
 
-			String path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".mp3");
+			String path = Path.Combine(Path.GetTempPath(), "Schrabber");
+			Directory.CreateDirectory(path);
+			path = Path.Combine(path, Guid.NewGuid().ToString() + ".mp3");
 
 			try
 			{
@@ -74,13 +76,13 @@ namespace Schrabber.Models
 				try { File.Delete(path); }
 				catch { }
 
-				this.Tsc.SetException(exception);
+				this.Tcs.SetException(exception);
 
 				throw;
 			}
 
 			this._cachedLocation = path;
-			this.Tsc.SetResult(null);
+			this.Tcs.SetResult(null);
 		}
 		#endregion Fetch
 
