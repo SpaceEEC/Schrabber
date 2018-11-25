@@ -59,7 +59,7 @@ namespace Schrabber.Windows
 				}
 
 				Video video = await _client.GetVideoAsync(videoUrl);
-				if (video.Duration.Seconds == 0)
+				if (video.Duration.TotalSeconds == 0)
 				{
 					MessageBox.Show("Livestreams are not supported.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
