@@ -32,10 +32,15 @@ namespace Schrabber.Windows
 
 		private readonly Media _media;
 
-		public ObservableCollection<Part> ListItems
+		private ObservableCollection<Part> ListItems
 		{
 			get => (ObservableCollection<Part>)this.GetValue(ListItemsProperty);
 			set => this.SetValue(ListItemsProperty, value);
+		}
+
+		public Part[] GetParts(Media original)
+		{
+			return this.ListItems.Select(part => { part.Parent = original; return part; }).ToArray();
 		}
 
 		public ICommand RemoveItem { get; }

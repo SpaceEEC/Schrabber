@@ -33,7 +33,7 @@ namespace Schrabber.Controls
 			PartListWindow window = new PartListWindow(media.GetCopy());
 			if (window.ShowDialog() != true) return;
 
-			media.Parts = window.ListItems.ToArray();
+			media.Parts = window.GetParts(media);
 		}
 
 		#region Cover

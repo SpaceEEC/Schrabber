@@ -5,7 +5,7 @@ namespace Schrabber.Models
 {
 	public class Part : Base
 	{
-		public Media Parent { get; }
+		public Media Parent { get; set; }
 
 		private BitmapImage _coverImage = null;
 		public override BitmapImage CoverImage
