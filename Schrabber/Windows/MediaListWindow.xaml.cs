@@ -131,18 +131,8 @@ namespace Schrabber.Windows
 
 		private void StartButton_Click(Object sender, RoutedEventArgs e)
 		{
-			ProgressWindow window = new ProgressWindow(this.GetFolderPath(), this.ListItems);
+			ProgressWindow window = new ProgressWindow(Cache.CreateOutFolder(this._folderPath), this.ListItems);
 			window.ShowDialog();
-		}
-
-		private String GetFolderPath()
-		{
-			if (this._folderPath != null) return this._folderPath;
-
-			String path = Path.Combine(Path.GetTempPath(), DateTimeOffset.Now.ToUnixTimeSeconds().ToString());
-			Directory.CreateDirectory(path);
-
-			return path;
 		}
 	}
 }

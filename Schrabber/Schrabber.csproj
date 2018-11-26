@@ -130,6 +130,7 @@
     <Compile Include="Windows\YoutubeVideoWindow.xaml.cs">
       <DependentUpon>YoutubeVideoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Workers\Cache.cs" />
     <Compile Include="Workers\FFmpeg.cs" />
     <Compile Include="Workers\Job.cs" />
     <Compile Include="Workers\Splitter.cs" />

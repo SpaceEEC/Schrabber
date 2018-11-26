@@ -57,9 +57,7 @@ namespace Schrabber.Models
 			if (this._cachedLocation != null) return;
 			if (this.FetchTask.IsCompleted) return;
 
-			String path = Path.Combine(Path.GetTempPath(), "Schrabber");
-			Directory.CreateDirectory(path);
-			path = Path.Combine(path, Guid.NewGuid().ToString() + ".mp3");
+			String path = Cache.GetTempCacheFilename();
 
 			try
 			{
