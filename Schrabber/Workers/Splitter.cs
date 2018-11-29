@@ -27,7 +27,7 @@ namespace Schrabber.Workers
 				Part prev = null;
 				foreach (Part cur in media.Parts)
 				{
-					if (prev != null && cur.Stop == null)
+					if (prev != null && prev.Stop == null)
 						prev.Stop = cur.Start;
 
 					prev = cur;
