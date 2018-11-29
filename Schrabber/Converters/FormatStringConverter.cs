@@ -10,6 +10,7 @@ namespace Schrabber.Converters
 		public Object Convert(Object[] values, Type targetType, Object parameter, CultureInfo culture)
 			=> String.Format((String)parameter, values);
 
-		public Object[] ConvertBack(Object value, Type[] targetTypes, Object parameter, CultureInfo culture) => throw new NotSupportedException();
+		public Object[] ConvertBack(Object value, Type[] targetTypes, Object parameter, CultureInfo culture)
+			=> throw new NotSupportedException();
 	}
 }

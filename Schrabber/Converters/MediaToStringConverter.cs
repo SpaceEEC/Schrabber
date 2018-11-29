@@ -20,6 +20,8 @@ namespace Schrabber.Converters
 
 			return Regex.Match(res, @"(.*\n?\r?){0,6}").Value;
 		}
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture) => throw new NotSupportedException();
+
+		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+				=> throw new NotSupportedException();
 	}
 }

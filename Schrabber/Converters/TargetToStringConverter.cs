@@ -36,6 +36,7 @@ namespace Schrabber.Converters
 			throw new NotSupportedException($"Can not convert from type {value.GetType().ToString()} to string.");
 		}
 
-		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture) => throw new NotSupportedException();
+		public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+			=> throw new NotSupportedException();
 	}
 }

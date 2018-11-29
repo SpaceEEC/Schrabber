@@ -26,6 +26,7 @@ namespace Schrabber.Windows
 					new PropertyChangedCallback(HighlightRuleChanged)
 				)
 			);
+
 		public HighlightRule HighlightRule
 		{
 			get => (HighlightRule)this.GetValue(HighlightRuleProperty);
@@ -33,11 +34,11 @@ namespace Schrabber.Windows
 		}
 
 		public static readonly DependencyProperty MatchesDependencyProperty = DependencyProperty.Register(
-			nameof(Matches),
-			typeof(Int32),
-			typeof(HighlightTextBox),
-			new PropertyMetadata(0)
-		);
+				nameof(Matches),
+				typeof(Int32),
+				typeof(HighlightTextBox),
+				new PropertyMetadata(0)
+			);
 
 		public Int32 Matches
 		{
@@ -55,19 +56,17 @@ namespace Schrabber.Windows
 			this.HighlightRule = new HighlightRule();
 		}
 
+		private void HighlightTextBox_Loaded(Object sender, RoutedEventArgs e)
+			=> this.ApplyHighlights();
+
 		private void HighightTextBox_ScrollChanged(Object sender, ScrollChangedEventArgs e)
-		{
-			this.ApplyHighlights();
-		}
+			=> this.ApplyHighlights();
 
 		protected override void OnTextChanged(TextChangedEventArgs e)
 		{
 			base.OnTextChanged(e);
 			this.ApplyHighlights();
 		}
-
-		private void HighlightTextBox_Loaded(Object sender, RoutedEventArgs e)
-			=> this.ApplyHighlights();
 
 		public void ApplyHighlights()
 		{
@@ -156,7 +155,7 @@ namespace Schrabber.Windows
 
 		protected override Int32 VisualChildrenCount
 		{
-			get  => this.adorner == null ? 0 : 1;
+			get => this.adorner == null ? 0 : 1;
 		}
 
 		protected override Size ArrangeOverride(Size finalSize)

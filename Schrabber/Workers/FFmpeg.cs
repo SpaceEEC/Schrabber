@@ -55,9 +55,9 @@ namespace Schrabber.Workers
 			{
 				if (progress != null)
 				{
-					TimeSpan duration = stop.HasValue ?
-						stop.Value - start ?? TimeSpan.Zero
-						:TimeSpan.Zero;
+					TimeSpan duration = stop.HasValue
+						? stop.Value - start ?? TimeSpan.Zero
+						: TimeSpan.Zero;
 					ffmpeg.ErrorDataReceived += (sender, args) =>
 					{
 						if (args.Data == null) return;
