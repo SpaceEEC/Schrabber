@@ -4,8 +4,8 @@ using Schrabber.Models;
 using Schrabber.Workers;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -68,7 +68,7 @@ namespace Schrabber.Windows
 			}
 		}
 
-		private void FileButton_Click(Object sender, RoutedEventArgs e)
+		private async void FileButton_Click(Object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog ofd = new OpenFileDialog()
 			{
@@ -80,15 +80,22 @@ namespace Schrabber.Windows
 
 			foreach (String fileName in ofd.FileNames)
 			{
-				try
+				LocalMedia media = await Task.Run(() =>
 				{
-					using (TagLib.File file = TagLib.File.Create(fileName))
-						this.ListItems.Add(new LocalMedia(fileName, file));
-				}
-				catch(Exception ex)
-				{
-					MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
+					try
+					{
+						using (TagLib.File file = TagLib.File.Create(fileName))
+							return new LocalMedia(fileName, file);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+						return null;
+					}
+				});
+
+				if (media != null) this.ListItems.Add(media);
 			}
 		}
 
