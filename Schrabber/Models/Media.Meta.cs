@@ -6,34 +6,6 @@ namespace Schrabber.Models
 {
 	public abstract partial class Media : Base
 	{
-		protected BitmapImage _coverImage = null;
-		public override BitmapImage CoverImage
-		{
-			get => this._coverImage;
-			set => this.SetProperty(ref this._coverImage, value);
-		}
-
-		protected String _album = String.Empty;
-		public String Album
-		{
-			get => this._album;
-			set => this.SetProperty(ref this._album, value);
-		}
-
-		protected String _title = String.Empty;
-		public override String Title
-		{
-			get => this._title;
-			set => this.SetProperty(ref this._title, value);
-		}
-
-		protected String _author = String.Empty;
-		public override String Author
-		{
-			get => this._author;
-			set => this.SetProperty(ref this._author, value);
-		}
-
 		protected TimeSpan _duration = TimeSpan.Zero;
 		public TimeSpan Duration
 		{

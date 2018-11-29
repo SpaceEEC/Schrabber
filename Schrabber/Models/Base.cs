@@ -10,10 +10,38 @@ namespace Schrabber.Models
 {
 	public abstract class Base : ViewModelBase
 	{
-		public abstract String Author { get; set; }
-		public abstract String Title { get; set; }
-		
-		public abstract BitmapImage CoverImage { get; set; }
+		protected BitmapImage _coverImage = null;
+		public virtual BitmapImage CoverImage
+		{
+			get => this._coverImage;
+			set
+			{
+				if (this.SetProperty(ref this._coverImage, value))
+					this.OnPropertyChanged(nameof(this.HasCoverImage));
+			}
+		}
+		public Boolean HasCoverImage => this._coverImage != null;
+
+		protected String _album = String.Empty;
+		public virtual String Album
+		{ 
+			get => this._album;
+			set => this.SetProperty(ref this._album, value);
+		}
+
+		protected String _author = String.Empty;
+		public virtual String Author
+		{
+			get => this._author;
+			set => this.SetProperty(ref this._author, value);
+		}
+
+		protected String _title = String.Empty;
+		public virtual String Title
+		{
+			get => this._title;
+			set => this.SetProperty(ref this._title, value);
+		}
 
 		public void SetBitmapImage(Stream stream = null, Uri uri = null)
 		{
