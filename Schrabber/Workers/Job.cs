@@ -24,7 +24,7 @@ namespace Schrabber.Workers
 			set => this.SetProperty(ref this._progress, value);
 		}
 
-		private String _caption = "Waiting";
+		private String _caption = Properties.Resources.Job_Waiting;
 		public String Caption
 		{
 			get => this._caption;
@@ -45,7 +45,7 @@ namespace Schrabber.Workers
 			set
 			{
 				if (!this.Started) this.Started = true;
-				this.Caption = "Done";
+				this.Caption = Properties.Resources.Job_Done;
 				this.Progress = 1D;
 				this.SetProperty(ref this._finished, value);
 			}

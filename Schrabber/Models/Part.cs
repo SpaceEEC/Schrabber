@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace Schrabber.Models
@@ -61,6 +62,17 @@ namespace Schrabber.Models
 			this._start = part._start;
 			this._stop = part._stop;
 			this._title = part._title;
+		}
+
+		public String GetFileName()
+		{
+			String fileName = this.ToString();
+
+			return String.Join(
+				"_",
+				fileName.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries)
+			// TODO: Configurable extension
+			).TrimEnd('.') + ".mp3";
 		}
 	}
 }

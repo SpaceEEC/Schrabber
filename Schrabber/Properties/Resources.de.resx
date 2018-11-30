@@ -118,34 +118,34 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Löschen</value>
   </data>
   <data name="EditAllPartsWindow_Label" xml:space="preserve">
-    <value>Every field you change at least once will be overwritten everywhere.</value>
+    <value>Jedes Feld, welches einmal editiert wird, wird überall überschrieben.</value>
   </data>
   <data name="MedaListWindow_EntriesLabel" xml:space="preserve">
-    <value>Entries: {0}</value>
+    <value>Elemente: {0}</value>
   </data>
   <data name="MediaControl_Split" xml:space="preserve">
-    <value>Split -- Parts: {0}</value>
+    <value>Teilen -- Anzahl: {0}</value>
   </data>
   <data name="MediaListWindow_FileButton" xml:space="preserve">
-    <value>Add Local Files</value>
+    <value>Lokale Datein Hinzufügen</value>
   </data>
   <data name="MediaListWindow_PlaylistButton" xml:space="preserve">
-    <value>Add Youtube Playlist</value>
+    <value>Youtube-Playlist Hinzufüen</value>
   </data>
   <data name="MediaListWindow_ResetButton" xml:space="preserve">
-    <value>Remove All Elements</value>
+    <value>Entferne Alle Elemente</value>
   </data>
   <data name="MediaListWindow_SetFolderButton" xml:space="preserve">
-    <value>Set Destination Folder</value>
+    <value>Setze Zielordnder</value>
   </data>
   <data name="MediaListWindow_StartButton" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="MediaListWindow_VideoButton" xml:space="preserve">
-    <value>Add Youtube Video</value>
+    <value>Youtube-Video Hinzufügen</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="no_cover" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -155,13 +155,13 @@
     <value>Album:</value>
   </data>
   <data name="PartControl_Author" xml:space="preserve">
-    <value>Author:</value>
+    <value>Autor:</value>
   </data>
   <data name="RemoveCover" xml:space="preserve">
-    <value>Remove Cover</value>
+    <value>Entferne Cover</value>
   </data>
   <data name="SetCover" xml:space="preserve">
-    <value>Set Cover</value>
+    <value>Setze Cover</value>
   </data>
   <data name="PartControl_Start" xml:space="preserve">
     <value>Start:</value>
@@ -170,113 +170,113 @@
     <value>Stop:</value>
   </data>
   <data name="PartControl_Title" xml:space="preserve">
-    <value>Title:</value>
+    <value>Titel:</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Bestätigen</value>
   </data>
   <data name="PartListWindow_EditAllButton" xml:space="preserve">
-    <value>Edit All</value>
+    <value>Alle Editieren</value>
   </data>
   <data name="PartListWindow_ImportPartsButton" xml:space="preserve">
-    <value>Auto Generate</value>
+    <value>Automatisch Generieren</value>
   </data>
   <data name="PartListWindow_NewPartButton" xml:space="preserve">
-    <value>New Part</value>
+    <value>Neues Teil</value>
   </data>
   <data name="PartListWindow_PartsLabel" xml:space="preserve">
-    <value>Parts: {0}</value>
+    <value>Teile: {0}</value>
   </data>
   <data name="PartListWindow_RemoveallPartsButton" xml:space="preserve">
-    <value>Remove All Parts</value>
+    <value>Entferne Alle Teile</value>
   </data>
   <data name="PartsGeneratorWindow_DefaultButton" xml:space="preserve">
-    <value>Generate</value>
+    <value>Generieren</value>
   </data>
   <data name="PartsGeneratorWindow_PartsLabel" xml:space="preserve">
-    <value>Parts: {0}</value>
+    <value>Teile: {0}</value>
   </data>
   <data name="ProgressWindow_FinishedLabel" xml:space="preserve">
-    <value>Finished {0}</value>
+    <value>Abgeschlossen {0}</value>
   </data>
   <data name="ProgressWindow_OpenDestinationFolderButton" xml:space="preserve">
-    <value>Open Destination Folder</value>
+    <value>Öffne Zielordner</value>
   </data>
   <data name="ProgressWindow_Progress" xml:space="preserve">
-    <value>Progress</value>
+    <value>Fortschritt</value>
   </data>
   <data name="ProgressWindow_RunningLabel" xml:space="preserve">
-    <value>Running {0}</value>
+    <value>Laufend {0}</value>
   </data>
   <data name="ProgressWindow_WaitingLabel" xml:space="preserve">
-    <value>Waiting {0}</value>
+    <value>Warten {0}</value>
   </data>
   <data name="YoutubePlayListWindow_VideosLabel" xml:space="preserve">
     <value>Videos: {0}</value>
   </data>
   <data name="YoutubeVideoControl_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Entfernen</value>
   </data>
   <data name="Youtube_DefaultButton" xml:space="preserve">
-    <value>Import</value>
+    <value>Importieren</value>
   </data>
   <data name="Youtube_LoadButton" xml:space="preserve">
-    <value>Load</value>
+    <value>Laden</value>
   </data>
   <data name="Youtube_UrlOrIdLabel" xml:space="preserve">
-    <value>Youtube Url or Id:</value>
+    <value>Youtube Url oder Id:</value>
   </data>
   <data name="EditAllPartsWindow_Title" xml:space="preserve">
-    <value>Schrabber - Edit All Parts</value>
+    <value>Schrabber - Alle Teile Editieren</value>
   </data>
   <data name="Job_Done" xml:space="preserve">
-    <value>Done</value>
+    <value>Abgeschlossen</value>
   </data>
   <data name="Job_Fetching" xml:space="preserve">
-    <value>Fetching</value>
+    <value>Laden</value>
   </data>
   <data name="Job_Splitting" xml:space="preserve">
-    <value>Splitting</value>
+    <value>Aufteilen</value>
   </data>
   <data name="Job_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>Warten</value>
   </data>
   <data name="Job_WaitingForParent" xml:space="preserve">
-    <value>Waiting for parent</value>
+    <value>Warten</value>
   </data>
   <data name="Job_WritingTags" xml:space="preserve">
-    <value>Writing tags</value>
+    <value>Schreibe Metadaten</value>
   </data>
   <data name="MediaListWindow_FFmpegNotFoundText" xml:space="preserve">
-    <value>Could not find the FFmpeg executable!
-FFmpeg has to be installed and in the path for this application to work.</value>
+    <value>Konnte FFmpeg nicht finden!
+FFmpeg muss installiert sein und sich im "path" befinden.</value>
   </data>
   <data name="MediaListWindow_FFmpegNotFoundTitle" xml:space="preserve">
-    <value>FFmpeg not found!</value>
+    <value>FFmpeg nicht gefunden!</value>
   </data>
   <data name="MediaListWindow_Title" xml:space="preserve">
     <value>Schrabber</value>
   </data>
   <data name="PartListWindow_DuplicatesText" xml:space="preserve">
-    <value>Duplicated parts found:
+    <value>Doppelte Teile gefunden:
 {0}</value>
   </data>
   <data name="PartListWindow_DuplicatesTitle" xml:space="preserve">
-    <value>Duplicated Parts</value>
+    <value>Doppelte Teile</value>
   </data>
   <data name="PartListWindow_Title" xml:space="preserve">
-    <value>Schrabber - Parts</value>
+    <value>Schrabber - Teile</value>
   </data>
   <data name="PartsGeneratorWindow_Title" xml:space="preserve">
-    <value>Schrabber - Parts Generator</value>
+    <value>Schrabber - Teile Generieren</value>
   </data>
   <data name="ProgressWindow_Title" xml:space="preserve">
-    <value>Schrabber - Progress</value>
+    <value>Schrabber - Fortschritt</value>
   </data>
   <data name="YoutubePlayListWindow_Title" xml:space="preserve">
-    <value>Schrabber - Youtube Playlist</value>
+    <value>Schrabber - Youtube-Playlist</value>
   </data>
   <data name="YoutubeVideoWindow_Title" xml:space="preserve">
-    <value>Schrabber - Youtube Video</value>
+    <value>Schrabber - Youtube-Video</value>
   </data>
 </root>

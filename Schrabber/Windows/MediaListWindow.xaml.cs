@@ -58,8 +58,8 @@ namespace Schrabber.Windows
 			if (FFmpeg.FindExecutablePath() == null)
 			{
 				MessageBox.Show(
-					"Can not find the FFmpeg executable.\nFFmpeg has to be installed and in the path for this application to work.",
-					"FFmpeg not found!",
+					Properties.Resources.MediaListWindow_FFmpegNotFoundText,
+					Properties.Resources.MediaListWindow_FFmpegNotFoundTitle,
 					MessageBoxButton.OK,
 					MessageBoxImage.Stop
 				);

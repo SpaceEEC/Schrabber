@@ -2,12 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:p="clr-namespace:Schrabber.Properties"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Name="window"
         xmlns:Converters="clr-namespace:Schrabber.Converters"
         xmlns:Controls="clr-namespace:Schrabber.Controls"
         mc:Ignorable="d"
-        Title="MediaListWindow"
+        Title="{x:Static p:Resources.MediaListWindow_Title}"
         Height="450"
         Width="1000"
         Loaded="Window_Loaded">
@@ -17,7 +18,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <ListBox Grid.Column="0"
@@ -47,57 +48,63 @@
             <Button
                 Grid.Row="0"
                 x:Name="PlaylistButton"
-                Content="Add Youtube Playlist"
+                Content="{x:Static p:Resources.MediaListWindow_PlaylistButton}"
                 Margin="10,5,10,5"
                 Click="PlaylistButton_Click"
+                Padding="5"
             />
 
             <Button
                 Grid.Row="1"
                 x:Name="VideoButton"
-                Content="Add Youtube Video"
+                Content="{x:Static p:Resources.MediaListWindow_VideoButton}"
                 Margin="10,5,10,5"
                 Click="VideoButton_Click"
+                Padding="5"
             />
 
             <Button
                 Grid.Row="2"
                 x:Name="FileButton"
-                Content="Add Local Files"
+                Content="{x:Static p:Resources.MediaListWindow_FileButton}"
                 Margin="10,5,10,5"
                 Click="FileButton_Click"
+                Padding="5"
             />
 
             <Button
                 Grid.Row="4"
-                Content="Remove All Elements"
+                Content="{x:Static p:Resources.MediaListWindow_ResetButton}"
                 x:Name="ResetButton"
                 Margin="10,5,10,5"
                 IsEnabled="{Binding ListItems.Count, ElementName=window, Converter={StaticResource IsNotZeroConverter}}"
                 Click="ResetButton_Click"
+                Padding="5"
             />
 
             <Button
                 Grid.Row="5"
-                Content="Set Destination Folder"
+                Content="{x:Static p:Resources.MediaListWindow_SetFolderButton}"
                 x:Name="SetFolderButton"
                 Margin="10,5,10,5"
                 Click="SetFolderButton_Click"
+                Padding="5"
             />
 
             <Button
                 Grid.Row="6"
-                Content="Start"
+                Content="{x:Static p:Resources.MediaListWindow_StartButton}"
                 x:Name="StartButton"
                 Margin="10,5,10,5"
                 IsEnabled="{Binding ListItems.Count, ElementName=window, Converter={StaticResource IsNotZeroConverter}}"
                 Click="StartButton_Click"
+                Padding="5"
             />
 
             <Label Grid.Row="7"
                 HorizontalAlignment="Center"
-                Content="{Binding ListItems.Count, ElementName=window}"
-                ContentStringFormat="Entries: {0}"
+                Content="{Binding ListItems.Count, ElementName=window, FallbackValue=0}"
+                ContentStringFormat="{x:Static p:Resources.MedaListWindow_EntriesLabel}"
             />
         </Grid>
     </Grid>

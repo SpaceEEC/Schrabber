@@ -40,7 +40,10 @@ namespace Schrabber.Windows
 
 		public Part[] GetParts(Media original)
 		{
-			return this.ListItems.Select(part => { part.Parent = original; return part; }).ToArray();
+			return this.ListItems
+					.OrderBy(part => part.Start)
+					.Select(part => { part.Parent = original; return part; })
+					.ToArray();
 		}
 
 		public ICommand RemoveItem { get; }
@@ -104,7 +107,27 @@ namespace Schrabber.Windows
 
 		private void RemoveAllPartsButton_Click(Object sender, RoutedEventArgs e) => this.ListItems.Clear();
 
-		private void ConfirmButton_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
+		private void ConfirmButton_Click(Object sender, RoutedEventArgs e)
+		{
+			HashSet<String> set = new HashSet<String>();
+
+			String[] groups = this.ListItems
+				.GroupBy(part => part.GetFileName())
+				.Where(g => g.Count() > 1)
+				.Select(grouping => grouping.First().ToString())
+				.ToArray();
+
+			if (groups.Length != 0)
+			{
+				// TODO: ErrorValidation would be far better. But how?
+				MessageBox.Show(String.Format(Properties.Resources.PartListWindow_DuplicatesText, String.Join("\n", groups)), Properties.Resources.PartListWindow_DuplicatesTitle);
+				e.Handled = true;
+			}
+			else
+			{
+				this.DialogResult = true;
+			}
+		}
 
 		#region ErrorValidation
 		// Directly being able to bind to ListBox.Validation.Errors.Count would be nice, but apparently not possible.

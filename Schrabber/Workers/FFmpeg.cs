@@ -53,35 +53,33 @@ namespace Schrabber.Workers
 
 			using (Process ffmpeg = FFmpeg.GetProcess(String.Join(" ", arguments)))
 			{
-				if (progress != null)
+				TimeSpan duration = stop.HasValue
+					? stop.Value - start ?? TimeSpan.Zero
+					: TimeSpan.Zero;
+				ffmpeg.ErrorDataReceived += (sender, args) =>
 				{
-					TimeSpan duration = stop.HasValue
-						? stop.Value - start ?? TimeSpan.Zero
-						: TimeSpan.Zero;
-					ffmpeg.ErrorDataReceived += (sender, args) =>
+					Debug.WriteLine(args.Data);
+					if (args.Data == null) return;
+
+					if (duration == TimeSpan.Zero)
 					{
-						if (args.Data == null) return;
+						String match = Regex.Match(args.Data, @"Duration:\s(\d\d:\d\d:\d\d.\d\d)").Groups[1].Value;
+						if (String.IsNullOrWhiteSpace(match)) return;
 
-						if (duration == TimeSpan.Zero)
-						{
-							String match = Regex.Match(args.Data, @"Duration:\s(\d\d:\d\d:\d\d.\d\d)").Groups[1].Value;
-							if (String.IsNullOrWhiteSpace(match)) return;
+						duration = TimeSpan.ParseExact(match, "c", CultureInfo.InvariantCulture);
 
-							duration = TimeSpan.ParseExact(match, "c", CultureInfo.InvariantCulture);
+						if (start.HasValue) duration -= start.Value;
+					}
+					else
+					{
+						String match = Regex.Match(args.Data, @"time=(\d\d:\d\d:\d\d.\d\d)").Groups[1].Value;
+						if (String.IsNullOrWhiteSpace(match)) return;
 
-							if (start.HasValue) duration -= start.Value;
-						}
-						else
-						{
-							String match = Regex.Match(args.Data, @"time=(\d\d:\d\d:\d\d.\d\d)").Groups[1].Value;
-							if (String.IsNullOrWhiteSpace(match)) return;
+						TimeSpan current = TimeSpan.ParseExact(match, "c", CultureInfo.InvariantCulture);
 
-							TimeSpan current = TimeSpan.ParseExact(match, "c", CultureInfo.InvariantCulture);
-
-							progress.Report(Math.Min(current.TotalMilliseconds / duration.TotalMilliseconds, 1D));
-						}
-					};
-				}
+						progress?.Report(Math.Min(current.TotalMilliseconds / duration.TotalMilliseconds, 1D));
+					}
+				};
 
 				ffmpeg.Start();
 				ffmpeg.BeginErrorReadLine();

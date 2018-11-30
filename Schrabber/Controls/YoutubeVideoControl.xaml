@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:p="clr-namespace:Schrabber.Properties"
              xmlns:converters="clr-namespace:Schrabber.Converters"
              xmlns:models="clr-namespace:Schrabber.Models"
              d:DataContext="{d:DesignInstance {x:Type models:YoutubeMedia}, IsDesignTimeCreatable=False}"
@@ -45,7 +46,7 @@
 
         <Button
             Grid.Column="2"
-            Content="Remove"
+            Content="{x:Static p:Resources.YoutubeVideoControl_Remove}"
             Height="84"
             Width="84"
             Command="{Binding RemoveItem, ElementName=youtubeVideoControl}"

@@ -4,10 +4,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:Schrabber.Properties"
         xmlns:local="clr-namespace:Schrabber.Windows"
         xmlns:Controls="clr-namespace:Schrabber.Controls" x:Class="Schrabber.Windows.EditAllPartsWindow"
         mc:Ignorable="d"
-        Title="EditAllPartsWindow"
+        Title="{x:Static p:Resources.EditAllPartsWindow_Title}"
         Height="200"
         Width="800">
     <Grid>
@@ -16,7 +17,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Every field you change at least once will be overwritten everwhere." HorizontalContentAlignment="Center" FontWeight="Bold"/>
-        <Controls:PartControl Grid.Row="1" ButtonName="Confirm" ButtonCommand="{Binding ConfirmCommand, ElementName=window}" x:Name="PartControl"/>
+        <Label Grid.Row="0"
+            Content="{x:Static p:Resources.EditAllPartsWindow_Label}"
+            HorizontalContentAlignment="Center"
+            FontWeight="Bold"
+        />
+        
+        <Controls:PartControl Grid.Row="1"
+            ButtonName="{x:Static p:Resources.Confirm}"
+            ButtonCommand="{Binding ConfirmCommand, ElementName=window}"
+            x:Name="PartControl"
+        />
     </Grid>
 </Window>

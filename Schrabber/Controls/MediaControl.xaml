@@ -3,7 +3,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:p="clr-namespace:Schrabber.Properties"
              xmlns:converters="clr-namespace:Schrabber.Converters"
              xmlns:models="clr-namespace:Schrabber.Models"
              d:DataContext="{d:DesignInstance {x:Type models:Media}, IsDesignTimeCreatable=False}"
@@ -38,12 +39,12 @@
             <Image.ContextMenu>
                 <ContextMenu>
                     <MenuItem
-                        Header="Set Cover"
+                        Header="{x:Static p:Resources.SetCover}"
                         Click="SetCover_Click"
                     />
 
                     <MenuItem
-                        Header="Remove Cover"
+                        Header="{x:Static p:Resources.RemoveCover}"
                         Click="RemoveCover_Click"
                         IsEnabled="{Binding CoverImage, Converter={StaticResource IsNotNullConverter}}"
                     />
@@ -71,13 +72,13 @@
             <Button
                 Grid.Row="0"
                 Content="{Binding Parts.Count}"
-                ContentStringFormat="Split -- Parts: {0}"
+                ContentStringFormat="{x:Static p:Resources.MediaControl_Split}"
                 Margin="0,10,10,5"
                 Click="DoSplit"
             />
             <Button
                 Grid.Row="1"
-                Content="Delete"
+                Content="{x:Static p:Resources.Delete}"
                 Margin="0,5,10,10"
                 Command="{Binding RemoveItem, ElementName=mediaControl}"
                 CommandParameter="{Binding}"

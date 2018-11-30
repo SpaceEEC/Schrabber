@@ -3,6 +3,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:p="clr-namespace:Schrabber.Properties"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Converters="clr-namespace:Schrabber.Converters"
              xmlns:models="clr-namespace:Schrabber.Models"
@@ -54,12 +55,12 @@
             <Image.ContextMenu>
                 <ContextMenu>
                     <MenuItem
-                        Header="Set Cover"
+                        Header="{x:Static p:Resources.SetCover}"
                         Click="SetCover_Click"
                     />
 
                     <MenuItem
-                        Header="Remove Cover"
+                        Header="{x:Static p:Resources.RemoveCover}"
                         Click="RemoveCover_Click"
                         IsEnabled="{Binding CoverImage, Converter={StaticResource IsNotNullConverter}}"
                     />
@@ -89,7 +90,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0"
                     Width="50"
-                    Content="Author:"
+                    Content="{x:Static p:Resources.PartControl_Author}"
                     HorizontalContentAlignment="Center"
                     Margin="5"
                 />
@@ -108,7 +109,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0"
                     Width="50"
-                    Content="Title:"
+                    Content="{x:Static p:Resources.PartControl_Title}"
                     HorizontalContentAlignment="Center"
                     Margin="5"
                 />
@@ -142,7 +143,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0"
                     Width="50"
-                    Content="Album:"
+                    Content="{x:Static p:Resources.PartControl_Album}"
                     HorizontalContentAlignment="Center"
                     Margin="5"
 
@@ -162,7 +163,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0"
                     Width="50"
-                    Content="Start:"
+                    Content="{x:Static p:Resources.PartControl_Start}"
                     HorizontalContentAlignment="Center"
                     Margin="5"
                 />
@@ -195,7 +196,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0"
                     Width="50"
-                    Content="Stop:"
+                    Content="{x:Static p:Resources.PartControl_Stop}"
                     HorizontalContentAlignment="Center"
                     Margin="5"
                 />

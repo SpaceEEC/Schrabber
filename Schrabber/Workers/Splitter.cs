@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using TagLib;
 
@@ -98,9 +99,10 @@ namespace Schrabber.Workers
 			{
 				await this._run(state).ConfigureAwait(false);
 			}
-			catch
+			catch (Exception ex)
 			{
 				Debug.Fail("_run threw an error");
+				MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				/* TODO: Do something here */
 			}
 			finally
@@ -129,7 +131,7 @@ namespace Schrabber.Workers
 				if (media.MustFetch)
 				{
 					job.Progress = 0D;
-					job.Caption = "Fetching";
+					job.Caption = Properties.Resources.Job_Fetching;
 
 					await media.FetchAsync(job).ConfigureAwait(false);
 				}
@@ -139,17 +141,17 @@ namespace Schrabber.Workers
 				// Wait for parent to finish processing if necessary
 				if (!part.Parent.FetchTask.IsCompleted)
 				{
-					job.Caption = "Waiting for parent";
+					job.Caption = Properties.Resources.Job_WaitingForParent;
 					await part.Parent.FetchTask.ConfigureAwait(false);
 				}
 
 				// Do the actual splitting part
-				job.Caption = "Splitting";
-				String dest = Path.Combine(this._path, this._getFileName(part));
+				job.Caption = Properties.Resources.Job_Splitting;
+				String dest = Path.Combine(this._path, part.GetFileName());
 				FFmpeg.Split(part.Parent.GetLocation(), dest, part.Start, part.Stop, job);
 
 				// Write tags
-				job.Caption = "Writing tags";
+				job.Caption = Properties.Resources.Job_WritingTags;
 				this._writeTags(dest, part);
 			}
 
@@ -177,17 +179,6 @@ namespace Schrabber.Workers
 
 				file.Save();
 			}
-		}
-
-		private String _getFileName(Part part)
-		{
-			String fileName = part.ToString();
-
-			return String.Join(
-				"_",
-				fileName.Split(Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries)
-			// TODO: Configurable extension
-			).TrimEnd('.') + ".mp3";
 		}
 	}
 }

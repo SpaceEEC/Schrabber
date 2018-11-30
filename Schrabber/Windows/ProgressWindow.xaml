@@ -4,10 +4,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:Schrabber.Properties"
         xmlns:Controls="clr-namespace:Schrabber.Controls"
         xmlns:Converters="clr-namespace:Schrabber.Converters"
         mc:Ignorable="d"
-        Title="ProgressWindow" Height="450" Width="1000">
+        Title="{x:Static p:Resources.ProgressWindow_Title}"
+        Height="450"
+        Width="1000"
+>
     <Window.Resources>
         <Converters:FormatStringConverter x:Key="FormatStringConverter"/>
     </Window.Resources>
@@ -35,7 +39,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"
-                Content="Progress"
+                Content="{x:Static p:Resources.ProgressWindow_Progress}"
             />
             <Label Grid.Column="1" ContentStringFormat="{}{0}">
                 <Label.Content>
@@ -71,7 +75,7 @@
                 Margin="10,0,10,0"
                 Padding="10,0,10,0"
                 HorizontalAlignment="Right"
-                Content="Open Destination Folder"
+                Content="{x:Static p:Resources.ProgressWindow_OpenDestinationFolderButton}"
                 Click="OpenDestinationButton_Click"
             />
         </Grid>
@@ -89,7 +93,7 @@
 
             <Label Grid.Row="0" Grid.Column="0"
                 Content="{Binding StartedJobs.Count, ElementName=window, FallbackValue=0}"
-                ContentStringFormat="Running {0}"
+                ContentStringFormat="{x:Static p:Resources.ProgressWindow_RunningLabel}"
                 FontWeight="Bold"
                 HorizontalContentAlignment="Center"
              />
@@ -99,7 +103,7 @@
 
             <Label Grid.Row="0" Grid.Column="1"
                 Content="{Binding WaitingJobs.Count, ElementName=window, FallbackValue=0}"
-                ContentStringFormat="Waiting {0}"
+                ContentStringFormat="{x:Static p:Resources.ProgressWindow_WaitingLabel}"
                 FontWeight="Bold"
                 HorizontalContentAlignment="Center"
              />
@@ -109,7 +113,7 @@
 
             <Label Grid.Row="0" Grid.Column="2"
                 Content="{Binding FinishedJobs.Count, ElementName=window, FallbackValue=0}"
-                ContentStringFormat="Finished {0}"
+                ContentStringFormat="{x:Static p:Resources.ProgressWindow_FinishedLabel}"
                 FontWeight="Bold"
                 HorizontalContentAlignment="Center"
              />

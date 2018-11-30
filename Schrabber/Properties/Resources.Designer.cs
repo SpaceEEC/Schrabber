@@ -29,7 +29,7 @@ namespace Schrabber.Properties {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -61,12 +61,482 @@ namespace Schrabber.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Every field you change at least once will be overwritten everywhere..
+        /// </summary>
+        public static string EditAllPartsWindow_Label {
+            get {
+                return ResourceManager.GetString("EditAllPartsWindow_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber - Edit All Parts.
+        /// </summary>
+        public static string EditAllPartsWindow_Title {
+            get {
+                return ResourceManager.GetString("EditAllPartsWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Job_Done {
+            get {
+                return ResourceManager.GetString("Job_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fetching.
+        /// </summary>
+        public static string Job_Fetching {
+            get {
+                return ResourceManager.GetString("Job_Fetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Splitting.
+        /// </summary>
+        public static string Job_Splitting {
+            get {
+                return ResourceManager.GetString("Job_Splitting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting.
+        /// </summary>
+        public static string Job_Waiting {
+            get {
+                return ResourceManager.GetString("Job_Waiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for parent.
+        /// </summary>
+        public static string Job_WaitingForParent {
+            get {
+                return ResourceManager.GetString("Job_WaitingForParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing tags.
+        /// </summary>
+        public static string Job_WritingTags {
+            get {
+                return ResourceManager.GetString("Job_WritingTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entries: {0}.
+        /// </summary>
+        public static string MedaListWindow_EntriesLabel {
+            get {
+                return ResourceManager.GetString("MedaListWindow_EntriesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split -- Parts: {0}.
+        /// </summary>
+        public static string MediaControl_Split {
+            get {
+                return ResourceManager.GetString("MediaControl_Split", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find the FFmpeg executable!
+        ///FFmpeg has to be installed and in the path for this application to work..
+        /// </summary>
+        public static string MediaListWindow_FFmpegNotFoundText {
+            get {
+                return ResourceManager.GetString("MediaListWindow_FFmpegNotFoundText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FFmpeg not found!.
+        /// </summary>
+        public static string MediaListWindow_FFmpegNotFoundTitle {
+            get {
+                return ResourceManager.GetString("MediaListWindow_FFmpegNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Local Files.
+        /// </summary>
+        public static string MediaListWindow_FileButton {
+            get {
+                return ResourceManager.GetString("MediaListWindow_FileButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Youtube Playlist.
+        /// </summary>
+        public static string MediaListWindow_PlaylistButton {
+            get {
+                return ResourceManager.GetString("MediaListWindow_PlaylistButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove All Elements.
+        /// </summary>
+        public static string MediaListWindow_ResetButton {
+            get {
+                return ResourceManager.GetString("MediaListWindow_ResetButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Destination Folder.
+        /// </summary>
+        public static string MediaListWindow_SetFolderButton {
+            get {
+                return ResourceManager.GetString("MediaListWindow_SetFolderButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string MediaListWindow_StartButton {
+            get {
+                return ResourceManager.GetString("MediaListWindow_StartButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber.
+        /// </summary>
+        public static string MediaListWindow_Title {
+            get {
+                return ResourceManager.GetString("MediaListWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Youtube Video.
+        /// </summary>
+        public static string MediaListWindow_VideoButton {
+            get {
+                return ResourceManager.GetString("MediaListWindow_VideoButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap no_cover {
             get {
                 object obj = ResourceManager.GetObject("no_cover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Album:.
+        /// </summary>
+        public static string PartControl_Album {
+            get {
+                return ResourceManager.GetString("PartControl_Album", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author:.
+        /// </summary>
+        public static string PartControl_Author {
+            get {
+                return ResourceManager.GetString("PartControl_Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start:.
+        /// </summary>
+        public static string PartControl_Start {
+            get {
+                return ResourceManager.GetString("PartControl_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop:.
+        /// </summary>
+        public static string PartControl_Stop {
+            get {
+                return ResourceManager.GetString("PartControl_Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title:.
+        /// </summary>
+        public static string PartControl_Title {
+            get {
+                return ResourceManager.GetString("PartControl_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicated parts found:
+        ///{0}.
+        /// </summary>
+        public static string PartListWindow_DuplicatesText {
+            get {
+                return ResourceManager.GetString("PartListWindow_DuplicatesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicated Parts.
+        /// </summary>
+        public static string PartListWindow_DuplicatesTitle {
+            get {
+                return ResourceManager.GetString("PartListWindow_DuplicatesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit All.
+        /// </summary>
+        public static string PartListWindow_EditAllButton {
+            get {
+                return ResourceManager.GetString("PartListWindow_EditAllButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Generate.
+        /// </summary>
+        public static string PartListWindow_ImportPartsButton {
+            get {
+                return ResourceManager.GetString("PartListWindow_ImportPartsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Part.
+        /// </summary>
+        public static string PartListWindow_NewPartButton {
+            get {
+                return ResourceManager.GetString("PartListWindow_NewPartButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parts: {0}.
+        /// </summary>
+        public static string PartListWindow_PartsLabel {
+            get {
+                return ResourceManager.GetString("PartListWindow_PartsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove All Parts.
+        /// </summary>
+        public static string PartListWindow_RemoveallPartsButton {
+            get {
+                return ResourceManager.GetString("PartListWindow_RemoveallPartsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber - Parts.
+        /// </summary>
+        public static string PartListWindow_Title {
+            get {
+                return ResourceManager.GetString("PartListWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate.
+        /// </summary>
+        public static string PartsGeneratorWindow_DefaultButton {
+            get {
+                return ResourceManager.GetString("PartsGeneratorWindow_DefaultButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parts: {0}.
+        /// </summary>
+        public static string PartsGeneratorWindow_PartsLabel {
+            get {
+                return ResourceManager.GetString("PartsGeneratorWindow_PartsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber - Parts Generator.
+        /// </summary>
+        public static string PartsGeneratorWindow_Title {
+            get {
+                return ResourceManager.GetString("PartsGeneratorWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished {0}.
+        /// </summary>
+        public static string ProgressWindow_FinishedLabel {
+            get {
+                return ResourceManager.GetString("ProgressWindow_FinishedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Destination Folder.
+        /// </summary>
+        public static string ProgressWindow_OpenDestinationFolderButton {
+            get {
+                return ResourceManager.GetString("ProgressWindow_OpenDestinationFolderButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Progress.
+        /// </summary>
+        public static string ProgressWindow_Progress {
+            get {
+                return ResourceManager.GetString("ProgressWindow_Progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Running {0}.
+        /// </summary>
+        public static string ProgressWindow_RunningLabel {
+            get {
+                return ResourceManager.GetString("ProgressWindow_RunningLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber - Progress.
+        /// </summary>
+        public static string ProgressWindow_Title {
+            get {
+                return ResourceManager.GetString("ProgressWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting {0}.
+        /// </summary>
+        public static string ProgressWindow_WaitingLabel {
+            get {
+                return ResourceManager.GetString("ProgressWindow_WaitingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Cover.
+        /// </summary>
+        public static string RemoveCover {
+            get {
+                return ResourceManager.GetString("RemoveCover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Cover.
+        /// </summary>
+        public static string SetCover {
+            get {
+                return ResourceManager.GetString("SetCover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        public static string Youtube_DefaultButton {
+            get {
+                return ResourceManager.GetString("Youtube_DefaultButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load.
+        /// </summary>
+        public static string Youtube_LoadButton {
+            get {
+                return ResourceManager.GetString("Youtube_LoadButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Youtube Url or Id:.
+        /// </summary>
+        public static string Youtube_UrlOrIdLabel {
+            get {
+                return ResourceManager.GetString("Youtube_UrlOrIdLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber - Youtube Playlist.
+        /// </summary>
+        public static string YoutubePlayListWindow_Title {
+            get {
+                return ResourceManager.GetString("YoutubePlayListWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Videos: {0}.
+        /// </summary>
+        public static string YoutubePlayListWindow_VideosLabel {
+            get {
+                return ResourceManager.GetString("YoutubePlayListWindow_VideosLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string YoutubeVideoControl_Remove {
+            get {
+                return ResourceManager.GetString("YoutubeVideoControl_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schrabber - Youtube Video.
+        /// </summary>
+        public static string YoutubeVideoWindow_Title {
+            get {
+                return ResourceManager.GetString("YoutubeVideoWindow_Title", resourceCulture);
             }
         }
     }
