@@ -127,6 +127,8 @@ namespace Schrabber.Workers
 
 			if (job.Target is Media media)
 			{
+				Debug.WriteLine($"Media: Got {media.ToString()}");
+
 				// Fetch if necessary
 				if (media.MustFetch)
 				{
@@ -135,24 +137,32 @@ namespace Schrabber.Workers
 
 					await media.FetchAsync(job).ConfigureAwait(false);
 				}
+
+				Debug.WriteLine($"Media: Finished {media.ToString()}");
 			}
 			else if (job.Target is Part part)
 			{
+				Debug.WriteLine($"Part: Got {part.ToString()}");
+
 				// Wait for parent to finish processing if necessary
 				if (!part.Parent.FetchTask.IsCompleted)
 				{
 					job.Caption = Properties.Resources.Job_WaitingForParent;
 					await part.Parent.FetchTask.ConfigureAwait(false);
 				}
+				Debug.WriteLine($"Part: Waited {part.ToString()}");
+
 
 				// Do the actual splitting part
 				job.Caption = Properties.Resources.Job_Splitting;
 				String dest = Path.Combine(this._path, part.GetFileName());
 				FFmpeg.Split(part.Parent.GetLocation(), dest, part.Start, part.Stop, job);
+				Debug.WriteLine($"Part: Split {part.ToString()}");
 
 				// Write tags
 				job.Caption = Properties.Resources.Job_WritingTags;
 				this._writeTags(dest, part);
+				Debug.WriteLine($"Part: Wrote {part.ToString()}");
 			}
 
 			// Done

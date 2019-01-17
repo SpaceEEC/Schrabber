@@ -19,7 +19,7 @@ namespace Schrabber.Converters
 				Regex.Escape((String)value),
 				match =>
 				$"(?<{match.Groups[1].Value}>.+?)"
-			) + "\r?$";
+			) + "\\r?$";
 		}
 
 		public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)

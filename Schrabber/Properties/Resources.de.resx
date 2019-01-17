@@ -209,7 +209,7 @@
     <value>Laufend {0}</value>
   </data>
   <data name="ProgressWindow_WaitingLabel" xml:space="preserve">
-    <value>Warten {0}</value>
+    <value>Wartend {0}</value>
   </data>
   <data name="YoutubePlayListWindow_VideosLabel" xml:space="preserve">
     <value>Videos: {0}</value>
@@ -233,16 +233,16 @@
     <value>Abgeschlossen</value>
   </data>
   <data name="Job_Fetching" xml:space="preserve">
-    <value>Laden</value>
+    <value>Lade Herunter</value>
   </data>
   <data name="Job_Splitting" xml:space="preserve">
-    <value>Aufteilen</value>
+    <value>Teile Auf</value>
   </data>
   <data name="Job_Waiting" xml:space="preserve">
-    <value>Warten</value>
+    <value>Warte</value>
   </data>
   <data name="Job_WaitingForParent" xml:space="preserve">
-    <value>Warten</value>
+    <value>Warte</value>
   </data>
   <data name="Job_WritingTags" xml:space="preserve">
     <value>Schreibe Metadaten</value>
@@ -278,5 +278,22 @@ FFmpeg muss installiert sein und sich im "path" befinden.</value>
   </data>
   <data name="YoutubeVideoWindow_Title" xml:space="preserve">
     <value>Schrabber - Youtube-Video</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
+  <data name="PartsGeneratorWindow_Help" xml:space="preserve">
+    <value>Liste aller verfügbarer {{Namen}} und was diese bedeuten:
+{{Start}} - Start des Liedes
+{{Stop}} - Stop/Ende des Liedes
+{{Title}} - Name /Titel des Liedes
+{{Author}} - Author / Interpret des Liedes
+{{Album}} - Album des Liedes
+{{Anything Else}} - Nutzbar um dynamisch Inhalt zu ignorieren
+
+Bedeutung farblicher Vorhebungen:
+Grün - Gültig
+Gelb - Ungültig
+Grau - Kein Bekanner {{Name}} (dynamisch ignoriert)</value>
   </data>
 </root>

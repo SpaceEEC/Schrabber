@@ -76,7 +76,7 @@ namespace Schrabber.Models
 
 				this.Tcs.SetException(exception);
 
-				throw;
+				throw exception;
 			}
 
 			this._cachedLocation = path;

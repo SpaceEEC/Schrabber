@@ -1,7 +1,5 @@
 ﻿using Schrabber.Models;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -109,7 +107,7 @@ namespace Schrabber.Windows
 						break;
 
 					default:
-						brush = Brushes.Red;
+						brush = Brushes.DarkGray;
 
 						break;
 				}

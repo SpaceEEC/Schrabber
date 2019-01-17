@@ -53,21 +53,6 @@ namespace Schrabber.Windows
 			this.ListItems.Add(window.Media);
 		}
 
-		private void Window_Loaded(Object sender, RoutedEventArgs e)
-		{
-			if (FFmpeg.FindExecutablePath() == null)
-			{
-				MessageBox.Show(
-					Properties.Resources.MediaListWindow_FFmpegNotFoundText,
-					Properties.Resources.MediaListWindow_FFmpegNotFoundTitle,
-					MessageBoxButton.OK,
-					MessageBoxImage.Stop
-				);
-
-				this.Close();
-			}
-		}
-
 		private async void FileButton_Click(Object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog ofd = new OpenFileDialog()
@@ -140,6 +125,27 @@ namespace Schrabber.Windows
 		{
 			ProgressWindow window = new ProgressWindow(Cache.CreateOutFolder(this._folderPath), this.ListItems);
 			window.ShowDialog();
+		}
+
+		private void Window_Loaded(Object sender, RoutedEventArgs e)
+		{
+			if (FFmpeg.FindExecutablePath() == null)
+			{
+				MessageBox.Show(
+					Properties.Resources.MediaListWindow_FFmpegNotFoundText,
+					Properties.Resources.MediaListWindow_FFmpegNotFoundTitle,
+					MessageBoxButton.OK,
+					MessageBoxImage.Stop
+				);
+
+				this.Close();
+			}
+		}
+
+		private void Window_Closing(Object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			foreach (IDisposable disposable in this.ListItems.OfType<IDisposable>())
+				disposable.Dispose();
 		}
 	}
 }

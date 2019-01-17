@@ -59,6 +59,7 @@ namespace Schrabber.Workers
 				ffmpeg.ErrorDataReceived += (sender, args) =>
 				{
 					Debug.WriteLine(args.Data);
+
 					if (args.Data == null) return;
 
 					if (duration == TimeSpan.Zero)

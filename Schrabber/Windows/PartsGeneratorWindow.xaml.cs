@@ -105,6 +105,19 @@ namespace Schrabber.Windows
 		private void DefaultButton_Click(Object sender, RoutedEventArgs e)
 			=> this.DialogResult = true;
 
+		private HelpWindow _helpWindow = null;
+		private void HelpButton_Click(Object sender, RoutedEventArgs e)
+		{
+			if (this._helpWindow == null)
+			{
+				this._helpWindow = new HelpWindow(Properties.Resources.PartsGeneratorWindow_Help);
+				this._helpWindow.Closed += (s, e2) => this._helpWindow = null;
+			}
+
+			this._helpWindow.Show();
+			this._helpWindow.Activate();
+		}
+
 		private Boolean _tryConvert(String str, out TimeSpan? ts)
 		{
 			try
@@ -117,6 +130,12 @@ namespace Schrabber.Windows
 
 			ts = null;
 			return false;
+		}
+
+		private void Window_Closing(Object sender, CancelEventArgs e)
+		{
+			this._helpWindow?.Close();
+			this._helpWindow = null;
 		}
 	}
 }

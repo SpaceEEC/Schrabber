@@ -279,4 +279,21 @@ FFmpeg has to be installed and in the path for this application to work.</value>
   <data name="YoutubeVideoWindow_Title" xml:space="preserve">
     <value>Schrabber - Youtube Video</value>
   </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="PartsGeneratorWindow_Help" xml:space="preserve">
+    <value>List of all available {{Names}} and what they mean:
+{{Start}} - Start of the song
+{{Stop}} - Stop/End of the song
+{{Title}} - Title of the song
+{{Author}} - Author /Interpret of the song
+{{Album}} - Album the song is part of
+{{Anything Else}} - Use this to dynamically ignore content
+
+Meaning of Colors of Highlights
+Highlighted Green - Valid
+Highlighted Yellow - Invalid
+Highlighted Gray - Not a valid {{Name}} (dynamically ignored)</value>
+  </data>
 </root>

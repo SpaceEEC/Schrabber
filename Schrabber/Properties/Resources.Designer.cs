@@ -97,6 +97,15 @@ namespace Schrabber.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
         public static string Job_Done {
@@ -384,6 +393,26 @@ namespace Schrabber.Properties {
         public static string PartsGeneratorWindow_DefaultButton {
             get {
                 return ResourceManager.GetString("PartsGeneratorWindow_DefaultButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of all available {{Names}} and what they mean:
+        ///{{Start}} - Start of the song
+        ///{{Stop}} - Stop/End of the song
+        ///{{Title}} - Title of the song
+        ///{{Author}} - Author /Interpret of the song
+        ///{{Album}} - Album the song is part of
+        ///{{Anything Else}} - Use this to dynamically ignore content
+        ///
+        ///Meaning of Colors of Highlights
+        ///Highlighted Green - Valid
+        ///Highlighted Yellow - Invalid
+        ///Highlighted Gray - Not a valid {{Name}} (dynamically ignored).
+        /// </summary>
+        public static string PartsGeneratorWindow_Help {
+            get {
+                return ResourceManager.GetString("PartsGeneratorWindow_Help", resourceCulture);
             }
         }
         

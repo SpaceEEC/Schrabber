@@ -58,7 +58,7 @@ namespace Schrabber.Controls
 			nameof(ButtonName),
 			typeof(String),
 			typeof(PartControl),
-			new PropertyMetadata("Delete")
+			new PropertyMetadata(Properties.Resources.Delete)
 		);
 
 		public String ButtonName

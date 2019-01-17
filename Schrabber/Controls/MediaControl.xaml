@@ -1,88 +1,88 @@
 ﻿<UserControl x:Class="Schrabber.Controls.MediaControl"
-             x:Name="mediaControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:p="clr-namespace:Schrabber.Properties"
-             xmlns:converters="clr-namespace:Schrabber.Converters"
-             xmlns:models="clr-namespace:Schrabber.Models"
-             d:DataContext="{d:DesignInstance {x:Type models:Media}, IsDesignTimeCreatable=False}"
-             mc:Ignorable="d" 
-             d:DesignHeight="104"
-             d:DesignWidth="500"
-             MouseDoubleClick="DoSplit">
-    <UserControl.Resources>
-        <converters:IsNotNullConverter x:Key="IsNotNullConverter"/>
-        <converters:MediaToStringConverter x:Key="MediaToStringConverter"/>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="84"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition MinWidth="129" Width="129"/>
-        </Grid.ColumnDefinitions>
+				x:Name="mediaControl"
+				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				xmlns:p="clr-namespace:Schrabber.Properties"
+				xmlns:converters="clr-namespace:Schrabber.Converters"
+				xmlns:models="clr-namespace:Schrabber.Models"
+				d:DataContext="{d:DesignInstance {x:Type models:Media}, IsDesignTimeCreatable=False}"
+				mc:Ignorable="d" 
+				d:DesignHeight="104"
+				d:DesignWidth="500"
+				MouseDoubleClick="DoSplit">
+	<UserControl.Resources>
+		<converters:IsNotNullConverter x:Key="IsNotNullConverter"/>
+		<converters:MediaToStringConverter x:Key="MediaToStringConverter"/>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="84"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition MinWidth="129" Width="129"/>
+		</Grid.ColumnDefinitions>
 
-        <Image
-            Grid.Column="0"
-            HorizontalAlignment="Left"
-            Height="84"
-            Width="84"
-        >
-            <Image.Source>
-                <Binding Path="CoverImage">
-                    <Binding.TargetNullValue>
-                        <ImageSource>/Schrabber;component/Resources/no_cover.jpg</ImageSource>
-                    </Binding.TargetNullValue>
-                </Binding>
-            </Image.Source>
-            <Image.ContextMenu>
-                <ContextMenu>
-                    <MenuItem
-                        Header="{x:Static p:Resources.SetCover}"
-                        Click="SetCover_Click"
-                    />
+		<Image
+			Grid.Column="0"
+			HorizontalAlignment="Left"
+			Height="84"
+			Width="84"
+		>
+			<Image.Source>
+				<Binding Path="CoverImage">
+					<Binding.TargetNullValue>
+						<ImageSource>/Schrabber;component/Resources/no_cover.jpg</ImageSource>
+					</Binding.TargetNullValue>
+				</Binding>
+			</Image.Source>
+			<Image.ContextMenu>
+				<ContextMenu>
+					<MenuItem
+						Header="{x:Static p:Resources.SetCover}"
+						Click="SetCover_Click"
+					/>
 
-                    <MenuItem
-                        Header="{x:Static p:Resources.RemoveCover}"
-                        Click="RemoveCover_Click"
-                        IsEnabled="{Binding CoverImage, Converter={StaticResource IsNotNullConverter}}"
-                    />
-                </ContextMenu>
-            </Image.ContextMenu>
-        </Image>
+					<MenuItem
+						Header="{x:Static p:Resources.RemoveCover}"
+						Click="RemoveCover_Click"
+						IsEnabled="{Binding CoverImage, Converter={StaticResource IsNotNullConverter}}"
+					/>
+				</ContextMenu>
+			</Image.ContextMenu>
+		</Image>
 
-        <TextBlock
-            Grid.Column="1"
-            Height="84"
-            Margin="10,0,10,0"
-            Text="{Binding Converter={StaticResource MediaToStringConverter}}"
-            TextWrapping="WrapWithOverflow"
-        />
+		<TextBlock
+			Grid.Column="1"
+			Height="84"
+			Margin="10,0,10,0"
+			Text="{Binding Converter={StaticResource MediaToStringConverter}}"
+			TextWrapping="WrapWithOverflow"
+		/>
 
-        <Grid Grid.Column="2"
-              Width="128"
-              HorizontalAlignment="Right"
-        >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+		<Grid Grid.Column="2"
+				Width="128"
+				HorizontalAlignment="Right"
+		>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
 
-            <Button
-                Grid.Row="0"
-                Content="{Binding Parts.Count}"
-                ContentStringFormat="{x:Static p:Resources.MediaControl_Split}"
-                Margin="0,10,10,5"
-                Click="DoSplit"
-            />
-            <Button
-                Grid.Row="1"
-                Content="{x:Static p:Resources.Delete}"
-                Margin="0,5,10,10"
-                Command="{Binding RemoveItem, ElementName=mediaControl}"
-                CommandParameter="{Binding}"
-            />
-        </Grid>
-    </Grid>
+			<Button
+				Grid.Row="0"
+				Content="{Binding Parts.Count}"
+				ContentStringFormat="{x:Static p:Resources.MediaControl_Split}"
+				Margin="0,10,10,5"
+				Click="DoSplit"
+			/>
+			<Button
+				Grid.Row="1"
+				Content="{x:Static p:Resources.Delete}"
+				Margin="0,5,10,10"
+				Command="{Binding RemoveItem, ElementName=mediaControl}"
+				CommandParameter="{Binding}"
+			/>
+		</Grid>
+	</Grid>
 </UserControl>
