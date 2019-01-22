@@ -8,6 +8,12 @@ Supported as input are:
 - YouTube playlists
 - Local audio/video files
 
+## Installation
+
+- Download the installer (`Scrabber-Setup-Admin.exe` or `Schrabber-Setup-User.exe`) from [here](https://github.com/SpaceEEC/Schrabber/releases).
+- Navigate through the installer as usual.
+- You are done.
+
 ## Assisted Splitting
 
 Splitting into "Parts" can be done via "patterns" or Regex. In case of Regex you would use named capturing groups.
