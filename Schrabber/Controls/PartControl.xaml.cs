@@ -26,7 +26,7 @@ namespace Schrabber.Controls
 			try
 			{
 				using (Stream stream = ofd.OpenFile())
-					((Media)((FrameworkElement)sender).DataContext).SetBitmapImage(stream: stream);
+					((Base)((FrameworkElement)sender).DataContext).SetBitmapImage(stream: stream);
 			}
 			catch (Exception ex)
 			{
@@ -35,7 +35,7 @@ namespace Schrabber.Controls
 		}
 
 		private void RemoveCover_Click(Object sender, RoutedEventArgs e)
-			=> ((Media)((FrameworkElement)sender).DataContext).CoverImage = null;
+			=> ((Base)((FrameworkElement)sender).DataContext).CoverImage = null;
 		#endregion Cover
 
 		#region Validation
