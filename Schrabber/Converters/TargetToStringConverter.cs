@@ -1,9 +1,6 @@
 ﻿using Schrabber.Models;
-using Schrabber.Workers;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Data;
 
 namespace Schrabber.Converters
