@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "language", "language\language.csproj", "{03A39E8A-458A-4C25-8748-80071E2FE69B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schrabber", "Schrabber\Schrabber.csproj", "{4B5E5A1E-195D-44ED-9B9D-1F88668D640F}"
 EndProject
 Global
