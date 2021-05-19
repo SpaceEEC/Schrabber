@@ -1,36 +1,39 @@
-﻿using System;
+﻿using Schrabber.Workers;
+using System;
 using System.IO;
-using System.Threading.Tasks;
-using YoutubeExplode.Models;
-using YoutubeExplode.Converter;
-using System.Threading;
-using YoutubeExplode;
-using Schrabber.Workers;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using YoutubeExplode.Converter;
+using YoutubeExplode.Videos;
 
 namespace Schrabber.Models
 {
 	public class YoutubeMedia : Media
 	{
-		private static readonly YoutubeClient _client = new YoutubeClient();
-		private static YoutubeConverter Converter => new YoutubeConverter(YoutubeMedia._client, FFmpeg.FindExecutablePath());
-
-		private readonly String _videoId;
+		private readonly VideoId _videoId;
 
 		public YoutubeMedia() : base()
 		{
 			this.FetchTask = this.Tcs.Task;
 		}
-		public YoutubeMedia(Video video) : this()
+		public YoutubeMedia(IVideo video) : this()
 		{
 			this._videoId = video.Id;
 
-			this.Author = video.Author;
+			this.Author = video.Author.Title;
 			this.Title = video.Title;
-			this.Duration = video.Duration;
-			this.Description = video.Description;
-			this.SetBitmapImage(uri: new Uri(video.Thumbnails.HighResUrl));
+			this.Duration = video.Duration.Value;
+
+			var thumbnailUrl = video.Thumbnails.OrderByDescending(t => t.Resolution.Area).First().Url;
+			this.SetBitmapImage(uri: new Uri(thumbnailUrl));
 		}
+		public YoutubeMedia(Video video) : this((IVideo)video)
+		{
+			this.Description = video.Description;
+		}
+
+
 		public override Media GetCopy() => new YoutubeMedia(this);
 
 		private YoutubeMedia(YoutubeMedia orig) : this()
@@ -61,13 +64,7 @@ namespace Schrabber.Models
 
 			try
 			{
-				await YoutubeMedia.Converter.DownloadVideoAsync(
-					this._videoId,
-					path,
-					"mp3",
-					progress,
-					token
-				);
+				await Youtube.Client.Videos.DownloadAsync(this._videoId, path, progress, token);
 			}
 			catch (Exception exception)
 			{

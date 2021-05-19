@@ -1,22 +1,14 @@
 ﻿using Schrabber.Commands;
 using Schrabber.Models;
+using Schrabber.Workers;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using YoutubeExplode;
+using YoutubeExplode.Common;
 using YoutubeExplode.Exceptions;
-using YoutubeExplode.Models;
+using YoutubeExplode.Playlists;
 
 namespace Schrabber.Windows
 {
@@ -25,8 +17,6 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class YoutubePlayListWindow : Window
 	{
-		private readonly static YoutubeClient _client = new YoutubeClient();
-
 		public static readonly DependencyProperty ListItemsProperty = DependencyProperty.Register(
 			nameof(ListItems),
 			typeof(ObservableCollection<Media>),
@@ -59,9 +49,9 @@ namespace Schrabber.Windows
 			this.LoadButton.IsEnabled = false;
 			this.DefaultButton.IsEnabled = false;
 
-			String playlistUrl = this.InputTextBox.Text;
+			PlaylistId? playlistId = PlaylistId.TryParse(this.InputTextBox.Text);
 
-			if (!YoutubeClient.ValidatePlaylistId(playlistUrl) && !YoutubeClient.TryParsePlaylistId(playlistUrl, out playlistUrl))
+			if (!playlistId.HasValue)
 			{
 				MessageBox.Show("The supplied playlist url or id is syntactically incorrect!");
 				this.LoadButton.IsEnabled = true;
@@ -71,9 +61,10 @@ namespace Schrabber.Windows
 
 			try
 			{
-				Playlist playlist = await YoutubePlayListWindow._client.GetPlaylistAsync(playlistUrl);
+				
 
-				foreach (Video video in playlist.Videos)
+
+				foreach (PlaylistVideo video in await Youtube.Client.Playlists.GetVideosAsync(playlistId.Value))
 					this.ListItems.Add(new YoutubeMedia(video));
 			}
 			catch (VideoUnavailableException ex)

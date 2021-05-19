@@ -1,21 +1,10 @@
 ﻿using Schrabber.Models;
+using Schrabber.Workers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using YoutubeExplode;
 using YoutubeExplode.Exceptions;
-using YoutubeExplode.Models;
+using YoutubeExplode.Videos;
 
 namespace Schrabber.Windows
 {
@@ -24,8 +13,6 @@ namespace Schrabber.Windows
 	/// </summary>
 	public partial class YoutubeVideoWindow : Window
 	{
-		private static YoutubeClient _client = new YoutubeClient();
-
 		public static readonly DependencyProperty MediaProperty = DependencyProperty.Register(
 			nameof(Media),
 			typeof(Media),
@@ -49,17 +36,17 @@ namespace Schrabber.Windows
 			this.LoadButton.IsEnabled = false;
 			this.DefaultButton.IsEnabled = false;
 
-			String videoUrl = this.InputTextBox.Text;
+			VideoId? videoId = VideoId.TryParse(this.InputTextBox.Text);
 			try
 			{
-				if (!YoutubeClient.ValidateVideoId(videoUrl) && !YoutubeClient.TryParseVideoId(videoUrl, out videoUrl))
+				if (!videoId.HasValue)
 				{
 					MessageBox.Show("The supplied video url or id is syntactically incorrect!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 
-				Video video = await _client.GetVideoAsync(videoUrl);
-				if (video.Duration.TotalSeconds == 0)
+				Video video = await Youtube.Client.Videos.GetAsync(videoId.Value);
+				if (video.Duration == null)
 				{
 					MessageBox.Show("Livestreams are not supported.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
@@ -67,7 +54,7 @@ namespace Schrabber.Windows
 
 				this.Media = new YoutubeMedia(video);
 
-				this.InputTextBox.Text = video.GetUrl();
+				this.InputTextBox.Text = video.Url;
 
 				this.DefaultButton.IsEnabled = true;
 			}
